@@ -2,10 +2,7 @@ import React from "react";
 import {
   Card,
   CardBody,
-  CardFooter,
   Typography,
-  Button,
-  CardHeader,
   IconButton,
 } from "@material-tailwind/react";
 export default function OrderBox() {
