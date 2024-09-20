@@ -11,19 +11,17 @@ import {
 export default function OrderBox() {
   return (
     <div>
-      <Card className="w-[32rem]">
+      <Card className="w-[34rem]">
         <CardBody className="pb-2">
           <Typography variant="h5" color="black" className="mb-2">
             Ваш заказ
           </Typography>
           <div className="flex flex-row justify-between flex-wrap items-center mb-4">
-            <div className="flex flex-row gap-24 mr-0">
-              <div className="flex flex-row">
-                <Typography color="black" className="mb-2">
-                  Бублик
-                </Typography>
-              </div>
-              <div className="flex flex-row gap-4 items-center">
+            <div className="flex flex-row flex-wrap max-w-full mr-0">
+              <Typography color="black">Борщик супер</Typography>
+            </div>
+            <div className="flex">
+              <div className="flex flex-row gap-1 items-center mr-3">
                 <IconButton color="blue">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -40,7 +38,9 @@ export default function OrderBox() {
                     />
                   </svg>
                 </IconButton>
-                <Typography color="black">1</Typography>
+                <div className="flex justify-center w-10">
+                    <Typography color="black">11</Typography>
+                </div>
                 <IconButton color="blue">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -58,19 +58,19 @@ export default function OrderBox() {
                   </svg>
                 </IconButton>
               </div>
-            </div>
-            <div className="flex flex-row">
-              <Typography color="black">30 ₽</Typography>
+              <div className="flex flex-row justify-center items-center w-20">
+                <Typography color="black">311 ₽</Typography>
+              </div>
             </div>
           </div>
           <div className="flex flex-row justify-between flex-wrap items-center mb-4">
             <div className="flex flex-row flex-wrap max-w-full mr-0">
-              <div className="flex flex-row">
-                <Typography color="black" className="mb-2">
-                  Бубликфы
-                </Typography>
-              </div>
-              <div className="flex flex-row gap-4 items-center">
+              <Typography color="black">
+                Бублик
+              </Typography>
+            </div>
+            <div className="flex">
+              <div className="flex flex-row gap-1 items-center mr-3">
                 <IconButton color="blue">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,9 @@ export default function OrderBox() {
                     />
                   </svg>
                 </IconButton>
-                <Typography color="black">1</Typography>
+                <div className="flex justify-center w-10">
+                    <Typography color="black">100</Typography>
+                </div>
                 <IconButton color="blue">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -105,9 +107,9 @@ export default function OrderBox() {
                   </svg>
                 </IconButton>
               </div>
-            </div>
-            <div className="flex flex-row">
-              <Typography color="black">30 ₽</Typography>
+              <div className="flex flex-row justify-center items-center w-20">
+                <Typography color="black">31112 ₽</Typography>
+              </div>
             </div>
           </div>
         </CardBody>

@@ -8,7 +8,7 @@ export default withMT({
   theme: {
     extend: {
       width: {
-        '128': '32rem',
+        '128': '34rem',
       }
     },
     
