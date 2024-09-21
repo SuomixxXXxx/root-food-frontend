@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import "./App.css";
+import RegistrationPage from "./pages/RegistrationPage";
 import CartPage from "./pages/CartPage";
 
 function App() {
@@ -9,8 +10,10 @@ function App() {
   return (
     <>
       <Header/>
-      <CartPage/>
+      <RegistrationPage/>
+//       <CartPage/>
     </>
+
   );
 }
 
