@@ -3,13 +3,12 @@ import {
     Card,
     CardBody,
     Typography,
-    IconButton,
     Button
   } from "@material-tailwind/react";
 export default function PaymentBox() {
   return (
     <div>
-      <Card className="w-96 h-72">
+      <Card className="w-96 lg:h-72">
         <CardBody className="pb-2">
           <Typography variant="h5" color="black" className="mb-2">
             Способ оплаты
