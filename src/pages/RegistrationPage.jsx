@@ -12,7 +12,7 @@ import {
 export default function RegistrationPage() {
     return (
         <div className="h-screen bg-blue-gray-100 flex justify-center items-center ">
-            <Card  className="flex items-center flex-col   border-[#475569] w-80  ">
+            <Card  className="flex items-center flex-col  w-80  ">
                 <Typography className="text-4xl text-blue-600/75 mt-4" >
                     Аквариум
                     </Typography>
@@ -28,7 +28,7 @@ export default function RegistrationPage() {
                 </CardBody>
 
                 <CardFooter className="pt-0 w-80" >
-                    <Button  className="w-full" color="blue">
+                    <Button   fullWidth color="blue">
                         Зарегистрироваться
                     </Button>
                     <Typography variant="small" className="mt-6 flex justify-center">
