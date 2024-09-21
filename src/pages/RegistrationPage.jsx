@@ -1,25 +1,46 @@
 import {TextField} from "../components/TextField.jsx";
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Typography,
+    Button,
+  } from "@material-tailwind/react";
+   
 
 export default function RegistrationPage() {
     return (
-        <div className="flex items-center h-screen justify-center font-semibold " style={{ borderRadius: '30px'}}>
+        <div className="h-screen bg-blue-gray-100 flex justify-center items-center ">
+            <Card  className="flex items-center flex-col   border-[#475569] w-80  ">
+                <Typography className="text-4xl text-blue-600/75 mt-4" >
+                    Аквариум
+                    </Typography>
+                {/* <CardHeader  floated={false} shadow={false} className="  flex h-10 w-80 justify-center items-center " >
+                    
+                    
+                </CardHeader> */}
+                <CardBody className="flex flex-col ">
+                    <TextField placeholder={"Имя"}/>
+                    <TextField placeholder={"Номер телефона"}/>
+                    <TextField placeholder={"Почта"}/>
+                    <TextField placeholder={"Пароль"}/>
+                </CardBody>
 
-            <div className=" flex flex-col space-y-4  border-[#475569] items-center "style={{ borderRadius: '30px', boxShadow: "2px 2px 10px grey",border:"#475569"}}>
-                <p className={"m-2"} style={{fontSize: '25px'}}>Регистрация</p>
-                <TextField placeholder={"Имя"}/>
-                <TextField placeholder={"Фамилия"}/>
-                <TextField placeholder={"Почта"}/>
-                <TextField placeholder={"Пароль"}/>
-                <div>
-                    <button style={{color: 'white', background: "#14B8A6", fontSize: '15px', borderRadius: '10px', border: '1rem solid #14B8A6' }} className={"m-4"}>Зарегистрироваться</button>
-
-                </div>
-                <div className="flex flex-row " style={{marginBottom:"2em"}}>
-                    <p style={{color: 'grey',marginRight:"0.5em"}}>Есть аккаунт? </p>
-                    <button> Войти</button>
-                </div>
-            </div>
+                <CardFooter className="pt-0 w-80" >
+                    <Button  className="w-full" color="blue">
+                        Зарегистрироваться
+                    </Button>
+                    <Typography variant="small" className="mt-6 flex justify-center">
+                        Есть аккаунт?
+                    <Typography as="a" href="#войти" variant="small" color="blue-gray" className="ml-1 font-bold">
+                        Войти
+                    </Typography>
+                    </Typography>
+                </CardFooter>
+            </Card>
         </div>
+            
     )
 
 }

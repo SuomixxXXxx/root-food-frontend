@@ -1,11 +1,12 @@
+import { Input } from '@material-tailwind/react';
 import React from 'react';
 
-export const TextField = (props) => {
-    const {placeholder} = props;
+export const TextField = ({placeholder}) => {
+    
     return (
-        <div>
-            <input type="text" placeholder={placeholder} style={{ borderRadius: '10px', marginLeft:"2em",marginRight:"2em", width:"200px"}}
-                   className="input input-bordered w-full max-w-xs pl-4  border-2 border-[#475569] "/>
+        <div className='flex items-center w-72 mb-4' >
+            <Input type="text"  label={placeholder}  
+                   className="input input-bordered w-full max-w-xs pl-4  border border-[#475569] rounded  "/>
         </div>
     )
 };
