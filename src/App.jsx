@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <Header/>
-      <ProductCard name="паша"/>
+      <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} />
     </>
   );
 }
