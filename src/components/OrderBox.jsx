@@ -8,7 +8,7 @@ import {
 export default function OrderBox() {
   return (
     <div>
-      <Card className="lg:w-[34rem] sm:w-96">
+      <Card className="w-80 md:w-[34rem]">
         <CardBody className="pb-2">
           <Typography variant="h5" color="black" className="mb-2">
             Ваш заказ

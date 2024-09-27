@@ -13,10 +13,10 @@ function App() {
   return (
     <>
       <Header/>
-      <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} />
+      {/* <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} /> */}
       {/*<LoginPage/>*/}
       {/* <RegistrationPage/> */}
-      {/* <CartPage/> */}
+      <CartPage/>
     </>
 
   );
