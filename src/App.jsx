@@ -14,9 +14,9 @@ function App() {
     <>
       <Header/>
       {/* <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} /> */}
-      {/*<LoginPage/>*/}
-      {/* <RegistrationPage/> */}
-      <CartPage/>
+      {/* <LoginPage/> */}
+      <RegistrationPage/>
+      {/* <CartPage/> */}
     </>
 
   );
