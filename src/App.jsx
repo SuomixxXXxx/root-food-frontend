@@ -9,6 +9,7 @@ import {
 import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/SignupPage";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
