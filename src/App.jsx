@@ -1,24 +1,32 @@
-import { useState } from "react";
-import Header from "./components/Header";
 import "./App.css";
 import ProductCard from "./components/ProductCard";
-import RegistrationPage from "./pages/RegistrationPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
-import { SidebarCategory } from "./components/SidebarCategory";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import SignupPage from "./pages/SignupPage";
 
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage/>,
+    children: [
+      { path: "signup", element: <SignupPage/> },
+      { path: "cart", element: <CartPage/> },
+      { path: "login", element: <LoginPage/> },
+    ]
+  }
+])
 
 function App() {
-  const [count, setCount] = useState(0);
 
   return (
     <>
-      <Header/>
-      {/* <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} /> */}
-      {/* <LoginPage/> */}
-      {/* <RegistrationPage/> */}
-      {/* <CartPage/> */}
-      <SidebarCategory/>
+      <RouterProvider router={router}/>
     </>
 
   );
