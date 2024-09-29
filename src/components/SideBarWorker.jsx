@@ -69,7 +69,7 @@ export default function SideBarWorker(){
             <List className="p-0">
             {categories.map((item,index)=>(
               <ListItem key={index}>
-                {item.image}
+                {item.icon}
                 {item.label}
               </ListItem>
             ))}
