@@ -5,6 +5,7 @@ import ProductCard from "./components/ProductCard";
 import RegistrationPage from "./pages/RegistrationPage";
 import CartPage from "./pages/CartPage";
 import LoginPage from "./pages/LoginPage";
+import { SidebarCategory } from "./components/SidebarCategory";
 
 
 function App() {
@@ -15,8 +16,9 @@ function App() {
       <Header/>
       {/* <ProductCard name ="Сосиска в тесте" weight = {10} price = {100} /> */}
       {/* <LoginPage/> */}
-      <RegistrationPage/>
+      {/* <RegistrationPage/> */}
       {/* <CartPage/> */}
+      <SidebarCategory/>
     </>
 
   );
