@@ -8,12 +8,18 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 export default function Header() {
+
+ const styleNav = {
+    position: "absolute",
+    "z-index": 20,
+  }
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar
       variant="gradient"
       color="white"
       className="max-w-full rounded-none border-b-1 "
+      style = {styleNav}
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
