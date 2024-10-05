@@ -17,7 +17,7 @@ export default function Header() {
   return (
     <Navbar
       variant="gradient"
-      color="white"
+      color="white!important"
       className="max-w-full rounded-none border-b-1 "
       style = {styleNav}
     >

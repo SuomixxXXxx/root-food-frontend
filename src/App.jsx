@@ -8,8 +8,10 @@ import {
 } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignupPage from "./pages/SignupPage";
-
-
+import { useEffect } from "react";
+import axios from './axios.js';
+import { useDispatch } from'react-redux';
+import { fetchDishItems } from "./redux/slices/dishItem.js";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,6 +25,12 @@ const router = createBrowserRouter([
 ])
 
 function App() {
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchDishItems())
+  }, []);
 
   return (
     <>
