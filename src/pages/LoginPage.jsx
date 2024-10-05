@@ -12,7 +12,7 @@ import { Input } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { fetchAtuh, selectIsAuth } from "../redux/slices/auth.js";
+import { login, selectIsAuth } from "../redux/slices/auth.js";
 export default function LoginPage() {
   const {
     register,
@@ -28,9 +28,17 @@ export default function LoginPage() {
   });
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const onSubmit = (data) => {
-    dispatch(fetchAtuh(data))
-    console.log(data);
+  const onSubmit = async (data) => {
+    const response = await dispatch(login(data))
+
+    if (!response.payload) return alert('Не удалось авторизоваться');
+
+    if ('token' in response.payload.data){
+      localStorage.setItem('token', response.payload.data.token);
+      localStorage.setItem('refreshToken', response.payload.data.refreshToken);
+    }
+
+    console.log(response);
   };
   console.log(isAuth + ' is authenticated');
   

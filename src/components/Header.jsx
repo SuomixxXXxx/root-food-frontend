@@ -17,7 +17,10 @@ export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const onClickLogout = ()=>{
-    if (window.confirm('Вы действительно хотите выйти?')) dispatch(logout());
+    if (window.confirm('Вы действительно хотите выйти?')){
+      dispatch(logout());
+      localStorage.removeItem('token');
+    } 
   };
   const styleNav = {
     position: "absolute",
