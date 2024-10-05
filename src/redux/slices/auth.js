@@ -4,7 +4,9 @@ import axios from "../../axios.js";
 export const fetchAtuh = createAsyncThunk(
   "/api/v1/auth/fetchAtuh",
   async (params) => {
-    const response = await axios.post(`api/v1/auth/authenticate?login=${params.login}&password=${params.password}`,);
+    const response = await axios.post(
+      `api/v1/auth/authenticate?login=${params.login}&password=${params.password}`
+    );
     return response;
   }
 );
@@ -17,7 +19,11 @@ const initialState = {
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.data = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAtuh.pending, (state) => {
@@ -35,6 +41,8 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = state => Boolean(state.auth.data);
+export const selectIsAuth = (state) => Boolean(state.auth.data);
 
 export const authReducer = authSlice.reducer;
+
+export const { logout } = authSlice.actions;

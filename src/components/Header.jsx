@@ -8,11 +8,17 @@ import {
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { selectIsAuth } from "../redux/slices/auth.js";
+
+import { logout } from "../redux/slices/auth.js";
 export default function Header() {
   const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+  const onClickLogout = ()=>{
+    if (window.confirm('Вы действительно хотите выйти?')) dispatch(logout());
+  };
   const styleNav = {
     position: "absolute",
     "z-index": 20,
@@ -95,7 +101,7 @@ export default function Header() {
             </div>
           </Link>
           {isAuth ? (
-            <div className="flex flex-col items-center max-h-fit">
+            <div onClick={onClickLogout} className="flex flex-col items-center max-h-fit">
               <IconButton color="red">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
