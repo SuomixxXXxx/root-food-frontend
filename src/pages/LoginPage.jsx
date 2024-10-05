@@ -10,8 +10,9 @@ import aquariumLogo from "../assets/aquariumLogo.svg";
 import { Link } from "react-router-dom";
 import { Input } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { fetchAtuh } from "../redux/slices/auth.js";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { fetchAtuh, selectIsAuth } from "../redux/slices/auth.js";
 export default function LoginPage() {
   const {
     register,
@@ -26,12 +27,16 @@ export default function LoginPage() {
     mode: 'all'
   });
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
   const onSubmit = (data) => {
     dispatch(fetchAtuh(data))
     console.log(data);
   };
-  console.log(errors, isValid);
+  console.log(isAuth + ' is authenticated');
   
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="h-screen bg-blue-gray-100 flex justify-center items-center ">
       <Card className="flex items-center flex-col  w-80  ">
