@@ -21,19 +21,19 @@ const dishItemSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-
-    builder.addCase(fetchDishItems.pending, (state)=>{
+    builder
+      .addCase(fetchDishItems.pending, (state) => {
         state.dishItems.items = [];
         state.dishItems.status = "loading";
-    })
-    .addCase(fetchDishItems.fulfilled, (state, action) => {
-        state.dishItems.status = "loaded";
+      })
+      .addCase(fetchDishItems.fulfilled, (state, action) => {
         state.dishItems.items = action.payload;
-    })
-    .addCase(fetchDishItems.rejected, (state) => {
+        state.dishItems.status = "loaded";
+      })
+      .addCase(fetchDishItems.rejected, (state) => {
         state.dishItems.items = [];
         state.dishItems.status = "failed";
-    });
+      });
   },
 });
 
