@@ -43,8 +43,8 @@ export default function SignupPage() {
     console.log(response);
   };
 
-  console.log(isAuth + ' is authenticated');
-  
+  console.log(isAuth + " is authenticated");
+
   if (isAuth) {
     return <Navigate to="/" />;
   }

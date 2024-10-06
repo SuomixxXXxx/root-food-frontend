@@ -24,25 +24,25 @@ export default function LoginPage() {
       login: "11",
       password: "11",
     },
-    mode: 'all'
+    mode: "all",
   });
 
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const onSubmit = async (data) => {
-    const response = await dispatch(login(data))
-  
-    if (!response.payload) return alert('Не удалось авторизоваться');
+    const response = await dispatch(login(data));
 
-    if ('token' in response.payload.data){
-      localStorage.setItem('token', response.payload.data.token);
-      localStorage.setItem('refreshToken', response.payload.data.refreshToken);
+    if (!response.payload) return alert("Не удалось авторизоваться");
+
+    if ("token" in response.payload.data) {
+      localStorage.setItem("token", response.payload.data.token);
+      localStorage.setItem("refreshToken", response.payload.data.refreshToken);
     }
 
     console.log(response);
   };
-  console.log(isAuth + ' is authenticated');
-  
+  console.log(isAuth + " is authenticated");
+
   if (isAuth) {
     return <Navigate to="/" />;
   }
