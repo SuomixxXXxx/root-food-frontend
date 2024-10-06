@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { login, selectIsAuth } from "../redux/slices/auth.js";
+import { useEffect } from "react";
 export default function LoginPage() {
   const {
     register,
@@ -26,11 +27,12 @@ export default function LoginPage() {
     },
     mode: 'all'
   });
+  
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const onSubmit = async (data) => {
     const response = await dispatch(login(data))
-
+  
     if (!response.payload) return alert('Не удалось авторизоваться');
 
     if ('token' in response.payload.data){

@@ -1,20 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "../../axios.js";
-
-export const login = createAsyncThunk(
-  "/api/v1/auth/login",
-  async (params) => {
-    const response = await axios.post(
-      `api/v1/auth/authenticate?login=${params.login}&password=${params.password}`
-    );
-    return response;
-  }
-);
+import authService from "../../axios.js";
+import axios from "axios";
+export const login = createAsyncThunk("/api/v1/auth/login", async (params) => {
+  const response = await authService.post(
+    `api/v1/auth/authenticate?login=${params.login}&password=${params.password}`
+  );
+  return response;
+});
 
 export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
   const response = await axios.post(
-    `api/v1/auth/refresh?refreshToken=${localStorage.getItem("refreshToken")}`
+    `http://localhost:8080/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
+      "refreshToken"
+    )}`
   );
+  localStorage.setItem("token", response.data.token);
+  console.log(localStorage.getItem("token"));
+  console.log("response", response.data.token);
+
   return response;
 });
 
@@ -28,6 +31,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      localStorage.removeItem("refreshToken");
       state.data = null;
     },
   },
