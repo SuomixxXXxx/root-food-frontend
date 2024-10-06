@@ -16,11 +16,10 @@ import { logout } from "../redux/slices/auth.js";
 export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
-  const onClickLogout = ()=>{
-    if (window.confirm('Вы действительно хотите выйти?')){
+  const onClickLogout = () => {
+    if (window.confirm("Вы действительно хотите выйти?")) {
       dispatch(logout());
-      localStorage.removeItem('token');
-    } 
+    }
   };
   const styleNav = {
     position: "absolute",
@@ -104,7 +103,10 @@ export default function Header() {
             </div>
           </Link>
           {isAuth ? (
-            <div onClick={onClickLogout} className="flex flex-col items-center max-h-fit">
+            <div
+              onClick={onClickLogout}
+              className="flex flex-col items-center max-h-fit"
+            >
               <IconButton color="red">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -204,11 +206,17 @@ export default function Header() {
               </Link>
             </li>
             <li className="list-none">
-              <Link to="/login">
-                <Typography variant="small" className="flex pt-5 font-medium">
-                  Вход
+              {isAuth ? (
+                <Typography onClick={onClickLogout} variant="small" className="flex pt-5 font-medium">
+                  Выход
                 </Typography>
-              </Link>
+              ) : (
+                <Link to="/login">
+                  <Typography variant="small" className="flex pt-5 font-medium">
+                    Вход
+                  </Typography>
+                </Link>
+              )}
             </li>
           </div>
         ) : (

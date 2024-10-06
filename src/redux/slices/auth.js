@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../axios.js";
 import axios from "axios";
+
+const BASE_URL = "http://localhost:8080";
+
 export const login = createAsyncThunk("/api/v1/auth/login", async (params) => {
   const response = await authService.post(
     `api/v1/auth/authenticate?login=${params.login}&password=${params.password}`
@@ -8,9 +11,21 @@ export const login = createAsyncThunk("/api/v1/auth/login", async (params) => {
   return response;
 });
 
+export const signup = createAsyncThunk(
+  "/api/v1/auth/register",
+  async (params) => {
+    console.log("params", params.name);
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/auth/register`,
+      params
+    );
+    return response;
+  }
+);
+
 export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
   const response = await axios.post(
-    `http://localhost:8080/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
+    `${BASE_URL}/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
       "refreshToken"
     )}`
   );
@@ -31,6 +46,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       state.data = null;
     },
@@ -58,6 +74,18 @@ const authSlice = createSlice({
         state.status = "loaded";
       })
       .addCase(checkAuth.rejected, (state) => {
+        state.data = null;
+        state.status = "failed";
+      })
+      .addCase(signup.pending, (state) => {
+        state.data = null;
+        state.status = "loading";
+      })
+      .addCase(signup.fulfilled, (state, action) => {
+        state.data = action.payload;
+        state.status = "loaded";
+      })
+      .addCase(signup.rejected, (state) => {
         state.data = null;
         state.status = "failed";
       });

@@ -13,7 +13,6 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { login, selectIsAuth } from "../redux/slices/auth.js";
-import { useEffect } from "react";
 export default function LoginPage() {
   const {
     register,
@@ -27,7 +26,7 @@ export default function LoginPage() {
     },
     mode: 'all'
   });
-  
+
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const onSubmit = async (data) => {
@@ -86,7 +85,7 @@ export default function LoginPage() {
             </div>
           </CardBody>
           <CardFooter className="pt-0 w-80">
-            <Button type="submit" fullWidth color="blue">
+            <Button disabled={!isValid} type="submit" fullWidth color="blue">
               Войти
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">
