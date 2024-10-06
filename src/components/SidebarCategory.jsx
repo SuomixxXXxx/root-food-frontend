@@ -13,7 +13,7 @@ import dessert from "../assets/images/Desert.png";
 
 const categories = [
   {
-    label: "Первое блюдо",
+    label: "Первое блюдо",//name:пирог
     img: firstDish,
   },
   {
@@ -36,7 +36,7 @@ const categories = [
 
 export function SidebarCategory() {
   return (
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[16rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl mt-1 bg-white">
+    <Card className=" h-[calc(100vh-32rem)] w-full max-w-[20rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl mt-1 bg-white">
       <div className="mb-6">
         <Typography variant="h5" color="blue-gray" className="font-bold text-xl">
           Категории товаров

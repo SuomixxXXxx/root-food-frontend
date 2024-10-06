@@ -11,7 +11,7 @@ import {
 export default function ProductCard({ name, weight, price }) {
   return (
     <div className="mt-4 ml-4">
-      <Card className="h-96 w-80 bg-[#03373f07]">
+      <Card className="h-96 w-80 bg-[#ffffff]   ">
         <div className="flex justify-center items-center">
           <CardHeader
             floated={false}
