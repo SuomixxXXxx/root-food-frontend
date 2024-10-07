@@ -86,13 +86,13 @@ const products = [
 
 export default function ProductPage() {
   return (
-    <div className=" flex flex-row max-h-max bg-blue-gray-100  pr-40 pl-40  pb-0">
-      <div className="basis-1/4 mt-28 ml-20">
+    <div className=" flex flex-col md:flex-row max-h-max bg-blue-gray-100 pr-4 pl-4 md:pr-10 md:pl-10 pb-0">
+      <div className="basis-full md:basis-1/4 mt-10 md:mt-28 ml-0 md:ml-10">
         <SidebarCategory />
       </div>
 
-      <div className="mt-28 mr-20 ">
-        <div className="grid basis-2/4 md:grid-cols-3 grid-cols-2  ">
+      <div className="mt-10 md:mt-28 mr-0 md:mr-10 ">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {products.map((obj, index) => (
             <ProductCard key={index} name={obj.name} weight={obj.weight} price={obj.price} />
           ))}

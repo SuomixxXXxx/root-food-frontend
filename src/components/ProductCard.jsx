@@ -10,22 +10,22 @@ import {
 
 export default function ProductCard({ name, weight, price }) {
   return (
-    <div className="mt-4 ml-4">
-      <Card className="h-96 w-80 bg-[#ffffff]   ">
+    <div className="mt-4 ml-0 md:ml-4">
+      <Card className="h-80 w-40 md:h-96 md:w-80 bg-[#ffffff]   ">
         <div className="flex justify-center items-center">
           <CardHeader
             floated={false}
-            className="flex h-44 w-fit justify-center items-center"
+            className="flex h-18 w-40 md:h-44 md:w-fit justify-center items-center"
           >
             <img
               src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
               alt="profile-picture"
-              className="h-44 w-96"
+              className="h-18 w-40 md:h-44 md:w-96"
             />
           </CardHeader>
         </div>
         <CardBody className="text-center ">
-          <Typography variant="h4" color="blue-gray" className="mb-2">
+          <Typography variant="h4" color="blue-gray" className="mb-2" >
             {name}
           </Typography>
           <Typography
