@@ -10,6 +10,8 @@ import secondtDish from "../assets/images/SecondDish.png";
 import drink from "../assets/images/Napitok.png";
 import bake from "../assets/images/Vipichka.png";
 import dessert from "../assets/images/Desert.png";
+import salat from "../assets/images/Salat.png";
+
 
 const categories = [
   {
@@ -31,6 +33,10 @@ const categories = [
   {
     label: "Десерты",
     img: dessert,
+  },
+  {
+    label: "Салаты",
+    img: salat,
   },
 ];
 
