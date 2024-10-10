@@ -36,7 +36,7 @@ const categories = [
 
 export function SidebarCategory() {
   return (
-    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl mt-1 bg-white">
+    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl bg-white">
       <div className="mb-6">
         <Typography variant="h5" color="blue-gray" className="font-bold text-xl">
           Категории товаров

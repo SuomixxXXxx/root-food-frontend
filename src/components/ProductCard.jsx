@@ -10,8 +10,8 @@ import {
 
 export default function ProductCard({ name, weight, price }) {
   return (
-    <div className="mt-4 ml-0 md:ml-4">
-      <Card className="flex h-auto w-40 md:h-92 md:w-80 bg-[#ffffff]   ">
+    <div className="ml-0 md:ml-4">
+      <Card className="flex h-auto w-40 md:h-96 md:w-80 bg-[#ffffff]   ">
         <div className="flex justify-center items-center">
           <CardHeader 
             floated={false}
@@ -25,30 +25,30 @@ export default function ProductCard({ name, weight, price }) {
           </CardHeader>
         </div>
         <CardBody className="text-center  ">
-          <Typography variant="h4" color="blue-gray" className="mb-2 text-base md:text-2xl" >
+          <Typography variant="h4" color="blue-gray" className="mb-2 text-base md:text-xl" >
             {name}
           </Typography>
           <Typography
             color="blue-gray"
-            className="font-medium text-left mb-2 text-sm md:text-xl"
+            className="font-medium text-left mb-2 text-sm md:text-base"
             textGradient
           >
             Вес: {weight} г
           </Typography>
           <Typography
             color="blue-gray"
-            className="font-medium text-left text-sm md:text-xl"
+            className="font-medium text-left text-sm md:text-base"
             textGradient
           >
             Цена: {price} ₽
           </Typography>
           <div className="flex justify-center items-center w-auto mt-3 ">
             <Button
-              className="flex flex-row justify-center items-center gap-2 w-full md:w-auto"
+              className="flex flex-row justify-center items-center gap-2 w-full normal-case text-base"
               size="sm"
               color="blue"
             >
-              <span className="hidden md:flex">Добавить в корзину</span>
+              <span className="hidden md:flex"> В корзину</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
