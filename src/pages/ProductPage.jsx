@@ -86,8 +86,8 @@ const products = [
 
 export default function ProductPage() {
   return (
-    <div className=" flex flex-col bg-blue-gray-100 pr-4 pl-4 md:flex-row min-h-screen md:pr-10 md:pl-10 pb-0">
-      <div className="hidden md:flex basis-1/4 mt-10 md:mt-28 ml-0 md:ml-10">
+    <div className=" flex flex-col bg-blue-gray-100 pr-4 pl-4 pb-10 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
+      <div className="hidden md:flex basis-1/4 mt-10 md:mt-28 md:ml-10">
         <SidebarCategory />
       </div>
 
