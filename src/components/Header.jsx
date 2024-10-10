@@ -38,7 +38,7 @@ export default function Header() {
           <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
             Аквариум
           </Typography>
-          <Link className="hidden lg:flex" to="/">
+          <Link className="hidden lg:flex" to="/product">
             <Button className="hidden lg:flex" color="blue">
               Категории
             </Button>
