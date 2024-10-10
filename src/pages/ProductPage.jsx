@@ -86,7 +86,7 @@ const products = [
 
 export default function ProductPage() {
   return (
-    <div className=" flex flex-col md:flex-row max-h-max bg-blue-gray-100 pr-4 pl-4 md:pr-10 md:pl-10 pb-0">
+    <div className=" flex flex-col md:flex-row min-h-screen bg-blue-gray-100 pr-4 pl-4 md:pr-10 md:pl-10 pb-0">
       <div className="basis-full md:basis-1/4 mt-10 md:mt-28 ml-0 md:ml-10">
         <SidebarCategory />
       </div>
