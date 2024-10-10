@@ -8,7 +8,15 @@ export default withMT({
         '128': '34rem',
       }
     },
+
+    screens:{
+     '3xl': '1920px',
+    }
     
   },
+
   plugins: [],
+
 });
+
+
