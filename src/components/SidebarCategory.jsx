@@ -1,18 +1,11 @@
 import React from "react";
-import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-} from "@material-tailwind/react";
+import { Card, Typography, List, ListItem } from "@material-tailwind/react";
 import firstDish from "../assets/images/FirstDish.png";
 import secondtDish from "../assets/images/SecondDish.png";
 import drink from "../assets/images/Napitok.png";
 import bake from "../assets/images/Vipichka.png";
 import dessert from "../assets/images/Desert.png";
 import salat from "../assets/images/Salat.png";
-
-
 
 const categories = [
   {
@@ -43,16 +36,20 @@ const categories = [
 
 export function SidebarCategory() {
   return (
-    <Card className=" hidden md:flex h-auto md:h-[calc(100vh-2rem)] w-full max-w-full md:max-w-[20rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl mt-1 bg-white">
+    <Card className="h-[calc(100vh-2rem)] w-full max-w-[20rem] p-6 shadow-xl shadow-blue-gray-900/5 rounded-xl bg-white">
       <div className="mb-6">
-        <Typography variant="h5" color="blue-gray" className="font-bold text-xl">
+        <Typography
+          variant="h5"
+          color="blue-gray"
+          className="font-bold text-xl"
+        >
           Категории товаров
         </Typography>
       </div>
       <List className="space-y-4">
         {categories.map((item, index) => (
-          <ListItem 
-            key={index} 
+          <ListItem
+            key={index}
             className="flex items-center hover:bg-blue-100 transition-all duration-200 rounded-lg p-2 cursor-pointer"
           >
             {item.img && (

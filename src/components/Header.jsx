@@ -9,10 +9,12 @@ import {
 import { Link } from "react-router-dom";
 export default function Header() {
 
- const styleNav = {
-    position: "absolute",
-    "z-index": 20,
-  }
+const styleNav = {
+    position: "fixed",
+    top: 0, 
+    width: "100%", 
+    zIndex: 20, 
+  };
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar
@@ -26,7 +28,7 @@ export default function Header() {
           <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
             Аквариум
           </Typography>
-          <Link className="hidden lg:flex" to="/">
+          <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
               Категории
             </Button>
@@ -154,7 +156,7 @@ export default function Header() {
         {isMenuOpen ? (
           <div className="lg:hidden flex flex-col w-full">
             <li className="list-none">
-              <Link to="/">
+              <Link to="/category">
                 <Typography variant="small" className="flex pt-5 font-medium">
                   Категории
                 </Typography>
