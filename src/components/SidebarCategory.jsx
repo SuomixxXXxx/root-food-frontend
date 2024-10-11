@@ -9,7 +9,7 @@ import salat from "../assets/images/Salat.png";
 
 const categories = [
   {
-    label: "Первое блюдо",
+    label: "Первое блюдо",//name:пирог
     img: firstDish,
   },
   {

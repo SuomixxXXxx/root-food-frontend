@@ -7,21 +7,31 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-export default function Header() {
-
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuth } from "../redux/slices/auth.js";
+import { logout } from "../redux/slices/auth.js";
 const styleNav = {
     position: "fixed",
     top: 0, 
     width: "100%", 
     zIndex: 20, 
+    };
+export default function Header() {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+  const onClickLogout = () => {
+    if (window.confirm("Вы действительно хотите выйти?")) {
+      dispatch(logout());
+    }
   };
+  
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar
       variant="gradient"
-      color="white"
+      color="white!important"
       className="max-w-full rounded-none border-b-1 "
-      style = {styleNav}
+      style={styleNav}
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
@@ -34,7 +44,6 @@ const styleNav = {
             </Button>
           </Link>
         </div>
-
         <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
           <Input
             type="search"
@@ -93,9 +102,12 @@ const styleNav = {
               </Typography>
             </div>
           </Link>
-          <Link to="/login">
-            <div className="flex flex-col items-center max-h-fit">
-              <IconButton color="blue">
+          {isAuth ? (
+            <div
+              onClick={onClickLogout}
+              className="flex flex-col items-center max-h-fit"
+            >
+              <IconButton color="red">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -112,10 +124,34 @@ const styleNav = {
                 </svg>
               </IconButton>
               <Typography variant="small" className="flex p-1 font-medium">
-                Вход
+                Выход
               </Typography>
             </div>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <div className="flex flex-col items-center max-h-fit">
+                <IconButton color="blue">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="size-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                    />
+                  </svg>
+                </IconButton>
+                <Typography variant="small" className="flex p-1 font-medium">
+                  Вход
+                </Typography>
+              </div>
+            </Link>
+          )}
         </div>
         <i
           className="lg:hidden cursor-pointer"
@@ -170,11 +206,17 @@ const styleNav = {
               </Link>
             </li>
             <li className="list-none">
-              <Link to="/login">
-                <Typography variant="small" className="flex pt-5 font-medium">
-                  Вход
+              {isAuth ? (
+                <Typography onClick={onClickLogout} variant="small" className="flex pt-5 font-medium">
+                  Выход
                 </Typography>
-              </Link>
+              ) : (
+                <Link to="/login">
+                  <Typography variant="small" className="flex pt-5 font-medium">
+                    Вход
+                  </Typography>
+                </Link>
+              )}
             </li>
           </div>
         ) : (
