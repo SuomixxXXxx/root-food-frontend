@@ -13,7 +13,7 @@ const categories = [
   { name: "Напитки", image: DrinkCategory },
   { name: "Выпечка", image: BakeCategory },
   { name: "Десерты", image: DessertCategory },
-  { name: "Салаты", image: SalatCategory }
+  { name: "Салаты", image: SalatCategory },
 ];
 
 export default function CategoryPage() {
@@ -22,8 +22,8 @@ export default function CategoryPage() {
       <div className="hidden lg:block basis-1/4 mt-28">
         <SidebarCategory />
       </div>
-      <div className="basis-full lg:basis-3/4 mt-28 lg:mt-28 pl-0 lg:pl-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className=" flex flex-col items-center basis-full lg:basis-3/4 mt-28 lg:mt-28 pl-0 lg:pl-10">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
           {categories.map((category, index) => (
             <CardCategory
               key={index}

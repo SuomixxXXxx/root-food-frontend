@@ -7,7 +7,7 @@ import {
   
   export default function CardCategory({ name, image }) {
     return (
-      <Card className="w-72 h-52 shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative">
+      <Card className="w-48 h-32 md:w-72 md:h-52 shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative">
         <div className="relative h-full w-full">
           <img
             src={image} 
