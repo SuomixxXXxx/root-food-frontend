@@ -7,12 +7,15 @@ import {
   Input,
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { selectIsAuth } from "../redux/slices/auth.js";
-
 import { logout } from "../redux/slices/auth.js";
+const styleNav = {
+    position: "fixed",
+    top: 0, 
+    width: "100%", 
+    zIndex: 20, 
+    };
 export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
@@ -21,10 +24,7 @@ export default function Header() {
       dispatch(logout());
     }
   };
-  const styleNav = {
-    position: "absolute",
-    "z-index": 20,
-  };
+  
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar
@@ -38,7 +38,7 @@ export default function Header() {
           <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
             Аквариум
           </Typography>
-          <Link className="hidden lg:flex" to="/product">
+          <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
               Категории
             </Button>
@@ -192,7 +192,7 @@ export default function Header() {
         {isMenuOpen ? (
           <div className="lg:hidden flex flex-col w-full">
             <li className="list-none">
-              <Link to="/">
+              <Link to="/category">
                 <Typography variant="small" className="flex pt-5 font-medium">
                   Категории
                 </Typography>

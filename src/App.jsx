@@ -5,10 +5,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import ProductPage from "./pages/ProductPage";
 import SignupPage from "./pages/SignupPage";
+import CategoryPage from "./pages/CategoryPage";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDishItems } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
+
 
 const router = createBrowserRouter([
   {
@@ -18,6 +20,7 @@ const router = createBrowserRouter([
       { path: "signup", element: <SignupPage/> },
       { path: "cart", element: <CartPage/> },
       { path: "login", element: <LoginPage/> },
+      { path: "category", element: <CategoryPage/> },
       { path: "product", element: <ProductPage/> },
       { path: "*", element: <div>404</div> },
     ]
