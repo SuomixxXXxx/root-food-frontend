@@ -91,13 +91,11 @@ export function SidebarCategory() {
                 key={index}
                 className="flex items-center hover:bg-blue-100 transition-all duration-200 rounded-lg p-2 cursor-pointer"
               >
-                {categoriesMock.img && (
                   <img
-                    src={categoriesMock.img}
-                    alt={categoriesMock.label}
+                    src={dessert}
+                    alt={dessert}
                     className="h-10 w-10 md:h-12 md:w-12 mr-4 rounded-full shadow-md"
                   />
-                )}
                 <Typography className="text-base font-medium text-blue-gray-700">
                   {item.name}
                 </Typography>

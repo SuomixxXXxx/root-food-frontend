@@ -117,10 +117,6 @@ export default function CategoryPage() {
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);
-  console.log(isCategoriesLoading);
-  console.log(categories.categories.status);
-  console.log(categories.categories.items.data);
-  console.log(categories);
 
   return (
     <div className="flex flex-col bg-blue-gray-100 pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10">
