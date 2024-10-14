@@ -1,5 +1,6 @@
 import { SidebarCategory } from "../components/SidebarCategory";
 import ProductCard from "../components/ProductCard";
+import { useParams } from "react-router-dom";
 
 const products = [
   {
@@ -85,6 +86,8 @@ const products = [
 ];
 
 export default function ProductPage() {
+  const params  = useParams();
+  console.log(params);
   return (
     <div className=" flex flex-col bg-blue-gray-100 pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
       <div className="hidden md:flex basis-1/4 mt-10  md:mt-28 md:ml-10">

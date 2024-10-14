@@ -24,16 +24,23 @@ export const signup = createAsyncThunk(
 );
 
 export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
-  const response = await axios.post(
-    `${BASE_URL}/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
-      "refreshToken"
-    )}`
-  );
-  localStorage.setItem("token", response.data.token);
-  console.log(localStorage.getItem("token"));
-  console.log("response", response.data.token);
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
+        "refreshToken"
+      )}`
+    );
+    localStorage.setItem("token", response.data.token);
+    console.log(localStorage.getItem("token"));
+    console.log("response", response.data.token);
+    return response;
+  } catch (error) {
+    if (error.response.status ===403){
+      localStorage.removeItem("token");
+      localStorage.removeItem("refreshToken");
+    }
+  }
 
-  return response;
 });
 
 const initialState = {
