@@ -8,7 +8,7 @@ import {
 export default function PaymentBox() {
   return (
     <div>
-      <Card className="w-96 lg:h-72">
+      <Card className="w-80 md:w-96 h-60">
         <CardBody className="pb-2">
           <Typography variant="h5" color="black" className="mb-2">
             Способ оплаты
