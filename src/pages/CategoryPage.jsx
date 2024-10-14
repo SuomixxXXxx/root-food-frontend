@@ -142,6 +142,7 @@ export default function CategoryPage() {
             ) : (
               <CardCategory
                 key={index}
+                id = {category.id}
                 name={category.name}
                 image={BakeCategory}
               />
