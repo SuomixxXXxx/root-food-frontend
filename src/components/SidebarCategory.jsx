@@ -84,7 +84,7 @@ export function SidebarCategory() {
               <Typography className="text-base font-medium text-blue-gray-700">
                 {item.label}
               </Typography>
-            </ListItem>
+            </ListItem> //TODO: skeleton
           ) : (
             <Link to={`/category/${item.id}`} key={index}>
               <ListItem
