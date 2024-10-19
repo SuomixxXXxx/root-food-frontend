@@ -134,7 +134,7 @@ export default function CategoryPage() {
               key={index}
               name={categoriesMock.name}
               image={categoriesMock.image}
-            /> //TODO: skeleton
+            />
             ) : (
               <CardCategory
                 key={index}
