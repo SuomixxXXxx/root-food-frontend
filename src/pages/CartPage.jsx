@@ -13,8 +13,8 @@ export default function CartPage() {
   }
 
   return (
-    <div className='flex-col md:flex lg:flex-row h-screen bg-blue-gray-100'>
-        <div className="flex pt-5 flex-1 justify-center items-center">
+    <div className='flex-col md:flex lg:flex-row min-h-screen pb-6 pt-5 bg-blue-gray-100'>
+        <div className="flex pt-24 md:pt-5 flex-1 justify-center items-center">
             <OrderBox/>
         </div>
         <div className="flex pt-5 flex-1 justify-center items-center">
