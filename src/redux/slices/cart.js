@@ -37,6 +37,7 @@ const cartSlice = createSlice({
         );
       }
       state.amount -= 1;
+      state.totalPrice -= action.payload.price / action.payload.quantity;
     },
   },
 });

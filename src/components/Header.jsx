@@ -11,11 +11,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 const styleNav = {
-    position: "fixed",
-    top: 0, 
-    width: "100%", 
-    zIndex: 20, 
-    };
+  position: "fixed",
+  top: 0,
+  width: "100%",
+  zIndex: 20,
+};
 export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function Header() {
       dispatch(logout());
     }
   };
-  
+  const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   return (
     <Navbar
@@ -97,9 +97,15 @@ export default function Header() {
                   />
                 </svg>
               </IconButton>
-              <Typography variant="small" className="flex p-1 font-medium">
-                Корзина
-              </Typography>
+              {amount == 0 ? (
+                <Typography variant="small" className="flex p-1 font-medium">
+                  Корзина
+                </Typography>
+              ) : (
+                <Typography variant="small" className="flex p-1 font-bold text-blue-800">
+                  {amount}
+                </Typography>
+              )}
             </div>
           </Link>
           {isAuth ? (
@@ -207,7 +213,11 @@ export default function Header() {
             </li>
             <li className="list-none">
               {isAuth ? (
-                <Typography onClick={onClickLogout} variant="small" className="flex pt-5 font-medium">
+                <Typography
+                  onClick={onClickLogout}
+                  variant="small"
+                  className="flex pt-5 font-medium"
+                >
                   Выход
                 </Typography>
               ) : (
