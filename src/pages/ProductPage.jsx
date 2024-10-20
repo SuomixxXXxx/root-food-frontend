@@ -112,13 +112,15 @@ export default function ProductPage() {
             isCategoryDishesLoading ? (
               <ProductCard
                 key={index}
+                id={obj.id}
                 name={obj.name}
                 weight={obj.weight}
                 price={obj.price}
-              />// TODO: skeleton
+              /> // TODO: skeleton
             ) : (
               <ProductCard
                 key={index}
+                id={obj.id}
                 name={obj.name}
                 weight={obj.weight}
                 price={obj.price}

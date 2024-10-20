@@ -7,13 +7,16 @@ import {
   Typography,
   Button,
 } from "@material-tailwind/react";
-
-export default function ProductCard({ name, weight, price }) {
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cart";
+export default function ProductCard({ id, name, weight, price }) {
+  const dispatch = useDispatch();
+  const quantity = 1;
   return (
     <div className="ml-0 md:ml-4">
       <Card className="flex h-auto w-40 md:h-96 md:w-80 bg-[#ffffff]   ">
         <div className="flex justify-center items-center">
-          <CardHeader 
+          <CardHeader
             floated={false}
             className="flex h-18  md:h-44 md:w-fit justify-center items-center"
           >
@@ -25,7 +28,11 @@ export default function ProductCard({ name, weight, price }) {
           </CardHeader>
         </div>
         <CardBody className="text-center  ">
-          <Typography variant="h4" color="blue-gray" className="mb-2 text-base md:text-xl" >
+          <Typography
+            variant="h4"
+            color="blue-gray"
+            className="mb-2 text-base md:text-xl"
+          >
             {name}
           </Typography>
           <Typography
@@ -47,6 +54,7 @@ export default function ProductCard({ name, weight, price }) {
               className="flex flex-row justify-center items-center gap-2 w-full normal-case text-base"
               size="sm"
               color="blue"
+              onClick={() => dispatch(addToCart({ id, name, quantity, price }))}
             >
               <span className="hidden md:flex"> В корзину</span>
               <svg
