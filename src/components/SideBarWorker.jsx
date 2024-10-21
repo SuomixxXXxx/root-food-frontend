@@ -12,6 +12,7 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 import aquariumLogo from "../assets/aquariumLogo.svg";
+import { Link } from "react-router-dom";
 
 const categories = [
   {
@@ -37,19 +38,19 @@ const categories = [
   },
 ];
 
-export default function SideBarWorker(){
+export default function SideBarWorker() {
 
-    const[open,setOpen]=React.useState(0);
+  const [open, setOpen] = React.useState(0);
 
-    const handleOpen = (value) => {
-        setOpen(open === value ? 0 : value);
-      };
+  const handleOpen = (value) => {
+    setOpen(open === value ? 0 : value);
+  };
 
-    return(
-        <div className="flex h-screen">
-            <Card className="  w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
-            <div className="mt-4"><img src={aquariumLogo} alt="My aquariumLogo" /></div>
-            <Accordion
+  return (
+    <div className="flex h-screen">
+      <Card className="  w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+        <div className="mt-4"><img src={aquariumLogo} alt="My aquariumLogo" /></div>
+        <Accordion
           open={open === 1}
           icon={
             <ChevronDownIcon
@@ -67,23 +68,28 @@ export default function SideBarWorker(){
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-            {categories.map((item,index)=>(
-              <ListItem key={index}>
-                {item.icon}
-                {item.label}
-              </ListItem>
-            ))}
+              {categories.map((item, index) => (
+                <ListItem key={index}>
+                  {item.icon}
+                  {item.label}
+                </ListItem>
+              ))}
             </List>
           </AccordionBody>
         </Accordion>
         <ListItem>
           Сотрудники
         </ListItem>
-            </Card>
-        </div>
+        <Link to ={"/dashboard/orders"}>
+          <ListItem>
+            Заказы
+          </ListItem>
+        </Link>
+      </Card>
+    </div>
 
-        
 
-    );
+
+  );
 
 }
