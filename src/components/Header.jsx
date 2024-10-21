@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
+import Modal from "./Modal.jsx";
+import { useState } from "react";
 const styleNav = {
   position: "fixed",
   top: 0,
@@ -20,12 +22,12 @@ export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const onClickLogout = () => {
-    if (window.confirm("Вы действительно хотите выйти?")) {
-      dispatch(logout());
-    }
+    dispatch(logout());
+    setOpen(false);
   };
   const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   return (
     <Navbar
       variant="gradient"
@@ -102,7 +104,10 @@ export default function Header() {
                   Корзина
                 </Typography>
               ) : (
-                <Typography variant="small" className="flex p-1 font-bold text-blue-800">
+                <Typography
+                  variant="small"
+                  className="flex p-1 font-bold text-blue-800"
+                >
                   {amount}
                 </Typography>
               )}
@@ -110,7 +115,7 @@ export default function Header() {
           </Link>
           {isAuth ? (
             <div
-              onClick={onClickLogout}
+              onClick={() => setOpen(true)}
               className="flex flex-col items-center max-h-fit"
             >
               <IconButton color="red">
@@ -214,7 +219,7 @@ export default function Header() {
             <li className="list-none">
               {isAuth ? (
                 <Typography
-                  onClick={onClickLogout}
+                  onClick={() => setOpen(true)}
                   variant="small"
                   className="flex pt-5 font-medium"
                 >
@@ -233,6 +238,27 @@ export default function Header() {
           <></>
         )}
       </div>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Typography variant="h5" color="black">
+          Вы действительно хотите выйти?
+        </Typography>
+        <div className="flex justify-between mt-2">
+          <Button
+            onClick={onClickLogout}
+            color="blue"
+            variant="contained"
+          >
+            Да
+          </Button>
+          <Button
+            onClick={() => setOpen(false)}
+            color="red"
+            variant="contained"
+          >
+            Нет
+          </Button>
+        </div>
+      </Modal>
     </Navbar>
   );
 }
