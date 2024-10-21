@@ -45,7 +45,7 @@ export default function DashboardProductCard({ name, weight, price, isAdmin }) {
           </Typography>
           <div className="w-full flex flex-col items-center space-y-2">
             {isAdmin ? (
-              <div className="flex flex-col items-center space-y-2 ц">
+              <div className="flex flex-col items-center space-y-2">
                 <Button color="green" size="sm" className="w-full">
                   Изменить товар
                 </Button>

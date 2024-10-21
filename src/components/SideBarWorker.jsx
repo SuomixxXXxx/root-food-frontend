@@ -11,14 +11,9 @@ import {
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import aquariumLogo from "../assets/aquariumLogo.svg";
-
-const categories = [
-  { label: "Первое блюдо", id: 1 },
-  { label: "Второе блюдо", id: 2 },
-  { label: "Напитки", id: 3 },
-  { label: "Выпечка", id: 4 },
-  { label: "Десерты", id: 5 },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchCategories } from "../redux/slices/categories";
 
 export default function SideBarWorker() {
   const [open, setOpen] = React.useState(0);
@@ -26,7 +21,13 @@ export default function SideBarWorker() {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+  const dispatch = useDispatch();
 
+  const categories = useSelector((state) => state.categories);
+  // const isCategoriesLoading = categories.categories.status === "loading";
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
   return (
     <div className="flex h-screen">
       <Card className="w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
@@ -56,11 +57,11 @@ export default function SideBarWorker() {
           </ListItem>
           <AccordionBody className="py-1">
             <List className="p-0">
-              {categories.map((item, index) => (
+              {categories.categories.items.data?.map((item, index) => (
                 <Link key={index} to={`/dashboard/category/${item.id}`}>
                   <ListItem className="flex items-center p-2 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg">
                     <Typography className="text-base font-medium text-blue-gray-700">
-                      {item.label}
+                      {item.name}
                     </Typography>
                   </ListItem>
                 </Link>
