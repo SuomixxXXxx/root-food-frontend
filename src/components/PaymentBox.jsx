@@ -3,16 +3,28 @@ import { useDispatch, useSelector } from "react-redux";
 import { orderCreate, clearCart } from "../redux/slices/cart";
 import { selectIsAuth } from "../redux/slices/auth.js";
 import { useNavigate } from "react-router-dom";
-
+import { useState } from "react";
+import Modal from "./Modal.jsx";
 export default function PaymentBox() {
+  const [open, setOpen] = useState(false);
+  const [orderMessage, setOrderMessage] = useState("");
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector((state) => state.cart);
   const isAuth = useSelector(selectIsAuth);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const handleClose = async () => {
+    setOpen(false);
+    setOrderMessage("");
+    dispatch(clearCart());
+  };
+
   const handlePurchase = async () => {
     if (!isAuth) {
-      alert("Пожалуйста, авторизуйтесь для оформления заказа");
-      navigate("/login");
+      setOpen(true);
+      setOrderMessage("Пожалуйста, авторизуйтесь для оформления заказа");
+      // alert("Пожалуйста, авторизуйтесь для оформления заказа");
+      // navigate("/login");
       return;
     }
     const orderContentDTOs = items.map((item) => ({
@@ -21,12 +33,24 @@ export default function PaymentBox() {
     }));
 
     try {
-      const response = await dispatch(orderCreate({ orderContentDTOs })).unwrap();
+      const response = await dispatch(
+        orderCreate({ orderContentDTOs })
+      ).unwrap();
       if (response.status === 200) {
-        alert(`Заказ успешно оформлен! Код заказа: ${response.data.id}`);
-        dispatch(clearCart());
+        const successMessage = `Заказ успешно оформлен! Код заказа: ${response.data.id}`;
+        setOrderMessage(successMessage);
+        setOpen(true);
+        console.log(orderMessage);
+        console.log(open);
+        // alert(`${successMessage}`);
+        // await new Promise((resolve) => setTimeout(resolve, 1000));
+        // dispatch(clearCart());
       }
     } catch (error) {
+      setOrderMessage(
+        "Ошибка при оформлении заказа. Пожалуйста, попробуйте снова."
+      );
+      setOpen(true);
       console.error("Ошибка при оформлении заказа:", error);
     }
   };
@@ -50,6 +74,11 @@ export default function PaymentBox() {
           </div>
         </CardBody>
       </Card>
+      <Modal open={open} onClose={isAuth ? handleClose : () => setOpen(false)}>
+        <Typography variant="h5" color="black">
+          {orderMessage}
+        </Typography>
+      </Modal>
     </div>
   );
 }
