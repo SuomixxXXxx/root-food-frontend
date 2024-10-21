@@ -34,6 +34,7 @@ export default function SideBarWorker() {
         <div className="mt-4">
           <img src={aquariumLogo} alt="My aquariumLogo" />
         </div>
+
         <Accordion
           open={open === 1}
           icon={
@@ -69,7 +70,14 @@ export default function SideBarWorker() {
             </List>
           </AccordionBody>
         </Accordion>
-        <ListItem>Сотрудники</ListItem>
+        <ListItem>
+          Сотрудники
+        </ListItem>
+        <Link to ={"/dashboard/orders"}>
+          <ListItem>
+            Заказы
+          </ListItem>
+        </Link>
       </Card>
     </div>
   );

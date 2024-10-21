@@ -1,4 +1,5 @@
 import React from "react";
+import aquariumLogo from "../assets/aquariumLogo.svg";
 import {
   Navbar,
   Typography,
@@ -37,9 +38,12 @@ export default function Header() {
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
-          <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
+          {/* <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
             Аквариум
-          </Typography>
+          </Typography> */}
+          <div className="w-32 h-max ">
+          <img src={aquariumLogo} alt="My aquariumLogo" />
+          </div>
           <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
               Категории
