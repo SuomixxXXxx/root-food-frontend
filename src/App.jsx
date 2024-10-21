@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDishItems, fetchDishItemsByCategory } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
-import DashboardPage from "./pages/DashboardPage.jsx";
+
 
 
 

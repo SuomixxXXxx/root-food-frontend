@@ -83,11 +83,11 @@ const orders = [
 export default function DashboardOrderPage() {
   return (
     <div className="flex flex-col bg-blue-gray-100  pb-5 pt-5 md:flex-row min-h-screen ">
-      <div className="hidden md:flex basis-1/4 mt-10  md:ml-10">
+      <div className="hidden md:flex basis-1/4 mt-14  md:ml-10">
         <SideBarWorker />
       </div>
       <div >
-        <div className="grid grid-cols-3 gap-4 mt-10">
+        <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {orders.map(order => (
             <DashboarOrderCard
               key={order.orderNumber}

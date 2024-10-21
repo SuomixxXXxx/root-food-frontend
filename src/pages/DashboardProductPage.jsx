@@ -18,8 +18,8 @@ export default function DashboardProductPage() {
   }, [params.id, dispatch]);
 
   return (
-    <div className=" flex flex-col bg-blue-gray-100 pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
-      <div className="hidden md:flex basis-1/4 mt-10  md:mt-14 md:ml-10">
+    <div className=" flex flex-col bg-blue-gray-100  pb-5 pt-5 md:flex-row min-h-screen  ">
+      <div className="hidden md:flex basis-1/4 mt-14  md:ml-10">
         <SideBarWorker />
       </div>
       {isHasRight ? (
@@ -29,8 +29,8 @@ export default function DashboardProductPage() {
       ) : (
         <></>
       )}
-      <div className="mt-10 md:mt-14 mr-0 md:mr-10 ">
-        <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 3xl:grid-cols-4">
+      <div>
+        <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {categoryDishes.dishItems.items.data?.map((product) => (
             <DashboardProductCard
               key={product.id}
