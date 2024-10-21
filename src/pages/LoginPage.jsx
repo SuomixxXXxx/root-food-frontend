@@ -80,11 +80,8 @@ export default function LoginPage() {
                 {errors.password?.message}
               </Typography>
             </div>
-            <div className="-ml-2.5 ">
-              <Checkbox color="blue" label="Запомнить меня" />
-            </div>
           </CardBody>
-          <CardFooter className="pt-0 w-80">
+          <CardFooter className="pt-0 w-full">
             <Button disabled={!isValid} type="submit" fullWidth color="blue">
               Войти
             </Button>
