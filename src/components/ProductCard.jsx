@@ -27,7 +27,7 @@ export default function ProductCard({ id, name, weight, price }) {
             />
           </CardHeader>
         </div>
-        <CardBody className="text-center  ">
+        <CardBody className="text-center">
           <Typography
             variant="h4"
             color="blue-gray"

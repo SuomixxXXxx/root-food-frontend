@@ -1,4 +1,19 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import authService from "../../axios.js";
+
+export const orderCreate = createAsyncThunk("/order/create", async (params) => {
+  try {
+    const response = await authService.post(
+      `order/create`,
+      params
+    );
+    console.log(response, "returned value");
+    return response;
+  } catch (error) {
+    alert(error.response.data.message)
+    console.log(error);
+  }
+});
 
 const initialState = {
   items: [],
@@ -39,8 +54,25 @@ const cartSlice = createSlice({
       state.amount -= 1;
       state.totalPrice -= action.payload.price / action.payload.quantity;
     },
+    clearCart: (state) => {
+      state.items = [];
+      state.amount = 0;
+      state.totalPrice = 0;
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(orderCreate.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(orderCreate.fulfilled, (state) => {
+        state.status = "loaded";
+      })
+      .addCase(orderCreate.rejected, (state) => {
+        state.status = "failed";
+      });
   },
 });
 
-export const { addToCart, removeFromCart } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
