@@ -1,4 +1,4 @@
-**Stack: JavaScript, React, Tailwind, Axios, Redux Tollkit, Redux Persist, React Router Dom, React Hook Form**
+**Stack: JavaScript, React, Tailwind, Axios, Redux Toolkit, Redux Persist, React Router Dom, React Hook Form**
 
 **Category Page**
 ![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/imgsForReadme/src/assets/readme/category.png)
