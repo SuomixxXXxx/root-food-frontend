@@ -30,7 +30,7 @@ export default function SideBarWorker() {
   }, [dispatch]);
   return (
     <div className="flex h-screen">
-      <Card className="w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+      <Card className="w-full max-w-[20rem] p-3 shadow-xl shadow-blue-gray-900/5">
         <div className="mt-4">
           <img src={aquariumLogo} alt="My aquariumLogo" />
         </div>
@@ -60,7 +60,7 @@ export default function SideBarWorker() {
             <List className="p-0">
               {categories.categories.items.data?.map((item, index) => (
                 <Link key={index} to={`/dashboard/category/${item.id}`}>
-                  <ListItem className="flex items-center p-2 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg">
+                  <ListItem className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg">
                     <Typography className="text-base font-medium text-blue-gray-700">
                       {item.name}
                     </Typography>
