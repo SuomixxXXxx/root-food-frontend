@@ -44,6 +44,7 @@ export const fetchDishItemsByCategory = createAsyncThunk(
 const initialState = {
   dishItems: {
     items: [],
+    search: [],
     status: "loading",
   },
 };
@@ -76,6 +77,18 @@ const dishItemSlice = createSlice({
       })
       .addCase(fetchDishItemsByCategory.rejected, (state) => {
         state.dishItems.items = [];
+        state.dishItems.status = "failed";
+      })
+      .addCase(fetchDishItemsByName.pending, (state) => {
+        state.dishItems.search = [];
+        state.dishItems.status = "loading";
+      })
+      .addCase(fetchDishItemsByName.fulfilled, (state, action) => {
+        state.dishItems.search = action.payload;
+        state.dishItems.status = "loaded";
+      })
+      .addCase(fetchDishItemsByName.rejected, (state) => {
+        state.dishItems.search = [];
         state.dishItems.status = "failed";
       });
   },

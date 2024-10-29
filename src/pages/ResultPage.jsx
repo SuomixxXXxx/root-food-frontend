@@ -2,8 +2,11 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { SidebarCategory } from "../components/SidebarCategory";
+import { useSelector } from "react-redux";
 
 export default function ResultPage() {
+  const products = useSelector((state) => state.dishItems.dishItems.search.data);
+  console.log(products);
   const location = useLocation();
   const searchResults = location.state?.results || [];
 
@@ -15,7 +18,7 @@ export default function ResultPage() {
       <div className="mt-20 md:mt-28 mr-0 md:mr-10">
         {searchResults.length > 0 ?(
           <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 3xl:grid-cols-4">
-          {searchResults.map((obj, index) => (
+          {products?.map((obj, index) => (
             <ProductCard
               key={index}
               id={obj.id}
@@ -25,7 +28,7 @@ export default function ResultPage() {
             />
           ))}
         </div>):(
-          <div className="text-gray-600 text-lg mt-5 flex justify-center"> 
+          <div className="text-gray-600 text-lg mt-5 flex flex-col items-center"> 
             Ничего не найдено
           </div>
         )} 
