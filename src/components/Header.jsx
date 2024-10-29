@@ -13,6 +13,8 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
+import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { useNavigate } from "react-router-dom";
 const styleNav = {
   position: "fixed",
   top: 0,
@@ -29,6 +31,16 @@ export default function Header() {
   const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const navigate = useNavigate();
+  
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    const result = await dispatch(fetchDishItemsByName({ name: searchText }));
+    const searchData = result.payload.data || []; 
+    navigate("/search", { state: { results: searchData } });
+    setSearchText("");
+  };
   return (
     <Navbar
       variant="gradient"
@@ -50,40 +62,44 @@ export default function Header() {
             </Button>
           </Link>
         </div>
-        <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
-          <Input
-            type="search"
-            label="Поиск"
-            color="blue"
-            // value={email}
-            // onChange={onChange}
-            className="lg:pr-20"
-            containerProps={{
-              className: "min-w-0",
-            }}
-          />
-          <Button
-            size="sm"
-            color="blue"
-            // disabled={!email}
-            className="!absolute right-1 top-1 bottom-1 rounded"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="m-auto size-5 "
+          <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
+            <Input
+              type="search"
+              label="Поиск"
+              color="blue"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              // value={email}
+              // onChange={onChange}
+              className="lg:pr-20"
+              containerProps={{
+                className: "min-w-0",
+              }}
+            />
+            <Button
+              size="sm"
+              color="blue"
+              onClick={handleSearch}
+              // disabled={!email}
+              className="!absolute right-1 top-1 bottom-1 rounded"
+              type="submit"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </Button>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="m-auto size-5 "
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </Button>  
+          </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">
             <div className="flex flex-col items-center max-h-fit">

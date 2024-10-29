@@ -9,6 +9,7 @@ import CategoryPage from "./pages/CategoryPage";
 import DashboardPage from "./pages/DashboardPage";
 import DashboardOrderPage from "./pages/DashboardOrderPage";
 import DashboardProductPage from "./pages/DashboardProductPage.jsx";
+import ResultPage from "./pages/ResultPage.jsx";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDishItems, fetchDishItemsByCategory } from "./redux/slices/dishItem.js";
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage/> },
       { path: "category", element: <CategoryPage/>},
       { path: "category/:id", element: <ProductPage/> },
+      { path: "search", element: <ResultPage/> },
       { path: "*", element: <div>404</div> },
     ]
   },

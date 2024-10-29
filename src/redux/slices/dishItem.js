@@ -1,11 +1,25 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios.js";
 
+const BASE_URL = "http://localhost:8080";
+
 export const fetchDishItems = createAsyncThunk(
   "/dishItems/get/fetchDishItems",
   async () => {
     try {
       const response = await axios.get("dishItems/get");
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const fetchDishItemsByName = createAsyncThunk(
+  "/dishItems/fetchDishItemsByName",
+  async (params) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/dishItems/getByName?name=${params.name}`);
       return response;
     } catch (error) {
       console.log(error);
