@@ -14,6 +14,7 @@ import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
 import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const styleNav = {
   position: "fixed",
@@ -32,14 +33,14 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+
   const navigate = useNavigate();
   
   const handleSearch = async (e) => {
     e.preventDefault();
-    const result = await dispatch(fetchDishItemsByName({ name: searchText }));
-    const searchData = result.payload.data || []; 
-    navigate("/search", { state: { results: searchData } });
+    await dispatch(fetchDishItemsByName({ name: searchText }));
     setSearchText("");
+    navigate("/search");
   };
   return (
     <Navbar
@@ -50,9 +51,6 @@ export default function Header() {
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
-          {/* <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
-            Аквариум
-          </Typography> */}
           <div className="w-32 h-max ">
           <img src={aquariumLogo} alt="My aquariumLogo" />
           </div>
@@ -69,8 +67,6 @@ export default function Header() {
               color="blue"
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
-              // value={email}
-              // onChange={onChange}
               className="lg:pr-20"
               containerProps={{
                 className: "min-w-0",
@@ -80,7 +76,6 @@ export default function Header() {
               size="sm"
               color="blue"
               onClick={handleSearch}
-              // disabled={!email}
               className="!absolute right-1 top-1 bottom-1 rounded"
               type="submit"
             >

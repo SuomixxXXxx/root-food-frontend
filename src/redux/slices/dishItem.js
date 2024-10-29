@@ -46,6 +46,7 @@ const initialState = {
     items: [],
     search: [],
     status: "loading",
+    searchStatus: "loading"
   },
 };
 
@@ -81,15 +82,15 @@ const dishItemSlice = createSlice({
       })
       .addCase(fetchDishItemsByName.pending, (state) => {
         state.dishItems.search = [];
-        state.dishItems.status = "loading";
+        state.dishItems.searchStatus = "loading";
       })
       .addCase(fetchDishItemsByName.fulfilled, (state, action) => {
         state.dishItems.search = action.payload;
-        state.dishItems.status = "loaded";
+        state.dishItems.searchStatus = "loaded";
       })
       .addCase(fetchDishItemsByName.rejected, (state) => {
         state.dishItems.search = [];
-        state.dishItems.status = "failed";
+        state.dishItems.searchStatus = "failed";
       });
   },
 });
