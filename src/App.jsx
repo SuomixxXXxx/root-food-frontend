@@ -12,7 +12,7 @@ import DashboardProductPage from "./pages/DashboardProductPage.jsx";
 import ResultPage from "./pages/ResultPage.jsx";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDishItems, fetchDishItemsByCategory } from "./redux/slices/dishItem.js";
+import { fetchDishItems } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
 
@@ -49,18 +49,15 @@ function App() {
 
   // const dishes = useSelector((state) => state.categories);
   // const isDishesLoading = dishes.status === "loading";
-  // const categoryDishes = useSelector((state)=> state.dishItems);
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(checkAuth());
       console.log("token");
     }
-    // dispatch(fetchDishItems());
-    // dispatch(fetchDishItemsByCategory(1));
+    dispatch(fetchDishItems());
     // dispatch(fetchCategories());
   }, []);
   // console.log(dishes);
-  // console.log(categoryDishes.dishItems.items.data);
 
   return (
     <>
