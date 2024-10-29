@@ -110,7 +110,7 @@ export default function SignupPage() {
               </Typography>
             </div>
           </CardBody>
-          <CardFooter className="pt-0 w-80">
+          <CardFooter className="pt-0 w-full">
             <Button disabled={!isValid} type="submit" fullWidth color="blue">
               Зарегистрироваться
             </Button>

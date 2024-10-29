@@ -123,7 +123,7 @@ export default function CategoryPage() {
       <div className="hidden md:flex basis-1/4 mt-10  md:mt-28 md:ml-10">
         <SidebarCategory />
       </div>
-      <div className=" mt-20 md:mt-28 mr-0 md:mr-10">
+      <div className="mt-20 md:mt-28 mr-0 md:mr-10">
         <div className="grid grid-cols-2 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 3xl:grid-cols-4">
           {(isCategoriesLoading
             ? categoriesMock

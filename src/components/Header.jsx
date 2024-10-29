@@ -1,4 +1,5 @@
 import React from "react";
+import aquariumLogo from "../assets/aquariumLogo.svg";
 import {
   Navbar,
   Typography,
@@ -10,22 +11,37 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
+import Modal from "./Modal.jsx";
+import { useState } from "react";
+import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const styleNav = {
-    position: "fixed",
-    top: 0, 
-    width: "100%", 
-    zIndex: 20, 
-    };
+  position: "fixed",
+  top: 0,
+  width: "100%",
+  zIndex: 20,
+};
 export default function Header() {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
   const onClickLogout = () => {
-    if (window.confirm("Вы действительно хотите выйти?")) {
-      dispatch(logout());
-    }
+    dispatch(logout());
+    setOpen(false);
   };
-  
+  const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  const navigate = useNavigate();
+  
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    await dispatch(fetchDishItemsByName({ name: searchText }));
+    setSearchText("");
+    navigate("/search");
+  };
   return (
     <Navbar
       variant="gradient"
@@ -35,49 +51,50 @@ export default function Header() {
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
-          <Typography className="lg:mr-4 cursor-pointer py-1.5 font-medium">
-            Аквариум
-          </Typography>
+          <div className="w-32 h-max ">
+          <img src={aquariumLogo} alt="My aquariumLogo" />
+          </div>
           <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
               Категории
             </Button>
           </Link>
         </div>
-        <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
-          <Input
-            type="search"
-            label="Поиск"
-            color="blue"
-            // value={email}
-            // onChange={onChange}
-            className="lg:pr-20"
-            containerProps={{
-              className: "min-w-0",
-            }}
-          />
-          <Button
-            size="sm"
-            color="blue"
-            // disabled={!email}
-            className="!absolute right-1 top-1 bottom-1 rounded"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="m-auto size-5 "
+          <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
+            <Input
+              type="search"
+              label="Поиск"
+              color="blue"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="lg:pr-20"
+              containerProps={{
+                className: "min-w-0",
+              }}
+            />
+            <Button
+              size="sm"
+              color="blue"
+              onClick={handleSearch}
+              className="!absolute right-1 top-1 bottom-1 rounded"
+              type="submit"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-              />
-            </svg>
-          </Button>
-        </div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="m-auto size-5 "
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
+            </Button>  
+          </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">
             <div className="flex flex-col items-center max-h-fit">
@@ -97,14 +114,23 @@ export default function Header() {
                   />
                 </svg>
               </IconButton>
-              <Typography variant="small" className="flex p-1 font-medium">
-                Корзина
-              </Typography>
+              {amount == 0 ? (
+                <Typography variant="small" className="flex p-1 font-medium">
+                  Корзина
+                </Typography>
+              ) : (
+                <Typography
+                  variant="small"
+                  className="flex p-1 font-bold text-blue-800"
+                >
+                  {amount}
+                </Typography>
+              )}
             </div>
           </Link>
           {isAuth ? (
             <div
-              onClick={onClickLogout}
+              onClick={() => setOpen(true)}
               className="flex flex-col items-center max-h-fit"
             >
               <IconButton color="red">
@@ -207,7 +233,11 @@ export default function Header() {
             </li>
             <li className="list-none">
               {isAuth ? (
-                <Typography onClick={onClickLogout} variant="small" className="flex pt-5 font-medium">
+                <Typography
+                  onClick={() => setOpen(true)}
+                  variant="small"
+                  className="flex pt-5 font-medium"
+                >
                   Выход
                 </Typography>
               ) : (
@@ -223,6 +253,27 @@ export default function Header() {
           <></>
         )}
       </div>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Typography variant="h5" color="black">
+          Вы действительно хотите выйти?
+        </Typography>
+        <div className="flex justify-between mt-2">
+          <Button
+            onClick={onClickLogout}
+            color="blue"
+            variant="contained"
+          >
+            Да
+          </Button>
+          <Button
+            onClick={() => setOpen(false)}
+            color="red"
+            variant="contained"
+          >
+            Нет
+          </Button>
+        </div>
+      </Modal>
     </Navbar>
   );
 }

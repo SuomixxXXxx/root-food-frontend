@@ -1,8 +1,33 @@
-# React + Vite
+**Stack: JavaScript, React, Tailwind, Axios, Redux Toolkit, Redux Persist, React Router Dom, React Hook Form**
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Category Page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/category.png)
 
-Currently, two official plugins are available:
+**Product Page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/dishItem.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**You can add products in cart**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cartFun.png)
+
+**Cart Page, you can decrease and increase amount of products**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cart.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cartMinus.png)
+
+**Cart Page, if noAuth you can't order products**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/noAuth.png)
+
+**Login and Signup page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/login.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/signup.png)
+
+**After authorization you get token and refreshToken in localStorage, also you have your cart products in redux-persist storage**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/tokenAndPersistCar.png)
+
+**Also you can order products**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/successPayment.png)
+
+**Empty cart after order**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/emptyCart.png)
+
+**Logout**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/logout.png)

@@ -6,11 +6,17 @@ import LandingPage from "./pages/LandingPage";
 import ProductPage from "./pages/ProductPage";
 import SignupPage from "./pages/SignupPage";
 import CategoryPage from "./pages/CategoryPage";
+import DashboardPage from "./pages/DashboardPage";
+import DashboardOrderPage from "./pages/DashboardOrderPage";
+import DashboardProductPage from "./pages/DashboardProductPage.jsx";
+import ResultPage from "./pages/ResultPage.jsx";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDishItems } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
+
+
 
 
 const router = createBrowserRouter([
@@ -23,9 +29,18 @@ const router = createBrowserRouter([
       { path: "login", element: <LoginPage/> },
       { path: "category", element: <CategoryPage/>},
       { path: "category/:id", element: <ProductPage/> },
+      { path: "search", element: <ResultPage/> },
       { path: "*", element: <div>404</div> },
     ]
-  }
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,
+    children: [
+      { path: "category/:id", element: <DashboardProductPage /> }, 
+      {path: "orders", element: <DashboardOrderPage/>},
+    ],
+  },
 ])
 
 
