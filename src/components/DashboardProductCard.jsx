@@ -70,9 +70,14 @@ export default function DashboardProductCard({ name, weight, price, isAdmin }) {
                 </Button>
               </div>
             ) : (
-              <Button color="green" size="sm" className="w-full">
-                Добавить в корзину
-              </Button>
+              <Button
+              color="green"
+              size="sm"
+              className="w-full"
+              onClick={handleOpenModal}
+            >
+              Изменить товар
+            </Button>
             )}
           </div>
         </CardBody>
@@ -104,3 +109,4 @@ export default function DashboardProductCard({ name, weight, price, isAdmin }) {
     </div>
   );
 }
+
