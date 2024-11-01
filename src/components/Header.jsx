@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import aquariumLogo from "../assets/aquariumLogo.svg";
 import {
   Navbar,
@@ -33,15 +33,42 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [searchData, setSearchData] = useState([])
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+        console.log(response.data);
+        setSearchData(response.data);
+      } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+      }
+    };
+  
+    fetchData();
+  }, [searchText, dispatch]);
+
+  
   
   const handleSearch = async (e) => {
     e.preventDefault();
-    await dispatch(fetchDishItemsByName({ name: searchText }));
+    const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+    setSearchData(response.data);
+    navigate("/search", { state: { query: searchText, searchResults: response.data } });
     setSearchText("");
-    navigate("/search");
   };
+
+  const handleSearchData = (item) => {
+    navigate("/search", { state: { selectedItem: item } });
+    setSearchText("");
+    setSearchData([]); 
+  };
+
+ 
+
   return (
     <Navbar
       variant="gradient"
@@ -93,7 +120,20 @@ export default function Header() {
                   d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
                 />
               </svg>
-            </Button>  
+            </Button> 
+            
+            {searchData.length > 0 && (
+              <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
+                {searchData.map((item) => (
+                  <li 
+                  key={item.id} 
+                  className="p-2 hover:bg-gray-100 cursor-pointer" 
+                  onClick={() => handleSearchData(item)}>
+                    {item.name}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">

@@ -19,7 +19,7 @@ export const fetchDishItemsByName = createAsyncThunk(
   "/dishItems/fetchDishItemsByName",
   async (params) => {
     try {
-      const response = await axios.get(`${BASE_URL}/dishItems/getByName?name=${params.name}`);
+      const response = await axios.get(`dishItems/getByName?name=${params.name}`);
       return response;
     } catch (error) {
       console.log(error);
