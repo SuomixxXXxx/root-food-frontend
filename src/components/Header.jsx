@@ -13,10 +13,11 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
-import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
-import { fetchAutocompleteSuggestions } from "../redux/slices/dishItem.js";
+import { clearSelectedItem, fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { fetchAutocompleteSuggestions, setSelectedItem } from "../redux/slices/dishItem.js";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 const styleNav = {
   position: "fixed",
   top: 0,
@@ -35,86 +36,72 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
-  const [searchText2, setSearchText2] = useState("");
+  const [searchTextSuggestion, setSearchTextSuggestion] = useState("");
+  const [indexItems, setIndexItems] = useState(-1)
+  
 
   const navigate = useNavigate();
-  const suggestions = useSelector((state) => state.dishItems);
-  console.log(suggestions)
 
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await dispatch(fetchDishItemsByName({ name: searchText2 })).unwrap();
-  //       console.log(response);
-  //       setSearchData(response.data);
-        
-  //     } catch (error) {
-  //       console.error("Ошибка при получении данных:", error);
-  //     }
-  //   };
-  
-  //   fetchData();
-  // }, [searchText2, dispatch]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch(fetchAutocompleteSuggestions({ name: searchTextSuggestion })).unwrap();
+        console.log("Autocomplete suggestions:", response);
+        setSearchData(response);
 
-  
-  
-  // const handleSearch = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response=await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();  
-  //     setSearchData(response.data);
-  //     navigate("/search");
-  //     setSearchData([]); 
-  //     setSearchText("");          
-  //   } catch (error) {
-  //     console.error("Ошибка при поиске:", error);
-  //   }
-    
-  // };
-
-  // const handleSearchData = (item) => {
-  //   navigate("/search", { state: { selectedItem: item } });
-  //   // setSearchText("");
-  //   setSearchData([]); 
-  // };
-
-
-
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        try {
-            await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
-            navigate("/search");
-            setSearchText("");  // Очищаем поле поиска после отправки запроса
-        } catch (error) {
-            console.error("Ошибка при поиске:", error);
-        }
+      } catch (error) {
+        console.error("Ошибка при получении данных:", error);
+      }
     };
 
-    // Обновляем автозаполнение при изменении текста в поле поиска
-    useEffect(() => {
-      const fetchData = async () => {
-            try {
-              if (searchText) {
-                const response= dispatch(fetchAutocompleteSuggestions({ name: searchText })).unwrap();
-                console.log(response);
-             }
-              
-            } catch (error) {
-              console.error("Ошибка при получении данных:", error);
-            }
-          };
-          fetchData();
-    }, [searchText, dispatch]);
+    if (searchTextSuggestion) {
+      fetchData();
+    } else {
+      setSearchData([]);
+    }
+  }, [searchTextSuggestion, dispatch]);
 
-    // Переход на страницу результата при выборе из предложений
-    const handleSuggestionClick = (item) => {
-        navigate("/search", { state: { selectedItem: item } });
-        setSearchText("");
-    };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+      console.log("byname suggestions:", response.data);
+      setSearchData(response.data);
+      console.log("search data after byname:", searchData)
+      dispatch(clearSelectedItem())
+      navigate("/search");
+      setSearchData([]);
+      setSearchText("");
+    } catch (error) {
+      console.error("Ошибка при поиске:", error);
+    }
+  };
 
- 
+  const handleSuggestionClick = (item) => {
+    dispatch(setSelectedItem(item));
+    navigate("/search");
+    setSearchData([]);
+    setSearchText("");
+  };
+
+  const handleKeyDown = (e) => {
+    if(e.key === "ArrowUp" && indexItems > 0){
+      setIndexItems((prev) => prev - 1)
+    }
+    else if(e.key === "ArrowDown" && indexItems < searchData.length - 1){
+      setIndexItems((prev) => prev + 1)
+    }
+    else if(e.key === "Enter" ){
+      if (indexItems === -1 || indexItems === 0) {
+        handleSearch(e);
+      }else if (indexItems > 0) {
+        handleSuggestionClick(searchData[indexItems]);
+      }
+    }
+  };
+
+
 
   return (
     <Navbar
@@ -126,7 +113,7 @@ export default function Header() {
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
           <div className="w-32 h-max ">
-          <img src={aquariumLogo} alt="My aquariumLogo" />
+            <img src={aquariumLogo} alt="My aquariumLogo" />
           </div>
           <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
@@ -134,54 +121,57 @@ export default function Header() {
             </Button>
           </Link>
         </div>
-          <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
-            <Input
-              type="search"
-              label="Поиск"
-              color="blue"
-              value={searchText}
-              onChange={(e) => {setSearchText(e.target.value); setSearchText2(e.target.value)}}
-              className="lg:pr-20"
-              containerProps={{
-                className: "min-w-0",
-              }}
-            />
-            <Button
-              size="sm"
-              color="blue"
-              onClick={handleSearch}
-              className="!absolute right-1 top-1 bottom-1 rounded"
-              type="submit"
+        <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
+          <Input
+            type="search"
+            label="Поиск"
+            color="blue"
+            value={searchText}
+            onChange={(e) => { setSearchText(e.target.value); setSearchTextSuggestion(e.target.value) }}
+            onKeyDown={handleKeyDown}
+            className="lg:pr-20"
+            containerProps={{
+              className: "min-w-0",
+            }}
+          />
+          <Button
+            size="sm"
+            color="blue"
+            onClick={handleSearch}
+            className="!absolute right-1 top-1 bottom-1 rounded"
+            type="submit"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="m-auto size-5 "
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="m-auto size-5 "
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </Button> 
-            
-            {/* {(
-              <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
-                {suggestions?.map((item) => (
-                  <li 
-                  key={item.id} 
-                  className="p-2 hover:bg-gray-100 cursor-pointer" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+          </Button>
+
+          {searchData && searchData.length > 0 && (
+            <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
+              {searchData?.map((item,index) => (
+                <li
+                  key={item.id}
+                  className={`p-2 cursor-pointer ${
+                    indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"
+                  }`}
                   onClick={() => handleSuggestionClick(item)}>
-                    {item.name}
-                  </li>
-                ))}
-              </ul>
-            )} */}
-          </div>
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">
             <div className="flex flex-col items-center max-h-fit">

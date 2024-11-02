@@ -63,12 +63,20 @@ const initialState = {
     autocompleteSuggestionsStatus: "loading"
 
   },
+  selectedItem: null,
 };
 
 const dishItemSlice = createSlice({
   name: "dishItems",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedItem(state, action) {
+      state.selectedItem = action.payload; 
+    },
+    clearSelectedItem(state) {
+      state.selectedItem = null;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchDishItems.pending, (state) => {
@@ -101,7 +109,6 @@ const dishItemSlice = createSlice({
       })
       .addCase(fetchDishItemsByName.fulfilled, (state, action) => {
         state.dishItems.search = action.payload;
-        state.dishItems.searchData = action.payload;
         state.dishItems.searchStatus = "loaded";
       })
       .addCase(fetchDishItemsByName.rejected, (state) => {
@@ -113,6 +120,7 @@ const dishItemSlice = createSlice({
         state.dishItems.autocompleteSuggestionsStatus = "loading";
       })
       .addCase(fetchAutocompleteSuggestions.fulfilled, (state, action) => {
+        console.log('Autocomplete suggestions fetched:', action.payload);
         state.dishItems.autocompleteSuggestions = action.payload;
         state.dishItems.autocompleteSuggestionsStatus = "loaded";
       })
@@ -124,3 +132,4 @@ const dishItemSlice = createSlice({
 });
 
 export const dishItemReducer = dishItemSlice.reducer;
+export const { setSelectedItem, clearSelectedItem } = dishItemSlice.actions;

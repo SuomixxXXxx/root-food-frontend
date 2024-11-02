@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 export default function ResultPage() {
   const products = useSelector((state) => state.dishItems);
+  console.log(products);
+  const selectedItem = useSelector((state) => state.dishItems.selectedItem);
   const isProductsLoading = products.dishItems.searchStatus === "loading";
 
   return (
@@ -14,6 +16,17 @@ export default function ResultPage() {
       <div className="mt-20 md:mt-28 mr-0 md:mr-10">
         {isProductsLoading ? (
           ""
+        ) :selectedItem !== null?(
+          
+          <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 3xl:grid-cols-4">
+            <ProductCard
+              key={selectedItem.id}
+              id={selectedItem.id}
+              name={selectedItem.name}
+              weight={selectedItem.weight}
+              price={selectedItem.price}
+            />
+          </div>
         ) : products.dishItems.search.data.length > 0 ? (
           <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 3xl:grid-cols-4">
             {products.dishItems.search.data?.map((obj, index) => (
