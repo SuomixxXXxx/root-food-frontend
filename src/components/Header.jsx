@@ -14,6 +14,7 @@ import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
 import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { fetchAutocompleteSuggestions } from "../redux/slices/dishItem.js";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 const styleNav = {
@@ -33,39 +34,85 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
-  const [searchData, setSearchData] = useState([])
+  const [searchData, setSearchData] = useState([]);
+  const [searchText2, setSearchText2] = useState("");
 
   const navigate = useNavigate();
+  const suggestions = useSelector((state) => state.dishItems);
+  console.log(suggestions)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
-        console.log(response.data);
-        setSearchData(response.data);
-      } catch (error) {
-        console.error("Ошибка при получении данных:", error);
-      }
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await dispatch(fetchDishItemsByName({ name: searchText2 })).unwrap();
+  //       console.log(response);
+  //       setSearchData(response.data);
+        
+  //     } catch (error) {
+  //       console.error("Ошибка при получении данных:", error);
+  //     }
+  //   };
+  
+  //   fetchData();
+  // }, [searchText2, dispatch]);
+
+  
+  
+  // const handleSearch = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response=await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();  
+  //     setSearchData(response.data);
+  //     navigate("/search");
+  //     setSearchData([]); 
+  //     setSearchText("");          
+  //   } catch (error) {
+  //     console.error("Ошибка при поиске:", error);
+  //   }
+    
+  // };
+
+  // const handleSearchData = (item) => {
+  //   navigate("/search", { state: { selectedItem: item } });
+  //   // setSearchText("");
+  //   setSearchData([]); 
+  // };
+
+
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        try {
+            await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+            navigate("/search");
+            setSearchText("");  // Очищаем поле поиска после отправки запроса
+        } catch (error) {
+            console.error("Ошибка при поиске:", error);
+        }
     };
-  
-    fetchData();
-  }, [searchText, dispatch]);
 
-  
-  
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
-    setSearchData(response.data);
-    navigate("/search", { state: { query: searchText, searchResults: response.data } });
-    setSearchText("");
-  };
+    // Обновляем автозаполнение при изменении текста в поле поиска
+    useEffect(() => {
+      const fetchData = async () => {
+            try {
+              if (searchText) {
+                const response= dispatch(fetchAutocompleteSuggestions({ name: searchText })).unwrap();
+                console.log(response);
+             }
+              
+            } catch (error) {
+              console.error("Ошибка при получении данных:", error);
+            }
+          };
+          fetchData();
+    }, [searchText, dispatch]);
 
-  const handleSearchData = (item) => {
-    navigate("/search", { state: { selectedItem: item } });
-    setSearchText("");
-    setSearchData([]); 
-  };
+    // Переход на страницу результата при выборе из предложений
+    const handleSuggestionClick = (item) => {
+        navigate("/search", { state: { selectedItem: item } });
+        setSearchText("");
+    };
 
  
 
@@ -93,7 +140,7 @@ export default function Header() {
               label="Поиск"
               color="blue"
               value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e) => {setSearchText(e.target.value); setSearchText2(e.target.value)}}
               className="lg:pr-20"
               containerProps={{
                 className: "min-w-0",
@@ -122,18 +169,18 @@ export default function Header() {
               </svg>
             </Button> 
             
-            {searchData.length > 0 && (
+            {/* {(
               <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
-                {searchData.map((item) => (
+                {suggestions?.map((item) => (
                   <li 
                   key={item.id} 
                   className="p-2 hover:bg-gray-100 cursor-pointer" 
-                  onClick={() => handleSearchData(item)}>
+                  onClick={() => handleSuggestionClick(item)}>
                     {item.name}
                   </li>
                 ))}
               </ul>
-            )}
+            )} */}
           </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">

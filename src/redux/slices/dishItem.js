@@ -26,6 +26,18 @@ export const fetchDishItemsByName = createAsyncThunk(
     }
   }
 );
+export const fetchAutocompleteSuggestions = createAsyncThunk(
+  "/dishItems/fetchAutocompleteSuggestions",
+  async (params) => {
+      try {
+          const response = await axios.get(`dishItems/getByName?name=${params.name}`);
+          return response.data; 
+      } catch (error) {
+          console.error(error);  
+      }
+  }
+);
+
 
 export const fetchDishItemsByCategory = createAsyncThunk(
   "dishItems/getByCategory?",
@@ -45,8 +57,11 @@ const initialState = {
   dishItems: {
     items: [],
     search: [],
+    autocompleteSuggestions:[],
     status: "loading",
-    searchStatus: "loading"
+    searchStatus: "loading",
+    autocompleteSuggestionsStatus: "loading"
+
   },
 };
 
@@ -86,12 +101,25 @@ const dishItemSlice = createSlice({
       })
       .addCase(fetchDishItemsByName.fulfilled, (state, action) => {
         state.dishItems.search = action.payload;
+        state.dishItems.searchData = action.payload;
         state.dishItems.searchStatus = "loaded";
       })
       .addCase(fetchDishItemsByName.rejected, (state) => {
         state.dishItems.search = [];
         state.dishItems.searchStatus = "failed";
-      });
+      })
+      .addCase(fetchAutocompleteSuggestions.pending, (state) => {
+        state.dishItems.autocompleteSuggestions = [];
+        state.dishItems.autocompleteSuggestionsStatus = "loading";
+      })
+      .addCase(fetchAutocompleteSuggestions.fulfilled, (state, action) => {
+        state.dishItems.autocompleteSuggestions = action.payload;
+        state.dishItems.autocompleteSuggestionsStatus = "loaded";
+      })
+      .addCase(fetchAutocompleteSuggestions.rejected, (state) => {
+        state.dishItems.autocompleteSuggestions = [];
+        state.dishItems.autocompleteSuggestionsStatus = "failed";
+      })
   },
 });
 
