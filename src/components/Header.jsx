@@ -86,18 +86,23 @@ export default function Header() {
   };
 
   const handleKeyDown = (e) => {
-    if(e.key === "ArrowUp" && indexItems > 0){
-      setIndexItems((prev) => prev - 1)
-    }
-    else if(e.key === "ArrowDown" && indexItems < searchData.length - 1){
-      setIndexItems((prev) => prev + 1)
-    }
-    else if(e.key === "Enter" ){
-      if (indexItems === -1 || indexItems === 0) {
-        handleSearch(e);
-      }else if (indexItems > 0) {
-        handleSuggestionClick(searchData[indexItems]);
+    if(indexItems<searchData.length){
+      if(e.key === "ArrowUp" && indexItems > 0){
+        setIndexItems((prev) => prev - 1)
       }
+      else if(e.key === "ArrowDown" && indexItems < searchData.length - 1){
+        setIndexItems((prev) => prev + 1)
+      }
+      else if(e.key === "Enter" ){
+        if (indexItems === -1 || indexItems === 0) {
+          handleSearch(e);
+        }else if (indexItems > 0) {
+          handleSuggestionClick(searchData[indexItems]);
+          // setIndexItems(-1);
+        }
+      }
+    }else{
+      setIndexItems(-1);
     }
   };
 
