@@ -13,10 +13,11 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
-import { clearSelectedItem, fetchDishItemsByName } from "../redux/slices/dishItem.js";
+import { clearSelectedItem, fetchDishItemsByName,setNavigated } from "../redux/slices/dishItem.js";
 import { fetchAutocompleteSuggestions, setSelectedItem } from "../redux/slices/dishItem.js";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SuggestionBox from "./SuggestionBox.jsx";
 
 const styleNav = {
   position: "fixed",
@@ -34,43 +35,54 @@ export default function Header() {
   const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
+  const [openSuggest, setOpenSuggest] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [searchTextSuggestion, setSearchTextSuggestion] = useState("");
   const [indexItems, setIndexItems] = useState(-1)
-  
+
 
   const navigate = useNavigate();
+  const isNavigated = useSelector((state) => state.dishItems.isNavigated);
 
+  useEffect(() => {
+    if (isNavigated) {
+      setOpenSuggest(false);
+      setSearchText("");
+      setSearchData([]);
+      dispatch(setNavigated(false));
+    }
+  }, [isNavigated, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await dispatch(fetchAutocompleteSuggestions({ name: searchTextSuggestion })).unwrap();
-        console.log("Autocomplete suggestions:", response);
-        setSearchData(response);
-
-      } catch (error) {
-        console.error("Ошибка при получении данных:", error);
+      if (searchTextSuggestion.trim() !== "") {
+        try {
+          const response = await dispatch(fetchAutocompleteSuggestions({ name: searchTextSuggestion })).unwrap();
+          setSearchData(response);
+          setOpenSuggest(response.length > 0);
+        } catch (error) {
+          console.error("Ошибка при получении данных:", error);
+        }
+      } else {
+        setSearchData([]);
+        setOpenSuggest(false);
       }
     };
 
-    if (searchTextSuggestion) {
-      fetchData();
-    } else {
-      setSearchData([]);
-    }
+    fetchData();
   }, [searchTextSuggestion, dispatch]);
 
   const handleSearch = async (e) => {
     e.preventDefault();
+    setOpenSuggest(false);
     try {
       const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
-      console.log("byname suggestions:", response.data);
       setSearchData(response.data);
-      console.log("search data after byname:", searchData)
       dispatch(clearSelectedItem())
+      dispatch(setNavigated(true));
       navigate("/search");
+      setSearchTextSuggestion("")
       setSearchData([]);
       setSearchText("");
     } catch (error) {
@@ -79,32 +91,43 @@ export default function Header() {
   };
 
   const handleSuggestionClick = (item) => {
+    setOpenSuggest(false);
     dispatch(setSelectedItem(item));
-    navigate("/search");
-    setSearchData([]);
+    setOpenSuggest(false);
     setSearchText("");
+    setSearchTextSuggestion("")
+    setSearchData([]);
+    dispatch(setNavigated(true));
+    setIndexItems(-1);
+    navigate("/search");
+    
   };
 
   const handleKeyDown = (e) => {
-    if(indexItems<searchData.length){
-      if(e.key === "ArrowUp" && indexItems > 0){
+    if (indexItems < searchData.length) {
+      if (e.key === "ArrowUp" && indexItems > 0) {
         setIndexItems((prev) => prev - 1)
       }
-      else if(e.key === "ArrowDown" && indexItems < searchData.length - 1){
+      else if (e.key === "ArrowDown" && indexItems < searchData.length - 1) {
         setIndexItems((prev) => prev + 1)
       }
-      else if(e.key === "Enter" ){
-        if (indexItems === -1 || indexItems === 0) {
+      else if (e.key === "Enter") {
+        if (indexItems === -1) {
           handleSearch(e);
-        }else if (indexItems > 0) {
+        } else if (indexItems >= 0) {
           handleSuggestionClick(searchData[indexItems]);
-          // setIndexItems(-1);
+          setIndexItems(-1);
         }
       }
-    }else{
+    } else {
       setIndexItems(-1);
     }
   };
+
+  const handleSearchBlur = () => {
+    setTimeout(() => setOpenSuggest(false), 150);
+  };
+
 
 
 
@@ -132,8 +155,10 @@ export default function Header() {
             label="Поиск"
             color="blue"
             value={searchText}
-            onChange={(e) => { setSearchText(e.target.value); setSearchTextSuggestion(e.target.value) }}
+            onChange={(e) => { setSearchText(e.target.value); setSearchTextSuggestion(e.target.value); setOpenSuggest(e.target.value !== ""); }}
             onKeyDown={handleKeyDown}
+            onFocus={() => setOpenSuggest(searchData.length > 0)}
+            onBlur={handleSearchBlur}
             className="lg:pr-20"
             containerProps={{
               className: "min-w-0",
@@ -161,21 +186,21 @@ export default function Header() {
               />
             </svg>
           </Button>
-
-          {searchData && searchData.length > 0 && (
-            <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
-              {searchData?.map((item,index) => (
-                <li
-                  key={item.id}
-                  className={`p-2 cursor-pointer ${
-                    indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"
-                  }`}
-                  onClick={() => handleSuggestionClick(item)}>
-                  {item.name}
-                </li>
-              ))}
-            </ul>
-          )}
+          <SuggestionBox open={openSuggest} onClose={() => setOpenSuggest(false)}>
+            {searchData && searchData.length > 0 && (
+              <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
+                {searchData.map((item, index) => (
+                  <li
+                    key={item.id}
+                    className={`p-2 cursor-pointer ${indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                    onClick={() => handleSuggestionClick(item)}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SuggestionBox>
         </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">

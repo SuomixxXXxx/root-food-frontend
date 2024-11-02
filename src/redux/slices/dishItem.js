@@ -64,6 +64,7 @@ const initialState = {
 
   },
   selectedItem: null,
+  isNavigated: false,
 };
 
 const dishItemSlice = createSlice({
@@ -75,6 +76,9 @@ const dishItemSlice = createSlice({
     },
     clearSelectedItem(state) {
       state.selectedItem = null;
+    },
+    setNavigated(state, action) {
+      state.isNavigated = action.payload; 
     }
   },
   extraReducers: (builder) => {
@@ -120,7 +124,6 @@ const dishItemSlice = createSlice({
         state.dishItems.autocompleteSuggestionsStatus = "loading";
       })
       .addCase(fetchAutocompleteSuggestions.fulfilled, (state, action) => {
-        console.log('Autocomplete suggestions fetched:', action.payload);
         state.dishItems.autocompleteSuggestions = action.payload;
         state.dishItems.autocompleteSuggestionsStatus = "loaded";
       })
@@ -132,4 +135,4 @@ const dishItemSlice = createSlice({
 });
 
 export const dishItemReducer = dishItemSlice.reducer;
-export const { setSelectedItem, clearSelectedItem } = dishItemSlice.actions;
+export const { setSelectedItem, clearSelectedItem, setNavigated } = dishItemSlice.actions;

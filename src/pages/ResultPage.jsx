@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 export default function ResultPage() {
   const products = useSelector((state) => state.dishItems);
-  console.log(products);
   const selectedItem = useSelector((state) => state.dishItems.selectedItem);
   const isProductsLoading = products.dishItems.searchStatus === "loading";
 
