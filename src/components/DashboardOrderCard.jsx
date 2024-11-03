@@ -5,8 +5,16 @@ import {
   CardFooter,
   Typography,
 } from "@material-tailwind/react";
+import { useDispatch } from "react-redux";
+import { completeOrder } from "../redux/slices/order";
 
 export default function DashboardOrderCard({ orderNumber, items }) {
+  const dispatch = useDispatch();
+
+  const handleCompleteOrder = () => {
+    dispatch(completeOrder(orderNumber));
+  };
+
   return (
     <Card className="flex flex-col w-80 h-80 shadow-md rounded-lg p-4">
       <CardBody className="flex flex-col justify-between h-full">
@@ -35,7 +43,7 @@ export default function DashboardOrderCard({ orderNumber, items }) {
         </ul>
       </CardBody>
       <CardFooter className="pt-4">
-        <Button fullWidth color="blue" size="sm">
+        <Button fullWidth color="blue" size="sm" onClick={handleCompleteOrder}>
           Готово
         </Button>
       </CardFooter>

@@ -2,20 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Client } from "@stomp/stompjs";
 import axios from "../../axios";
 
-export const fetchOrders = () => async (dispatch) => {
+export const completeOrder = (orderId) => async (dispatch) => {
   try {
-    const response = await axios.get("/orders/getActiveOrders");
-    dispatch(setOrders(response.data));
+    await axios.patch("/order/complete", null, { params: { id: orderId } });
+    dispatch(removeOrder(orderId));
   } catch (error) {
-    console.error("Ошибка при получении заказов:", error);
-  }
-};
-
-export const disconnectWebSocket = () => (dispatch) => {
-  if (stomp && stomp.active) {
-    stomp.deactivate();
-    console.log("WebSocket отключен.");
-    dispatch(clearOrders());
+    console.error("Ошибка при завершении заказа:", error);
   }
 };
 
@@ -36,6 +28,10 @@ export const orderSlice = createSlice({
       if (!exists) {
         state.orders.unshift(newOrder);
       }
+    },
+    removeOrder: (state, action) => {
+      const orderId = action.payload;
+      state.orders = state.orders.filter((order) => order.id !== orderId);
     },
     clearOrders: (state) => {
       state.orders = [];
@@ -58,11 +54,10 @@ export const connectWebSocket = () => (dispatch) => {
 
       stomp.subscribe("/ordersub/active-orders", (message) => {
         const orders = JSON.parse(message.body).body;
-        console.log("Новые заказы получены через WebSocket:", orders);
-        orders.forEach((order) => {
-          dispatch(addOrder(order));
-        });
+        console.log("Получены активные заказы через WebSocket:", orders);
+        dispatch(setOrders(orders));
       });
+
       stomp.publish({ destination: "/orders/getActiveOrders" });
     },
     onStompError: (frame) => {
@@ -75,6 +70,15 @@ export const connectWebSocket = () => (dispatch) => {
   stomp.activate();
 };
 
-export const { setOrders, addOrder, clearOrders } = orderSlice.actions;
+export const disconnectWebSocket = () => (dispatch) => {
+  if (stomp && stomp.active) {
+    stomp.deactivate();
+    console.log("WebSocket отключен.");
+    dispatch(clearOrders());
+  }
+};
+
+export const { setOrders, addOrder, removeOrder, clearOrders } =
+  orderSlice.actions;
 
 export const orderReducer = orderSlice.reducer;
