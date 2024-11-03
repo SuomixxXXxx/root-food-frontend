@@ -35,7 +35,7 @@ export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
     console.log("response", response.data.token);
     return response;
   } catch (error) {
-    if (error.response.status ===403){
+    if (error.response.status ===403 || error.response.status ===500){
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
     }

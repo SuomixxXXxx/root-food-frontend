@@ -19,13 +19,25 @@ export const fetchDishItemsByName = createAsyncThunk(
   "/dishItems/fetchDishItemsByName",
   async (params) => {
     try {
-      const response = await axios.get(`${BASE_URL}/dishItems/getByName?name=${params.name}`);
+      const response = await axios.get(`dishItems/getByName?name=${params.name}`);
       return response;
     } catch (error) {
       console.log(error);
     }
   }
 );
+export const fetchAutocompleteSuggestions = createAsyncThunk(
+  "/dishItems/fetchAutocompleteSuggestions",
+  async (params) => {
+      try {
+          const response = await axios.get(`dishItems/getByName?name=${params.name}`);
+          return response.data; 
+      } catch (error) {
+          console.error(error);  
+      }
+  }
+);
+
 
 export const fetchDishItemsByCategory = createAsyncThunk(
   "dishItems/getByCategory?",
@@ -45,15 +57,30 @@ const initialState = {
   dishItems: {
     items: [],
     search: [],
+    autocompleteSuggestions:[],
     status: "loading",
-    searchStatus: "loading"
+    searchStatus: "loading",
+    autocompleteSuggestionsStatus: "loading"
+
   },
+  selectedItem: null,
+  isNavigated: false,
 };
 
 const dishItemSlice = createSlice({
   name: "dishItems",
   initialState,
-  reducers: {},
+  reducers: {
+    setSelectedItem(state, action) {
+      state.selectedItem = action.payload; 
+    },
+    clearSelectedItem(state) {
+      state.selectedItem = null;
+    },
+    setNavigated(state, action) {
+      state.isNavigated = action.payload; 
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchDishItems.pending, (state) => {
@@ -91,8 +118,21 @@ const dishItemSlice = createSlice({
       .addCase(fetchDishItemsByName.rejected, (state) => {
         state.dishItems.search = [];
         state.dishItems.searchStatus = "failed";
-      });
+      })
+      .addCase(fetchAutocompleteSuggestions.pending, (state) => {
+        state.dishItems.autocompleteSuggestions = [];
+        state.dishItems.autocompleteSuggestionsStatus = "loading";
+      })
+      .addCase(fetchAutocompleteSuggestions.fulfilled, (state, action) => {
+        state.dishItems.autocompleteSuggestions = action.payload;
+        state.dishItems.autocompleteSuggestionsStatus = "loaded";
+      })
+      .addCase(fetchAutocompleteSuggestions.rejected, (state) => {
+        state.dishItems.autocompleteSuggestions = [];
+        state.dishItems.autocompleteSuggestionsStatus = "failed";
+      })
   },
 });
 
 export const dishItemReducer = dishItemSlice.reducer;
+export const { setSelectedItem, clearSelectedItem, setNavigated } = dishItemSlice.actions;
