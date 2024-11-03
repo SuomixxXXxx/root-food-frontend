@@ -13,9 +13,8 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
-import { clearSelectedItem, fetchDishItemsByName,setNavigated } from "../redux/slices/dishItem.js";
+import { clearSelectedItem, fetchDishItemsByName, setNavigated } from "../redux/slices/dishItem.js";
 import { fetchAutocompleteSuggestions, setSelectedItem } from "../redux/slices/dishItem.js";
-import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import SuggestionBox from "./SuggestionBox.jsx";
 
@@ -100,7 +99,7 @@ export default function Header() {
     dispatch(setNavigated(true));
     setIndexItems(-1);
     navigate("/search");
-    
+
   };
 
   const handleKeyDown = (e) => {

@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute allowedRoles={['user',null]} redirectPath="/dashboard">
+      <ProtectedRoute allowedRoles={['user', null]} redirectPath="/dashboard">
         <LandingPage />
       </ProtectedRoute>
     ),
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      { path: "/dashboard", element: <DashboardOrderPage />  },
+      { path: "/dashboard", element: <DashboardOrderPage /> },
       { path: "category/:id", element: <DashboardProductPage /> },
       { path: "orders", element: <DashboardOrderPage /> },
     ],

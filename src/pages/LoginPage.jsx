@@ -33,9 +33,8 @@ export default function LoginPage() {
   });
 
   const dispatch = useDispatch();
-  let role="";
+  let role = "";
   const isAuth = useSelector(selectIsAuth);
-  const biba = useSelector((state) => state.auth);
   const onSubmit = async (data) => {
     const response = await dispatch(login(data));
 
@@ -44,26 +43,22 @@ export default function LoginPage() {
     if ("token" in response.payload.data) {
       localStorage.setItem("token", response.payload.data.token);
       localStorage.setItem("refreshToken", response.payload.data.refreshToken);
-      console.log("token", response.payload.data.token);
       const claims = decodeJwt(response.payload.data.token);
-      console.log(claims.role)
-      
-      if (claims.role[0] === "user::read"){
+
+      if (claims.role[0].includes("user")) {
         role = "user";
       };
-      if (claims.role[0] === "admin::read"){
+      if (claims.role[0].includes("admin")) {
         role = "admin";
       };
-      if (claims.role[0] === "staff::read"){
+      if (claims.role[0].includes("staff")) {
         role = "staff";
       };
       localStorage.setItem("role", role);
-      localStorage.getItem("role") == "admin"? navigate("/dashboard/orders"):"";
-      localStorage.getItem("role") == "staff"? navigate("/dashboard/orders"):"";
+      localStorage.getItem("role") == "admin" ? navigate("/dashboard/orders") : "";
+      localStorage.getItem("role") == "staff" ? navigate("/dashboard/orders") : "";
     }
-    console.log(biba, "biba");
 
-    console.log(response);
   };
   console.log(isAuth + " is authenticated");
 
