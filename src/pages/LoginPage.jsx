@@ -13,7 +13,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { login, selectIsAuth } from "../redux/slices/auth.js";
+import { decodeJwt } from 'jose';
+import { useNavigate } from "react-router-dom";
+
+
 export default function LoginPage() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,14 +26,16 @@ export default function LoginPage() {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      login: "11",
-      password: "11",
+      login: "100",
+      password: "100",
     },
     mode: "all",
   });
 
   const dispatch = useDispatch();
+  let role="";
   const isAuth = useSelector(selectIsAuth);
+  const biba = useSelector((state) => state.auth);
   const onSubmit = async (data) => {
     const response = await dispatch(login(data));
 
@@ -37,7 +44,24 @@ export default function LoginPage() {
     if ("token" in response.payload.data) {
       localStorage.setItem("token", response.payload.data.token);
       localStorage.setItem("refreshToken", response.payload.data.refreshToken);
+      console.log("token", response.payload.data.token);
+      const claims = decodeJwt(response.payload.data.token);
+      console.log(claims.role)
+      
+      if (claims.role[0] === "user::read"){
+        role = "user";
+      };
+      if (claims.role[0] === "admin::read"){
+        role = "admin";
+      };
+      if (claims.role[0] === "staff::read"){
+        role = "staff";
+      };
+      localStorage.setItem("role", role);
+      localStorage.getItem("role") == "admin"? navigate("/dashboard/orders"):"";
+      localStorage.getItem("role") == "staff"? navigate("/dashboard/orders"):"";
     }
+    console.log(biba, "biba");
 
     console.log(response);
   };

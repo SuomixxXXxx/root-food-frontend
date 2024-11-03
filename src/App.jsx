@@ -15,30 +15,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDishItems } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
-
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <LandingPage />,
+    element: (
+      <ProtectedRoute allowedRoles={['user',null]} redirectPath="/dashboard">
+        <LandingPage />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "signup", element: <SignupPage/> },
-      { path: "cart", element: <CartPage/> },
-      { path: "login", element: <LoginPage/> },
-      { path: "category", element: <CategoryPage/>},
-      { path: "category/:id", element: <ProductPage/> },
-      { path: "search", element: <ResultPage/> },
+      { path: "", element: <LandingPage /> },
+      { path: "signup", element: <SignupPage /> },
+      { path: "cart", element: <CartPage /> },
+      { path: "login", element: <LoginPage /> },
+      { path: "category", element: <CategoryPage /> },
+      { path: "category/:id", element: <ProductPage /> },
+      { path: "search", element: <ResultPage /> },
       { path: "*", element: <div>404</div> },
     ]
   },
   {
     path: "/dashboard",
-    element: <DashboardPage />,
+    element: (
+      <ProtectedRoute allowedRoles={['admin', 'staff']} redirectPath="/">
+        <DashboardPage />
+      </ProtectedRoute>
+    ),
     children: [
-      { path: "category/:id", element: <DashboardProductPage /> }, 
-      {path: "orders", element: <DashboardOrderPage/>},
+      { path: "/dashboard", element: <DashboardOrderPage />  },
+      { path: "category/:id", element: <DashboardProductPage /> },
+      { path: "orders", element: <DashboardOrderPage /> },
     ],
   },
 ])
@@ -53,10 +63,11 @@ function App() {
     if (localStorage.getItem("token")) {
       dispatch(checkAuth());
       console.log("token");
+
     }
     dispatch(fetchDishItems());
     // dispatch(fetchCategories());
-  }, []);
+  }, [dispatch]);
   // console.log(dishes);
 
   return (
