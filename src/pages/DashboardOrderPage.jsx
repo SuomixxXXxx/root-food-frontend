@@ -1,6 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connectWebSocket, disconnectWebSocket, fetchOrders } from "../redux/slices/order";
+import {
+  connectWebSocket,
+  disconnectWebSocket,
+  fetchOrders,
+} from "../redux/slices/order";
 import DashboardOrderCard from "../components/DashboardOrderCard";
 import SideBarWorker from "../components/SideBarWorker";
 
@@ -10,7 +14,7 @@ export default function DashboardOrderPage() {
   useEffect(() => {
     dispatch(connectWebSocket());
     dispatch(fetchOrders());
-  
+
     return () => {
       dispatch(disconnectWebSocket());
     };
@@ -30,7 +34,7 @@ export default function DashboardOrderPage() {
             <DashboardOrderCard
               key={order.id}
               orderNumber={order.id}
-              items={order.items}
+              items={order.orderContentDTOs}
             />
           ))}
         </div>
