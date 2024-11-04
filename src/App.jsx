@@ -45,7 +45,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-
       { path: "/dashboard", element: <DashboardOrderPage /> },
       { path: "category/:id", element: <DashboardProductPage /> },
       { path: "orders", element: <DashboardOrderPage /> },
@@ -55,20 +54,19 @@ const router = createBrowserRouter([
 
 function App() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(checkAuth());
+      console.log("token");
     }
     dispatch(fetchDishItems());
-    dispatch(fetchCategories());
   }, [dispatch]);
-      console.log("token");
 
-    }
-  }, [dispatch]);
-  // console.log(dishes);
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 }
 
 export default App;
