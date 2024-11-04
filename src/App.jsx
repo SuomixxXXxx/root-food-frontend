@@ -17,8 +17,6 @@ import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
-
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +26,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
+
       { path: "", element: <LandingPage /> },
       { path: "signup", element: <SignupPage /> },
       { path: "cart", element: <CartPage /> },
@@ -36,7 +35,7 @@ const router = createBrowserRouter([
       { path: "category/:id", element: <ProductPage /> },
       { path: "search", element: <ResultPage /> },
       { path: "*", element: <div>404</div> },
-    ]
+    ],
   },
   {
     path: "/dashboard",
@@ -51,24 +50,17 @@ const router = createBrowserRouter([
       { path: "orders", element: <DashboardOrderPage /> },
     ],
   },
-])
-
+]);
 
 function App() {
   const dispatch = useDispatch();
-
-  // const dishes = useSelector((state) => state.categories);
-  // const isDishesLoading = dishes.status === "loading";
   useEffect(() => {
     if (localStorage.getItem("token")) {
       dispatch(checkAuth());
       console.log("token");
-
     }
     dispatch(fetchDishItems());
-    // dispatch(fetchCategories());
   }, [dispatch]);
-  // console.log(dishes);
 
   return (
     <>
