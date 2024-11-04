@@ -7,7 +7,7 @@ import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
 import SideBarWorker from "../components/SideBarWorker";
 
 export default function DashboardProductPage() {
-  const [isHasRight, setIsHasRight] = useState(true);
+  const [isHasRight, setIsHasRight] = useState(false);
   const params = useParams();
   const dispatch = useDispatch();
   const categoryDishes = useSelector((state) => state.dishItems);
@@ -15,8 +15,12 @@ export default function DashboardProductPage() {
 
   useEffect(() => {
     dispatch(fetchDishItemsByCategory(params.id));
+    if(localStorage.getItem("role") === "admin"){
+      console.log("admin");
+      setIsHasRight(true);
+    };
   }, [params.id, dispatch]);
-
+ 
   return (
     <div className=" flex flex-col bg-blue-gray-100  pb-5 pt-5 md:flex-row min-h-screen  ">
       <div className="hidden md:flex basis-1/4 mt-14  md:ml-10">

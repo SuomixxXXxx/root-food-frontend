@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signup, selectIsAuth } from "../redux/slices/auth.js";
 import { Navigate } from "react-router-dom";
+import { decodeJwt } from 'jose';
 
 export default function SignupPage() {
   const {
@@ -31,6 +32,7 @@ export default function SignupPage() {
   });
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  let role = "";
   const onSubmit = async (data) => {
     const response = await dispatch(signup(data));
 
@@ -39,6 +41,11 @@ export default function SignupPage() {
     if ("token" in response.payload.data) {
       localStorage.setItem("token", response.payload.data.token);
       localStorage.setItem("refreshToken", response.payload.data.refreshToken);
+      const claims = decodeJwt(response.payload.data.token);
+      if (claims.role[0].includes("user")) {
+        role = "user";
+      };
+      localStorage.setItem("role", role);
     }
     console.log(response);
   };

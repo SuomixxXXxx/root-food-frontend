@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import aquariumLogo from "../assets/aquariumLogo.svg";
 import {
   Navbar,
@@ -13,9 +13,11 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
-import { fetchDishItemsByName } from "../redux/slices/dishItem.js";
-import { Navigate } from "react-router-dom";
+import { clearSelectedItem, fetchDishItemsByName, setNavigated } from "../redux/slices/dishItem.js";
+import { fetchAutocompleteSuggestions, setSelectedItem } from "../redux/slices/dishItem.js";
 import { useNavigate } from "react-router-dom";
+import SuggestionBox from "./SuggestionBox.jsx";
+
 const styleNav = {
   position: "fixed",
   top: 0,
@@ -32,16 +34,102 @@ export default function Header() {
   const { amount } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [open, setOpen] = useState(false);
+  const [openSuggest, setOpenSuggest] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [searchData, setSearchData] = useState([]);
+  const [searchTextSuggestion, setSearchTextSuggestion] = useState("");
+  const [indexItems, setIndexItems] = useState(-1)
+
 
   const navigate = useNavigate();
-  
+  const isNavigated = useSelector((state) => state.dishItems.isNavigated);
+
+  useEffect(() => {
+    if (isNavigated) {
+      setOpenSuggest(false);
+      setSearchText("");
+      setSearchData([]);
+      dispatch(setNavigated(false));
+    }
+  }, [isNavigated, dispatch]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (searchTextSuggestion.trim() !== "") {
+        try {
+          const response = await dispatch(fetchAutocompleteSuggestions({ name: searchTextSuggestion })).unwrap();
+          setSearchData(response);
+          setOpenSuggest(response.length > 0);
+        } catch (error) {
+          console.error("Ошибка при получении данных:", error);
+        }
+      } else {
+        setSearchData([]);
+        setOpenSuggest(false);
+      }
+    };
+
+    fetchData();
+  }, [searchTextSuggestion, dispatch]);
+
   const handleSearch = async (e) => {
     e.preventDefault();
-    await dispatch(fetchDishItemsByName({ name: searchText }));
-    setSearchText("");
-    navigate("/search");
+    setOpenSuggest(false);
+    try {
+      const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+      setSearchData(response.data);
+      dispatch(clearSelectedItem())
+      dispatch(setNavigated(true));
+      navigate("/search");
+      setSearchTextSuggestion("")
+      setSearchData([]);
+      setSearchText("");
+    } catch (error) {
+      console.error("Ошибка при поиске:", error);
+    }
   };
+
+  const handleSuggestionClick = (item) => {
+    setOpenSuggest(false);
+    dispatch(setSelectedItem(item));
+    setOpenSuggest(false);
+    setSearchText("");
+    setSearchTextSuggestion("")
+    setSearchData([]);
+    dispatch(setNavigated(true));
+    setIndexItems(-1);
+    navigate("/search");
+
+  };
+
+  const handleKeyDown = (e) => {
+    if (indexItems < searchData.length) {
+      if (e.key === "ArrowUp" && indexItems > 0) {
+        setIndexItems((prev) => prev - 1)
+      }
+      else if (e.key === "ArrowDown" && indexItems < searchData.length - 1) {
+        setIndexItems((prev) => prev + 1)
+      }
+      else if (e.key === "Enter") {
+        if (indexItems === -1) {
+          handleSearch(e);
+        } else if (indexItems >= 0) {
+          handleSuggestionClick(searchData[indexItems]);
+          setIndexItems(-1);
+        }
+      }
+    } else {
+      setIndexItems(-1);
+    }
+  };
+
+  const handleSearchBlur = () => {
+    setTimeout(() => setOpenSuggest(false), 150);
+  };
+
+
+
+
   return (
     <Navbar
       variant="gradient"
@@ -52,7 +140,7 @@ export default function Header() {
       <div className="flex flex-row justify-between flex-wrap items-center">
         <div className="flex gap-5 h-max">
           <div className="w-32 h-max ">
-          <img src={aquariumLogo} alt="My aquariumLogo" />
+            <img src={aquariumLogo} alt="My aquariumLogo" />
           </div>
           <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
@@ -60,41 +148,59 @@ export default function Header() {
             </Button>
           </Link>
         </div>
-          <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
-            <Input
-              type="search"
-              label="Поиск"
-              color="blue"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              className="lg:pr-20"
-              containerProps={{
-                className: "min-w-0",
-              }}
-            />
-            <Button
-              size="sm"
-              color="blue"
-              onClick={handleSearch}
-              className="!absolute right-1 top-1 bottom-1 rounded"
-              type="submit"
+        <div className="relative flex lg:w-full lg:max-w-[28rem] h-max">
+          <Input
+            type="search"
+            label="Поиск"
+            color="blue"
+            value={searchText}
+            onChange={(e) => { setSearchText(e.target.value); setSearchTextSuggestion(e.target.value); setOpenSuggest(e.target.value !== ""); }}
+            onKeyDown={handleKeyDown}
+            onFocus={() => setOpenSuggest(searchData.length > 0)}
+            onBlur={handleSearchBlur}
+            className="lg:pr-20"
+            containerProps={{
+              className: "min-w-0",
+            }}
+          />
+          <Button
+            size="sm"
+            color="blue"
+            onClick={handleSearch}
+            className="!absolute right-1 top-1 bottom-1 rounded"
+            type="submit"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="m-auto size-5 "
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="m-auto size-5 "
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </Button>  
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+              />
+            </svg>
+          </Button>
+          <SuggestionBox open={openSuggest} onClose={() => setOpenSuggest(false)}>
+            {searchData && searchData.length > 0 && (
+              <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
+                {searchData.map((item, index) => (
+                  <li
+                    key={item.id}
+                    className={`p-2 cursor-pointer ${indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                    onClick={() => handleSuggestionClick(item)}
+                  >
+                    {item.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </SuggestionBox>
+        </div>
         <div className="hidden lg:flex flex-row gap-5">
           <Link to="/cart">
             <div className="flex flex-col items-center max-h-fit">
