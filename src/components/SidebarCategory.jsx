@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, Typography, List, ListItem } from "@material-tailwind/react";
 import firstDish from "../assets/images/FirstDish.png";
 import secondtDish from "../assets/images/SecondDish.png";
@@ -10,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/slices/categories.js";
 import { useEffect } from "react";
+import { STATUS } from "../constants.js";
 
 const categoriesMock = [
   {
@@ -48,7 +48,7 @@ export function SidebarCategory() {
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state.categories);
-  const isCategoriesLoading = categories.categories.status === "loading";
+  const isCategoriesLoading = categories.categories.status === STATUS.PENDING;
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);

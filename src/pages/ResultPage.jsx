@@ -1,11 +1,12 @@
 import ProductCard from "../components/ProductCard";
 import { SidebarCategory } from "../components/SidebarCategory";
 import { useSelector } from "react-redux";
+import { STATUS } from "../constants";
 
 export default function ResultPage() {
   const products = useSelector((state) => state.dishItems);
   const selectedItem = useSelector((state) => state.dishItems.selectedItem);
-  const isProductsLoading = products.dishItems.searchStatus === "loading";
+  const isProductsLoading = products.dishItems.searchStatus === STATUS.PENDING;
 
   return (
     <div className=" flex flex-col bg-blue-gray-100 pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">

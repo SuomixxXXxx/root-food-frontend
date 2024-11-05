@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../axios.js";
+import { STATUS } from "../../constants.js";
 
 export const orderCreate = createAsyncThunk("/order/create", async (params) => {
   try {
@@ -19,6 +20,7 @@ const initialState = {
   items: [],
   amount: 0,
   totalPrice: 0,
+  status: STATUS.PENDING,
 };
 
 const cartSlice = createSlice({
@@ -63,13 +65,13 @@ const cartSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(orderCreate.pending, (state) => {
-        state.status = "loading";
+        state.status = STATUS.PENDING;
       })
       .addCase(orderCreate.fulfilled, (state) => {
-        state.status = "loaded";
+        state.status = STATUS.FULFILLED;
       })
       .addCase(orderCreate.rejected, (state) => {
-        state.status = "failed";
+        state.status = STATUS.REJECTED;
       });
   },
 });

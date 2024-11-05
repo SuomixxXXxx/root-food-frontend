@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios.js";
-
-const BASE_URL = "http://localhost:8080";
+import { STATUS } from "../../constants.js";
 
 export const fetchDishItems = createAsyncThunk(
   "/dishItems/get/fetchDishItems",
@@ -58,9 +57,9 @@ const initialState = {
     items: [],
     search: [],
     autocompleteSuggestions:[],
-    status: "loading",
-    searchStatus: "loading",
-    autocompleteSuggestionsStatus: "loading"
+    status: STATUS.PENDING,
+    searchStatus: STATUS.PENDING,
+    autocompleteSuggestionsStatus: STATUS.PENDING
 
   },
   selectedItem: null,
@@ -85,51 +84,51 @@ const dishItemSlice = createSlice({
     builder
       .addCase(fetchDishItems.pending, (state) => {
         state.dishItems.items = [];
-        state.dishItems.status = "loading";
+        state.dishItems.status = STATUS.PENDING;
       })
       .addCase(fetchDishItems.fulfilled, (state, action) => {
         state.dishItems.items = action.payload;
-        state.dishItems.status = "loaded";
+        state.dishItems.status = STATUS.FULFILLED;
       })
       .addCase(fetchDishItems.rejected, (state) => {
         state.dishItems.items = [];
-        state.dishItems.status = "failed";
+        state.dishItems.status = STATUS.REJECTED;
       })
       .addCase(fetchDishItemsByCategory.pending, (state) => {
         state.dishItems.items = [];
-        state.dishItems.status = "loading";
+        state.dishItems.status = STATUS.PENDING;
       })
       .addCase(fetchDishItemsByCategory.fulfilled, (state, action) => {
         state.dishItems.items = action.payload;
-        state.dishItems.status = "loaded";
+        state.dishItems.status = STATUS.FULFILLED;
       })
       .addCase(fetchDishItemsByCategory.rejected, (state) => {
         state.dishItems.items = [];
-        state.dishItems.status = "failed";
+        state.dishItems.status = STATUS.REJECTED;
       })
       .addCase(fetchDishItemsByName.pending, (state) => {
         state.dishItems.search = [];
-        state.dishItems.searchStatus = "loading";
+        state.dishItems.searchStatus = STATUS.PENDING;
       })
       .addCase(fetchDishItemsByName.fulfilled, (state, action) => {
         state.dishItems.search = action.payload;
-        state.dishItems.searchStatus = "loaded";
+        state.dishItems.searchStatus = STATUS.FULFILLED;
       })
       .addCase(fetchDishItemsByName.rejected, (state) => {
         state.dishItems.search = [];
-        state.dishItems.searchStatus = "failed";
+        state.dishItems.searchStatus = STATUS.REJECTED;
       })
       .addCase(fetchAutocompleteSuggestions.pending, (state) => {
         state.dishItems.autocompleteSuggestions = [];
-        state.dishItems.autocompleteSuggestionsStatus = "loading";
+        state.dishItems.autocompleteSuggestionsStatus = STATUS.PENDING;
       })
       .addCase(fetchAutocompleteSuggestions.fulfilled, (state, action) => {
         state.dishItems.autocompleteSuggestions = action.payload;
-        state.dishItems.autocompleteSuggestionsStatus = "loaded";
+        state.dishItems.autocompleteSuggestionsStatus = STATUS.FULFILLED;
       })
       .addCase(fetchAutocompleteSuggestions.rejected, (state) => {
         state.dishItems.autocompleteSuggestions = [];
-        state.dishItems.autocompleteSuggestionsStatus = "failed";
+        state.dishItems.autocompleteSuggestionsStatus = STATUS.REJECTED;
       })
   },
 });

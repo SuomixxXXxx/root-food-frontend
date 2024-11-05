@@ -9,6 +9,7 @@ import SalatCategory from "../assets/images/SalatCategory.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCategories } from "../redux/slices/categories.js";
+import { STATUS } from "../constants.js";
 
 const categoriesMock = [
   {
@@ -113,7 +114,7 @@ export default function CategoryPage() {
   const dispatch = useDispatch();
 
   const categories = useSelector((state) => state.categories);
-  const isCategoriesLoading = categories.categories.status === "loading";
+  const isCategoriesLoading = categories.categories.status === STATUS.PENDING;
   useEffect(() => {
     dispatch(fetchCategories());
   }, []);

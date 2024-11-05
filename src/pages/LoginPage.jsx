@@ -4,7 +4,6 @@ import {
   CardFooter,
   Typography,
   Button,
-  Checkbox,
 } from "@material-tailwind/react";
 import aquariumLogo from "../assets/aquariumLogo.svg";
 import { Link } from "react-router-dom";
