@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchDishItemsByCategory } from "../redux/slices/dishItem.js";
+import { STATUS } from "../constants.js";
 
 const products = [
   {
@@ -92,7 +93,7 @@ export default function ProductPage() {
   const params = useParams();
   const dispatch = useDispatch();
   const categoryDishes = useSelector((state) => state.dishItems);
-  const isCategoryDishesLoading = categoryDishes.dishItems.status === "loading";
+  const isCategoryDishesLoading = categoryDishes.dishItems.status === STATUS.PENDING;
 
   useEffect(() => {
     dispatch(fetchDishItemsByCategory(params.id));

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import aquariumLogo from "../assets/aquariumLogo.svg";
 import {
   Navbar,
@@ -32,7 +32,7 @@ export default function Header() {
     setOpen(false);
   };
   const { amount } = useSelector((state) => state.cart);
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSuggest, setOpenSuggest] = useState(false);
   const [searchText, setSearchText] = useState("");

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Client } from "@stomp/stompjs";
 import axios from "../../axios";
+import { WS_URL } from "../../constants";
 
 export const completeOrder = (orderId) => async (dispatch) => {
   try {
@@ -48,7 +49,7 @@ export const connectWebSocket = () => (dispatch) => {
   }
 
   stomp = new Client({
-    brokerURL: "ws://localhost:8080/order",
+    brokerURL: `${WS_URL}/order`,
     onConnect: () => {
       console.log("WebSocket подключен.");
 

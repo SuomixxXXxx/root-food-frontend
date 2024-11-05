@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../axios.js";
-import axios from "axios";
-
-const BASE_URL = "http://localhost:8080";
+import { STATUS } from "../../constants.js";
 
 export const login = createAsyncThunk("/api/v1/auth/login", async (params) => {
   const response = await authService.post(
@@ -15,8 +13,8 @@ export const signup = createAsyncThunk(
   "/api/v1/auth/register",
   async (params) => {
     console.log("params", params.name);
-    const response = await axios.post(
-      `${BASE_URL}/api/v1/auth/register`,
+    const response = await authService.post(
+      `/api/v1/auth/register`,
       params
     );
     return response;
@@ -25,8 +23,8 @@ export const signup = createAsyncThunk(
 
 export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
+    const response = await authService.post(
+      `/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
         "refreshToken"
       )}`
     );
@@ -46,7 +44,7 @@ export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
 
 const initialState = {
   data: null,
-  status: "loading",
+  status: STATUS.PENDING,
 };
 
 const authSlice = createSlice({
@@ -64,39 +62,39 @@ const authSlice = createSlice({
     builder
       .addCase(login.pending, (state) => {
         state.data = null;
-        state.status = "loading";
+        state.status = STATUS.PENDING;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.data = action.payload;
-        state.status = "loaded";
+        state.status = STATUS.FULFILLED;
       })
       .addCase(login.rejected, (state) => {
         state.data = null;
-        state.status = "failed";
+        state.status = STATUS.REJECTED;
       })
       .addCase(checkAuth.pending, (state) => {
         state.data = null;
-        state.status = "loading";
+        state.status = STATUS.PENDING;
       })
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.data = action.payload;
-        state.status = "loaded";
+        state.status = STATUS.FULFILLED;
       })
       .addCase(checkAuth.rejected, (state) => {
         state.data = null;
-        state.status = "failed";
+        state.status = STATUS.REJECTED;
       })
       .addCase(signup.pending, (state) => {
         state.data = null;
-        state.status = "loading";
+        state.status = STATUS.PENDING;
       })
       .addCase(signup.fulfilled, (state, action) => {
         state.data = action.payload;
-        state.status = "loaded";
+        state.status = STATUS.FULFILLED;
       })
       .addCase(signup.rejected, (state) => {
         state.data = null;
-        state.status = "failed";
+        state.status = STATUS.REJECTED;
       });
   },
 });
