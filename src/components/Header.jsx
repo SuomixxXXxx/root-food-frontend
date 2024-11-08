@@ -407,7 +407,6 @@ export default function Header() {
               to="/orders"
               onClick={() => {
                 setDropDown(false);
-                console.log(dropDown);
               }}
             >
               <li className="px-4 py-2 hover:bg-light-blue">Мои заказы</li>
@@ -416,14 +415,16 @@ export default function Header() {
               to="/account"
               onClick={() => {
                 setDropDown(false);
-                console.log(dropDown);
               }}
             >
               <li className="px-4 py-2 hover:bg-light-blue">Мой аккаунт</li>
             </Link>
             <li
               className="flex flex-row px-4 py-2 hover:bg-light-blue cursor-pointer text-dark-red"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                setOpen(true);
+                setDropDown(false);
+              }}
             >
               <span className="pr-1">Выйти</span>
               <svg
