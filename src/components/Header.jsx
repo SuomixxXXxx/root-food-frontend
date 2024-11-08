@@ -149,7 +149,7 @@ export default function Header() {
           <Link className="hidden lg:flex" to="/category">
             <Button
               size="sm"
-              className="hidden lg:flex normal-case bg-base-blue shadow-sm hover:shadow-light-blue"
+              className="hidden lg:flex normal-case bg-base-blue shadow-sm hover:shadow-light-blue rounded-2xl"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -185,7 +185,7 @@ export default function Header() {
             onKeyDown={handleKeyDown}
             onFocus={() => setOpenSuggest(searchData.length > 0)}
             onBlur={handleSearchBlur}
-            className="lg:pr-20"
+            className="lg:pr-20 rounded-l-md border-r-0"
             containerProps={{
               className: "min-w-0",
             }}
@@ -194,7 +194,7 @@ export default function Header() {
             size="sm"
             color="blue"
             onClick={handleSearch}
-            className="!absolute right-1 top-1 bottom-1 rounded"
+            className="!absolute right-0 top-0 h-full rounded-r-md rounded-l-none border-l-0"
             type="submit"
           >
             <svg
@@ -203,7 +203,7 @@ export default function Header() {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="m-auto size-5 "
+              className="m-auto size-5"
             >
               <path
                 strokeLinecap="round"
@@ -233,6 +233,7 @@ export default function Header() {
             )}
           </SuggestionBox>
         </div>
+
         <div className="hidden lg:flex flex-row gap-5 items-center">
           <Link to="/cart">
             <div className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
