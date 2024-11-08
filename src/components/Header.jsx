@@ -236,7 +236,7 @@ export default function Header() {
 
         <div className="hidden lg:flex flex-row gap-5 items-center">
           <Link to="/cart">
-            <div className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
+            <div className="w-14 group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -265,7 +265,7 @@ export default function Header() {
           {isAuth ? (
             <div
               onClick={() => setOpen(true)}
-              className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue cursor-pointer"
+              className="w-16 group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -287,7 +287,7 @@ export default function Header() {
             </div>
           ) : (
             <Link to="/login">
-              <div className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
+              <div className="w-16 group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
