@@ -139,10 +139,47 @@ export default function Header() {
     <Navbar
       variant="gradient"
       color="white!important"
-      className="max-w-full rounded-none border-b-1 shadow-light-blue "
+      className="max-w-full rounded-none border-b-1 shadow-light-blue px-4 md:px-8 "
       style={styleNav}
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
+        <i
+          className="lg:hidden cursor-pointer"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {!isMenuOpen ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          )}
+        </i>
+
         <div className="flex gap-5 h-max items-center">
           <div className="w-32 h-max">
             <img src={aquariumLogo} alt="My aquariumLogo" />
@@ -309,80 +346,53 @@ export default function Header() {
             </Link>
           )}
         </div>
-        <i
-          className="lg:hidden cursor-pointer"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {!isMenuOpen ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
-          ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="size-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18 18 6M6 6l12 12"
-              />
-            </svg>
-          )}
-        </i>
-        {isMenuOpen ? (
-          <div className="lg:hidden flex flex-col w-full">
-            <li className="list-none">
-              <Link to="/category">
-                <Typography variant="small" className="flex pt-5 font-medium">
-                  Категории
-                </Typography>
-              </Link>
-            </li>
-            <li className="list-none">
-              <Link to="/cart">
-                <Typography variant="small" className="flex pt-5 font-medium">
-                  Корзина
-                </Typography>
-              </Link>
-            </li>
-            <li className="list-none">
-              {isAuth ? (
-                <Typography
-                  onClick={() => setOpen(true)}
-                  variant="small"
-                  className="flex pt-5 font-medium"
-                >
-                  Выход
-                </Typography>
-              ) : (
-                <Link to="/login">
-                  <Typography variant="small" className="flex pt-5 font-medium">
-                    Вход
-                  </Typography>
-                </Link>
-              )}
-            </li>
-          </div>
-        ) : (
-          <></>
-        )}
       </div>
+      {isMenuOpen ? (
+        <div className="lg:hidden flex flex-col w-full">
+          <li className="list-none">
+            <Link to="/category" onClick={() => setIsMenuOpen(false)}>
+              <Typography variant="small" className="flex pt-3">
+                Каталог
+              </Typography>
+            </Link>
+          </li>
+          <li className="list-none">
+            <Link to="/cart" onClick={() => setIsMenuOpen(false)}>
+              <Typography variant="small" className="flex pt-3">
+                Корзина
+              </Typography>
+            </Link>
+          </li>
+          <li className="list-none">
+            {isAuth ? (
+              <Typography
+                onClick={() => {
+                  setOpen(true);
+                  setIsMenuOpen(false);
+                }}
+                variant="small"
+                className="flex pt-3"
+              >
+                Выход
+              </Typography>
+            ) : (
+              <Link
+                to="/login"
+                onClick={() => {
+                  setOpen(true);
+                  setIsMenuOpen(false);
+                }}
+              >
+                <Typography variant="small" className="flex pt-3">
+                  Вход
+                </Typography>
+              </Link>
+            )}
+          </li>
+        </div>
+      ) : (
+        <></>
+      )}
       <Modal open={open} onClose={() => setOpen(false)}>
         <Typography variant="h5" color="black">
           Вы действительно хотите выйти?
