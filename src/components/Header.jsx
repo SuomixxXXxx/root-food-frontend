@@ -142,12 +142,15 @@ export default function Header() {
       style={styleNav}
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
-        <div className="flex gap-5 h-max">
-          <div className="w-32 h-max ">
+        <div className="flex gap-5 h-max items-center">
+          <div className="w-32 h-max">
             <img src={aquariumLogo} alt="My aquariumLogo" />
           </div>
           <Link className="hidden lg:flex" to="/category">
-            <Button size="sm" className="hidden lg:flex normal-case bg-base-blue shadow-sm hover:shadow-light-blue">
+            <Button
+              size="sm"
+              className="hidden lg:flex normal-case bg-base-blue shadow-sm hover:shadow-light-blue"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -163,8 +166,8 @@ export default function Header() {
                 />
               </svg>
               <Typography variant="small" className="flex p-1 text-base">
-                  Каталог
-                </Typography>
+                Каталог
+              </Typography>
             </Button>
           </Link>
         </div>
@@ -230,34 +233,29 @@ export default function Header() {
             )}
           </SuggestionBox>
         </div>
-        <div className="hidden lg:flex flex-row gap-5">
+        <div className="hidden lg:flex flex-row gap-5 items-center">
           <Link to="/cart">
-            <div className="flex flex-col items-center max-h-fit">
-              <IconButton color="blue">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="size-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                  />
-                </svg>
-              </IconButton>
+            <div className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-8 group-hover:stroke-base-blue"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                />
+              </svg>
               {amount == 0 ? (
-                <Typography variant="small" className="flex p-1 font-medium">
+                <Typography variant="small" className="flex text-base">
                   Корзина
                 </Typography>
               ) : (
-                <Typography
-                  variant="small"
-                  className="flex p-1 font-bold text-blue-800"
-                >
+                <Typography variant="small" className="flex text-base">
                   {amount}
                 </Typography>
               )}
@@ -266,16 +264,36 @@ export default function Header() {
           {isAuth ? (
             <div
               onClick={() => setOpen(true)}
-              className="flex flex-col items-center max-h-fit"
+              className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue cursor-pointer"
             >
-              <IconButton color="red">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-8 group-hover:stroke-base-blue"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                />
+              </svg>
+              <Typography variant="small" className="flex text-base">
+                Кабинет
+              </Typography>
+            </div>
+          ) : (
+            <Link to="/login">
+              <div className="group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-6"
+                  className="size-8 group-hover:stroke-base-blue"
                 >
                   <path
                     strokeLinecap="round"
@@ -283,31 +301,7 @@ export default function Header() {
                     d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
                   />
                 </svg>
-              </IconButton>
-              <Typography variant="small" className="flex p-1 font-medium">
-                Выход
-              </Typography>
-            </div>
-          ) : (
-            <Link to="/login">
-              <div className="flex flex-col items-center max-h-fit">
-                <IconButton color="blue">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                    />
-                  </svg>
-                </IconButton>
-                <Typography variant="small" className="flex p-1 font-medium">
+                <Typography variant="small" className="flex text-base">
                   Вход
                 </Typography>
               </div>
