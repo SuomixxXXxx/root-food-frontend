@@ -13,6 +13,35 @@ export const fetchDishItems = createAsyncThunk(
     }
   }
 );
+export const addProductData = createAsyncThunk(
+  "/dishItems/create/addProductData",
+  async (productData) => {
+    try {
+      const response = await axios.post("dishItems/create", productData);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const uploadImagePost = createAsyncThunk(
+  "/dishItems/upload-picture/uploadImage",
+  async (formData) => {
+    try {
+      const response = await axios.post("dishItems/upload-picture", formData,{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+      }  
+      );
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const fetchDishItemsByName = createAsyncThunk(
   "/dishItems/fetchDishItemsByName",
@@ -51,6 +80,7 @@ export const fetchDishItemsByCategory = createAsyncThunk(
     }
   }
 );
+
 
 const initialState = {
   dishItems: {

@@ -6,6 +6,7 @@ export const fetchCategories = createAsyncThunk(
   "/categories/get/fetchCategories",
   async () => {
     const response = await axios.get("categories/get?active=false");
+    // console.log(response)
     return response;
   }
 );
