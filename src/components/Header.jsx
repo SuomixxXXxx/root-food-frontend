@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import aquariumLogo from "../assets/aquariumLogo.svg";
+import aquariumLogo from "../assets/aqua.svg";
 import {
   Navbar,
   Typography,
@@ -13,8 +13,15 @@ import { selectIsAuth } from "../redux/slices/auth.js";
 import { logout } from "../redux/slices/auth.js";
 import Modal from "./Modal.jsx";
 import { useState } from "react";
-import { clearSelectedItem, fetchDishItemsByName, setNavigated } from "../redux/slices/dishItem.js";
-import { fetchAutocompleteSuggestions, setSelectedItem } from "../redux/slices/dishItem.js";
+import {
+  clearSelectedItem,
+  fetchDishItemsByName,
+  setNavigated,
+} from "../redux/slices/dishItem.js";
+import {
+  fetchAutocompleteSuggestions,
+  setSelectedItem,
+} from "../redux/slices/dishItem.js";
 import { useNavigate } from "react-router-dom";
 import SuggestionBox from "./SuggestionBox.jsx";
 
@@ -38,8 +45,7 @@ export default function Header() {
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
   const [searchTextSuggestion, setSearchTextSuggestion] = useState("");
-  const [indexItems, setIndexItems] = useState(-1)
-
+  const [indexItems, setIndexItems] = useState(-1);
 
   const navigate = useNavigate();
   const isNavigated = useSelector((state) => state.dishItems.isNavigated);
@@ -57,7 +63,9 @@ export default function Header() {
     const fetchData = async () => {
       if (searchTextSuggestion.trim() !== "") {
         try {
-          const response = await dispatch(fetchAutocompleteSuggestions({ name: searchTextSuggestion })).unwrap();
+          const response = await dispatch(
+            fetchAutocompleteSuggestions({ name: searchTextSuggestion })
+          ).unwrap();
           setSearchData(response);
           setOpenSuggest(response.length > 0);
         } catch (error) {
@@ -76,12 +84,14 @@ export default function Header() {
     e.preventDefault();
     setOpenSuggest(false);
     try {
-      const response = await dispatch(fetchDishItemsByName({ name: searchText })).unwrap();
+      const response = await dispatch(
+        fetchDishItemsByName({ name: searchText })
+      ).unwrap();
       setSearchData(response.data);
-      dispatch(clearSelectedItem())
+      dispatch(clearSelectedItem());
       dispatch(setNavigated(true));
       navigate("/search");
-      setSearchTextSuggestion("")
+      setSearchTextSuggestion("");
       setSearchData([]);
       setSearchText("");
     } catch (error) {
@@ -94,23 +104,20 @@ export default function Header() {
     dispatch(setSelectedItem(item));
     setOpenSuggest(false);
     setSearchText("");
-    setSearchTextSuggestion("")
+    setSearchTextSuggestion("");
     setSearchData([]);
     dispatch(setNavigated(true));
     setIndexItems(-1);
     navigate("/search");
-
   };
 
   const handleKeyDown = (e) => {
     if (indexItems < searchData.length) {
       if (e.key === "ArrowUp" && indexItems > 0) {
-        setIndexItems((prev) => prev - 1)
-      }
-      else if (e.key === "ArrowDown" && indexItems < searchData.length - 1) {
-        setIndexItems((prev) => prev + 1)
-      }
-      else if (e.key === "Enter") {
+        setIndexItems((prev) => prev - 1);
+      } else if (e.key === "ArrowDown" && indexItems < searchData.length - 1) {
+        setIndexItems((prev) => prev + 1);
+      } else if (e.key === "Enter") {
         if (indexItems === -1) {
           handleSearch(e);
         } else if (indexItems >= 0) {
@@ -127,14 +134,11 @@ export default function Header() {
     setTimeout(() => setOpenSuggest(false), 150);
   };
 
-
-
-
   return (
     <Navbar
       variant="gradient"
       color="white!important"
-      className="max-w-full rounded-none border-b-1 "
+      className="max-w-full rounded-none border-b-1 shadow-light-blue "
       style={styleNav}
     >
       <div className="flex flex-row justify-between flex-wrap items-center">
@@ -144,7 +148,23 @@ export default function Header() {
           </div>
           <Link className="hidden lg:flex" to="/category">
             <Button className="hidden lg:flex" color="blue">
-              Категории
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"
+                />
+              </svg>
+              <Typography variant="small" className="flex p-1  ">
+                  Каталог
+                </Typography>
             </Button>
           </Link>
         </div>
@@ -154,7 +174,11 @@ export default function Header() {
             label="Поиск"
             color="blue"
             value={searchText}
-            onChange={(e) => { setSearchText(e.target.value); setSearchTextSuggestion(e.target.value); setOpenSuggest(e.target.value !== ""); }}
+            onChange={(e) => {
+              setSearchText(e.target.value);
+              setSearchTextSuggestion(e.target.value);
+              setOpenSuggest(e.target.value !== "");
+            }}
             onKeyDown={handleKeyDown}
             onFocus={() => setOpenSuggest(searchData.length > 0)}
             onBlur={handleSearchBlur}
@@ -185,13 +209,18 @@ export default function Header() {
               />
             </svg>
           </Button>
-          <SuggestionBox open={openSuggest} onClose={() => setOpenSuggest(false)}>
+          <SuggestionBox
+            open={openSuggest}
+            onClose={() => setOpenSuggest(false)}
+          >
             {searchData && searchData.length > 0 && (
               <ul className="absolute top-full left-0 w-full bg-white border border-gray-300 mt-1 z-10 rounded shadow-lg">
                 {searchData.map((item, index) => (
                   <li
                     key={item.id}
-                    className={`p-2 cursor-pointer ${indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"}`}
+                    className={`p-2 cursor-pointer ${
+                      indexItems === index ? "bg-gray-200" : "hover:bg-gray-100"
+                    }`}
                     onClick={() => handleSuggestionClick(item)}
                   >
                     {item.name}
@@ -364,11 +393,7 @@ export default function Header() {
           Вы действительно хотите выйти?
         </Typography>
         <div className="flex justify-between mt-2">
-          <Button
-            onClick={onClickLogout}
-            color="blue"
-            variant="contained"
-          >
+          <Button onClick={onClickLogout} color="blue" variant="contained">
             Да
           </Button>
           <Button
