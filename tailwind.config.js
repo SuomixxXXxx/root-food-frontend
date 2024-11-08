@@ -9,6 +9,8 @@ export default withMT({
       },
       colors: {
         'light-blue': '#DDEFF4',
+        'base-blue': '#0396BF',
+        'dark-gray-blue': '#C0D8DF'
       },
     },
     screens:{
@@ -16,7 +18,14 @@ export default withMT({
     },
     fontFamily: {
       sans: ['Ysabeau Office', defaultTheme.fontFamily.sans]
-    }
+    },
+    // valid:{
+    //   'bg-light-blue': true,
+    //   'bg-base-blue': true,
+    //   'width-128': true,
+    //   'screen-3xl': true,
+    //   'font-family-sans': true,
+    // }
   },
 
   plugins: [],
