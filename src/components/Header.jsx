@@ -192,9 +192,8 @@ export default function Header() {
           />
           <Button
             size="sm"
-            color="blue"
             onClick={handleSearch}
-            className="!absolute right-0 top-0 h-full rounded-r-md rounded-l-none border-l-0"
+            className="!absolute right-0 top-0 h-full rounded-r-md rounded-l-none border-l-0 shadow-sm hover:shadow-light-blue bg-base-blue"
             type="submit"
           >
             <svg
