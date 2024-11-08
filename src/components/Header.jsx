@@ -38,7 +38,7 @@ export default function Header() {
     dispatch(logout());
     setOpen(false);
   };
-  const { amount } = useSelector((state) => state.cart);
+  const { amount, totalPrice } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSuggest, setOpenSuggest] = useState(false);
@@ -256,7 +256,7 @@ export default function Header() {
                 </Typography>
               ) : (
                 <Typography variant="small" className="flex text-base">
-                  {amount}
+                  {totalPrice} ₽
                 </Typography>
               )}
             </div>
