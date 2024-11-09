@@ -38,8 +38,8 @@ export default function DashboardProductPage() {
     }
     setOpenCategoties((prev) => !prev);
   };
-  
-  const handleCategorySelect = (categoryId,categoryName) => {
+
+  const handleCategorySelect = (categoryId, categoryName) => {
     setCategoryProduct(categoryId);
     setSelectedCategoryName(categoryName);
     console.log(categoryProduct);
@@ -67,29 +67,20 @@ export default function DashboardProductPage() {
 
   const handleSaveChanges = async () => {
     const formData = {
-      name: nameProduct,
-      weight: weightProduct,
-      price: priceProduct,
-      categoryDTO: {
-        id:categoryProduct
-      }
+      "name": nameProduct,
+      "weight": weightProduct,
+      "price": priceProduct,
+      "categoryDTO.id": categoryProduct,
+      "multipartFile": image,
     };
-
-    console.log(formData);
-    const response= await dispatch(addProductData(formData)).unwrap();
-    const idDTO = response.data.id;
-    const imageForm={
-      id: idDTO,
-      file: image,
-    }
-    await dispatch(uploadImagePost(imageForm));
+    const response = await dispatch(addProductData(formData)).unwrap();
     setOpen(false);
     if (response.status === 200) {
-      params.id=categoryProduct;
+      params.id = categoryProduct;
       navigate(`/dashboard/category/${params.id}`);
     }
     handleDeleteProductData();
-    
+
   };
 
   const handleDeleteProductData = () => {
@@ -139,7 +130,7 @@ export default function DashboardProductPage() {
           ))}
         </div>
       </div>
-      <Modal open={open} onClose={() =>{handleCloseModal;handleSaveChanges}}>
+      <Modal open={open} onClose={() => { handleCloseModal; handleSaveChanges }}>
         <Typography variant="h5" color="black" className="mb-4">
           Изменение карточки товара
         </Typography>
@@ -193,7 +184,7 @@ export default function DashboardProductPage() {
             >
               <AccordionHeader onClick={handleOpenCategories} className="p-3">
                 <Typography color="blue-gray" className="font-normal">
-                {selectedCategoryName ? selectedCategoryName : "Категория"}
+                  {selectedCategoryName ? selectedCategoryName : "Категория"}
                 </Typography>
               </AccordionHeader>
               {openCategoties && (
@@ -204,7 +195,7 @@ export default function DashboardProductPage() {
                         <li
                           key={items.id}
                           className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
-                          onClick={() =>handleCategorySelect(items.id, items.name)}
+                          onClick={() => handleCategorySelect(items.id, items.name)}
                         >
                           <Typography className="text-base font-medium text-blue-gray-700">
                             {items.name}
@@ -219,10 +210,10 @@ export default function DashboardProductPage() {
           </div>
         </div>
         <div className="flex justify-between mt-6">
-          <Button color="green" onClick={handleSaveChanges }>
+          <Button color="green" onClick={handleSaveChanges}>
             Сохранить</Button>
-          <Button onClick={handleCloseModal} 
-          color="blue">
+          <Button onClick={handleCloseModal}
+            color="blue">
             Закрыть
           </Button>
         </div>

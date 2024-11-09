@@ -17,7 +17,12 @@ export const addProductData = createAsyncThunk(
   "/dishItems/create/addProductData",
   async (productData) => {
     try {
-      const response = await axios.post("dishItems/create", productData);
+      const response = await axios.post("dishItems/create", productData,{
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      },
+      }
+    );
       return response;
     } catch (error) {
       console.log(error);
