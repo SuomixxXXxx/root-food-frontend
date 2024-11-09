@@ -2,7 +2,7 @@ export default function SuggestionBox({ open,onClose, children }) {
     return (
         <div 
             className={`absolute top-full left-0 w-full z-10 
-            ${open ? "visible bg-black border border-gray-300 rounded shadow-lg" : "invisible"}`}
+            ${open ? "visible bg-black border-gray-300 rounded shadow-lg" : "invisible"}`}
             onClick={onClose}
         >
             <div 

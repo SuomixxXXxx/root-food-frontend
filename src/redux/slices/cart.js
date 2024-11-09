@@ -35,7 +35,7 @@ const cartSlice = createSlice({
         existingItem.quantity += 1;
         existingItem.price += action.payload.price;
       } else {
-        state.items.push(action.payload);
+        state.items.push({ ...action.payload, unitPrice: action.payload.price });
       }
       state.amount += 1;
       state.totalPrice += action.payload.price;
@@ -46,7 +46,7 @@ const cartSlice = createSlice({
       );
       if (existingItem.quantity > 1) {
         existingItem.quantity -= 1;
-        existingItem.price -= action.payload.price / action.payload.quantity;
+        existingItem.price -= existingItem.unitPrice;
         console.log(existingItem.quantity);
       } else {
         state.items = state.items.filter(
@@ -54,7 +54,7 @@ const cartSlice = createSlice({
         );
       }
       state.amount -= 1;
-      state.totalPrice -= action.payload.price / action.payload.quantity;
+      state.totalPrice -= existingItem.unitPrice;
     },
     clearCart: (state) => {
       state.items = [];
