@@ -51,6 +51,7 @@ export default function DashboardProductPage() {
 
   const handleCloseModal = () => {
     setOpen(false);
+    handleDeleteProductData();
   };
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -81,17 +82,25 @@ export default function DashboardProductPage() {
       id: idDTO,
       file: image,
     }
-    console.log(imageForm);
     await dispatch(uploadImagePost(imageForm));
     setOpen(false);
     if (response.status === 200) {
       params.id=categoryProduct;
-      // dispatch(fetchDishItemsByCategory(params.id));
       navigate(`/dashboard/category/${params.id}`);
     }
+    handleDeleteProductData();
+    
   };
 
-  // const isCategoryDishesLoading = categoryDishes.dishItems.status === "loading";
+  const handleDeleteProductData = () => {
+    setNameProduct("");
+    setWeightProduct("");
+    setPriceProduct("");
+    setCategoryProduct("");
+    setImage(null);
+    setView(null);
+    setSelectedCategoryName("");
+  }
 
   useEffect(() => {
     dispatch(fetchDishItemsByCategory(params.id));
@@ -125,7 +134,6 @@ export default function DashboardProductPage() {
               weight={product.weight}
               price={product.price}
               isAdmin={isHasRight}
-              // imgURL={IMAGE_URL}
               imgURL={`${IMAGE_URL}/${product.id}.jpg`}
             />
           ))}
