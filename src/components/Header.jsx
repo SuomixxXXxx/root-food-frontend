@@ -180,9 +180,11 @@ export default function Header() {
         </i>
 
         <div className="flex gap-5 h-max items-center">
-          <div className="w-32 h-max">
-            <img src={aquariumLogo} alt="My aquariumLogo" />
-          </div>
+          <Link to="/home">
+            <div className="w-32 h-max">
+              <img src={aquariumLogo} alt="My aquariumLogo" />
+            </div>
+          </Link>
           <Link className="hidden lg:flex" to="/category">
             <Button
               size="sm"
