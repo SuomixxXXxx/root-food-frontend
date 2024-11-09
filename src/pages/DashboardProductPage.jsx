@@ -81,8 +81,7 @@ export default function DashboardProductPage() {
     console.log(imageForm);
     await dispatch(uploadImagePost(imageForm));
     setOpen(false);
-    const status = await dispatch(addProductData(formData)).unwrap();
-    if (status.status === 200) {
+    if (response.status === 200) {
       dispatch(fetchDishItemsByCategory(params.id));
     }
   };
