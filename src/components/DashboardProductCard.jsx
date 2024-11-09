@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import Modal from "./Modal"; 
 
-export default function DashboardProductCard({ name, weight, price, isAdmin }) {
+export default function DashboardProductCard({ name, weight, price, isAdmin, imgURL }) {
   const [open, setOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -28,7 +28,7 @@ export default function DashboardProductCard({ name, weight, price, isAdmin }) {
         >
           <div className="flex justify-center items-center h-full w-full overflow-hidden">
             <img
-              src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
+              src={imgURL}
               alt="product"
               className="object-contain h-full w-full"
             />

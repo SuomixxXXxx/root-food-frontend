@@ -5,3 +5,4 @@ export const STATUS = {
     FULFILLED: "FULFILLED",
     REJECTED: "REJECTED",
 }
+export const IMAGE_URL = `https://storage.yandexcloud.net/food-root/dishes`

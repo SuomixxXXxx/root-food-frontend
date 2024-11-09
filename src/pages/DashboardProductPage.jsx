@@ -3,6 +3,7 @@ import DashboardProductCard from "../components/DashboardProductCard";
 import { Button, Typography, Input, Accordion, AccordionBody, AccordionHeader } from "@material-tailwind/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
 import SideBarWorker from "../components/SideBarWorker";
 import Modal from "../components/Modal";
@@ -11,10 +12,12 @@ import { addProductData } from "../redux/slices/dishItem";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { uploadImagePost } from "../redux/slices/dishItem";
+import { IMAGE_URL } from "../constants";
 
 export default function DashboardProductPage() {
   const [isHasRight, setIsHasRight] = useState(false);
   const params = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const categoryDishes = useSelector((state) => state.dishItems);
   const [open, setOpen] = useState(false);
@@ -82,7 +85,9 @@ export default function DashboardProductPage() {
     await dispatch(uploadImagePost(imageForm));
     setOpen(false);
     if (response.status === 200) {
-      dispatch(fetchDishItemsByCategory(params.id));
+      params.id=categoryProduct;
+      // dispatch(fetchDishItemsByCategory(params.id));
+      navigate(`/dashboard/category/${params.id}`);
     }
   };
 
@@ -120,6 +125,8 @@ export default function DashboardProductPage() {
               weight={product.weight}
               price={product.price}
               isAdmin={isHasRight}
+              // imgURL={IMAGE_URL}
+              imgURL={`${IMAGE_URL}/${product.id}.jpg`}
             />
           ))}
         </div>
