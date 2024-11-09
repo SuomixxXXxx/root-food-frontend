@@ -24,7 +24,7 @@ import {
 } from "../redux/slices/dishItem.js";
 import { useNavigate } from "react-router-dom";
 import SuggestionBox from "./SuggestionBox.jsx";
-
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 const styleNav = {
   position: "fixed",
   top: 0,
@@ -41,7 +41,6 @@ export default function Header() {
   const { amount, totalPrice } = useSelector((state) => state.cart);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [open, setOpen] = useState(false);
-  const [dropDown, setDropDown] = useState(false);
   const [openSuggest, setOpenSuggest] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [searchData, setSearchData] = useState([]);
@@ -270,7 +269,6 @@ export default function Header() {
             )}
           </SuggestionBox>
         </div>
-
         <div className="hidden lg:flex flex-row gap-5 items-center">
           <Link to="/cart">
             <div className="w-14 group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue">
@@ -300,27 +298,80 @@ export default function Header() {
             </div>
           </Link>
           {isAuth ? (
-            <div
-              onClick={() => setDropDown(!dropDown)}
-              className="w-16 group flex flex-col items-center max-h-fit text-gray-600 hover:text-base-blue cursor-pointer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-8 group-hover:stroke-base-blue"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-              </svg>
-              <Typography variant="small" className="flex text-base">
-                Кабинет
-              </Typography>
+            <div>
+              <Menu as="div" className="relative inline-block text-left">
+                <MenuButton className="w-16 flex flex-col items-center max-h-fit text-gray-600 cursor-pointer">
+                  <div className="group flex flex-col items-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="size-8 group-hover:stroke-base-blue"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                      />
+                    </svg>
+                    <Typography
+                      variant="small"
+                      className="text-base group-hover:text-base-blue"
+                    >
+                      Кабинет
+                    </Typography>
+                  </div>
+                </MenuButton>
+                <MenuItems
+                  transition
+                  className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white border-2 ring-1 ring-gray-500 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                >
+                  <div className="py-1">
+                    <MenuItem>
+                      <Link
+                        to="/orders"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                      >
+                        Мои заказы
+                      </Link>
+                    </MenuItem>
+                    <MenuItem>
+                      <Link
+                        to="/account"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                      >
+                        Мой аккаунт
+                      </Link>
+                    </MenuItem>
+                  </div>
+                  <div className="py-1">
+                    <MenuItem>
+                      <div
+                        onClick={() => setOpen(true)}
+                        className="flex cursor-pointer px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-dark-red data-[focus]:outline-none"
+                      >
+                        <span className="pr-1">Выйти</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="size-6"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
+                          />
+                        </svg>
+                      </div>
+                    </MenuItem>
+                  </div>
+                </MenuItems>
+              </Menu>
             </div>
           ) : (
             <Link to="/login">
@@ -410,51 +461,6 @@ export default function Header() {
           </Button>
         </div>
       </Modal>
-      {dropDown && (
-        <div className="absolute  top-24 right-2  w-40 bg-white border-2 border-gray-300 rounded z-10">
-          <ul>
-            <Link
-              to="/orders"
-              onClick={() => {
-                setDropDown(false);
-              }}
-            >
-              <li className="px-4 py-2 hover:bg-light-blue">Мои заказы</li>
-            </Link>
-            <Link
-              to="/account"
-              onClick={() => {
-                setDropDown(false);
-              }}
-            >
-              <li className="px-4 py-2 hover:bg-light-blue">Мой аккаунт</li>
-            </Link>
-            <li
-              className="flex flex-row px-4 py-2 hover:bg-light-blue cursor-pointer text-dark-red"
-              onClick={() => {
-                setOpen(true);
-                setDropDown(false);
-              }}
-            >
-              <span className="pr-1">Выйти</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="size-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9"
-                />
-              </svg>
-            </li>
-          </ul>
-        </div>
-      )}
     </Navbar>
   );
 }
