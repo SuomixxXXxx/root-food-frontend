@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import DashboardProductCard from "../components/DashboardProductCard";
 import { Button, Typography, Input, Accordion, AccordionBody, AccordionHeader } from "@material-tailwind/react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
+import { fetchDishItemsByCategory, addProductData } from "../redux/slices/dishItem";
 import SideBarWorker from "../components/SideBarWorker";
 import Modal from "../components/Modal";
 import uploadImage from "../assets/images/uploadImage.png";
-import { addProductData } from "../redux/slices/dishItem";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { uploadImagePost } from "../redux/slices/dishItem";
 import { IMAGE_URL } from "../constants";
 
 export default function DashboardProductPage() {
@@ -20,31 +17,43 @@ export default function DashboardProductPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const categoryDishes = useSelector((state) => state.dishItems);
-  const [open, setOpen] = useState(false);
   const categories = useSelector((state) => state.categories);
-  const [openCategoties, setOpenCategoties] = useState(false);
-  const [nameProduct, setNameProduct] = useState("");
-  const [weightProduct, setWeightProduct] = useState("");
-  const [priceProduct, setPriceProduct] = useState("");
-  const [categoryProduct, setCategoryProduct] = useState("");
+  const [product, setProduct] = useState({
+    name: "",
+    weight: "",
+    price: "",
+    category: "",
+  });
+  const [open, setOpen] = useState(false);
+  const [openCategories, setOpenCategories] = useState(false);
   const [image, setImage] = useState(null);
   const [view, setView] = useState(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
-
 
   const handleOpenCategories = () => {
     if (!categories || categories.length === 0) {
       dispatch(fetchCategories());
     }
-    setOpenCategoties((prev) => !prev);
+    setOpenCategories((prev) => !prev);
   };
 
   const handleCategorySelect = (categoryId, categoryName) => {
-    setCategoryProduct(categoryId);
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      category: categoryId,
+    }));
     setSelectedCategoryName(categoryName);
-    console.log(categoryProduct);
-    setOpenCategoties(false);
+    setOpenCategories(false);
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
+
   const handleOpenModal = () => {
     setOpen(true);
   };
@@ -53,9 +62,10 @@ export default function DashboardProductPage() {
     setOpen(false);
     handleDeleteProductData();
   };
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
-    setImage(file)
+    setImage(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -67,57 +77,54 @@ export default function DashboardProductPage() {
 
   const handleSaveChanges = async () => {
     const formData = {
-      "name": nameProduct,
-      "weight": weightProduct,
-      "price": priceProduct,
-      "categoryDTO.id": categoryProduct,
-      "multipartFile": image,
+      name: product.name,
+      weight: product.weight,
+      price: product.price,
+      "categoryDTO.id": product.category,
+      file: image,
     };
     const response = await dispatch(addProductData(formData)).unwrap();
     setOpen(false);
     if (response.status === 200) {
-      params.id = categoryProduct;
+      params.id = product.category;
       navigate(`/dashboard/category/${params.id}`);
     }
     handleDeleteProductData();
-
   };
 
   const handleDeleteProductData = () => {
-    setNameProduct("");
-    setWeightProduct("");
-    setPriceProduct("");
-    setCategoryProduct("");
+    setProduct({
+      name: "",
+      weight: "",
+      price: "",
+      category: "",
+    });
     setImage(null);
     setView(null);
     setSelectedCategoryName("");
-  }
+  };
 
   useEffect(() => {
     dispatch(fetchDishItemsByCategory(params.id));
     if (localStorage.getItem("role") === "admin") {
-      console.log("admin");
       setIsHasRight(true);
-    };
-  }, [params.id, dispatch]);
+    }
+  }, [params.id, dispatch, open]);
 
   return (
-    <div className=" flex flex-col bg-blue-gray-100  pb-5 pt-5 md:flex-row min-h-screen  ">
-      <div className="hidden md:flex basis-1/4 mt-14  md:ml-10">
+    <div className="flex flex-col bg-blue-gray-100 pb-5 pt-5 md:flex-row min-h-screen">
+      <div className="hidden md:flex basis-1/4 mt-14 md:ml-10">
         <SideBarWorker />
       </div>
-      {isHasRight ? (
+      {isHasRight && (
         <div className="absolute right-4 top-4">
-          <Button
-            color="yellow"
-            onClick={handleOpenModal}>
-            Добавить блюдо</Button>
+          <Button color="yellow" onClick={handleOpenModal}>
+            Добавить блюдо
+          </Button>
         </div>
-      ) : (
-        <></>
       )}
       <div>
-        <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 mt-14 3xl:grid-cols-4">
+        <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {categoryDishes.dishItems.items?.data?.map((product) => (
             <DashboardProductCard
               key={product.id}
@@ -130,7 +137,7 @@ export default function DashboardProductPage() {
           ))}
         </div>
       </div>
-      <Modal open={open} onClose={() => { handleCloseModal; handleSaveChanges }}>
+      <Modal open={open} onClose={handleCloseModal}>
         <Typography variant="h5" color="black" className="mb-4">
           Изменение карточки товара
         </Typography>
@@ -143,10 +150,7 @@ export default function DashboardProductPage() {
           />
           <label htmlFor="imageUpload">
             <img
-              src={
-                view ||
-                uploadImage
-              }
+              src={view || uploadImage}
               alt="product"
               className="object-contain h-48 w-48 cursor-pointer"
             />
@@ -155,54 +159,56 @@ export default function DashboardProductPage() {
         <div className="flex flex-col space-y-2">
           <Input
             type="text"
-            value={nameProduct}
+            name="name"
+            value={product.name}
             label="Название"
-            onChange={(e) => setNameProduct(e.target.value)}>
-          </Input>
+            onChange={handleChange}
+          />
           <Input
             type="text"
-            value={weightProduct}
+            name="weight"
+            value={product.weight}
             label="Вес"
-            onChange={(e) => setWeightProduct(e.target.value)}
-          >
-          </Input>
+            onChange={handleChange}
+          />
           <Input
-            type="text"
-            value={priceProduct}
+            type="number"
+            name="price"
+            value={product.price}
             label="Цена"
-            onChange={(e) => setPriceProduct(e.target.value)}>
-          </Input>
+            onChange={handleChange}
+          />
           <div>
             <Accordion
-              open={openCategoties}
+              open={openCategories}
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 transition-transform ${openCategoties ? "rotate-180" : ""}`}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    openCategories ? "rotate-180" : ""
+                  }`}
                 />
               }
             >
               <AccordionHeader onClick={handleOpenCategories} className="p-3">
                 <Typography color="blue-gray" className="font-normal">
-                  {selectedCategoryName ? selectedCategoryName : "Категория"}
+                  {selectedCategoryName || "Категория"}
                 </Typography>
               </AccordionHeader>
-              {openCategoties && (
+              {openCategories && (
                 <AccordionBody className="py-1">
                   <ul className="p-0">
-                    {
-                      categories.categories.items.data?.map((items) => (
-                        <li
-                          key={items.id}
-                          className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
-                          onClick={() => handleCategorySelect(items.id, items.name)}
-                        >
-                          <Typography className="text-base font-medium text-blue-gray-700">
-                            {items.name}
-                          </Typography>
-                        </li>
-                      ))
-                    }
+                    {categories.categories.items.data?.map((items) => (
+                      <li
+                        key={items.id}
+                        className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
+                        onClick={() => handleCategorySelect(items.id, items.name)}
+                      >
+                        <Typography className="text-base font-medium text-blue-gray-700">
+                          {items.name}
+                        </Typography>
+                      </li>
+                    ))}
                   </ul>
                 </AccordionBody>
               )}
@@ -211,9 +217,9 @@ export default function DashboardProductPage() {
         </div>
         <div className="flex justify-between mt-6">
           <Button color="green" onClick={handleSaveChanges}>
-            Сохранить</Button>
-          <Button onClick={handleCloseModal}
-            color="blue">
+            Сохранить
+          </Button>
+          <Button color="blue" onClick={handleCloseModal}>
             Закрыть
           </Button>
         </div>

@@ -59,7 +59,7 @@ function App() {
       dispatch(checkAuth());
       console.log("token");
     }
-    dispatch(fetchDishItems());
+    // dispatch(fetchDishItems());
   }, [dispatch]);
 
   return (
