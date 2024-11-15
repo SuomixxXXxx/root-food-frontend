@@ -35,14 +35,16 @@ export default function DashboardProductPage() {
     register,
     handleSubmit,
     setValue,
+    reset,
+    clearErrors,
     formState: { errors, isValid, touchedFields },
   } = useForm({
-    mode: "onBlur", 
+    mode: "all", 
     defaultValues: {
-      name: product.name,
-      weight: product.weight,
-      price: product.price,
-      category: product.category,
+      name: "",
+      weight: "",
+      price: "",
+      category: "",
     },
   });
 
@@ -99,11 +101,15 @@ export default function DashboardProductPage() {
       "categoryDTO.id": product.category,
       file: image,
     };
+    
     const response = await dispatch(addProductData(formData)).unwrap();
     setOpen(false);
     if (response.status === 200) {
       params.id = product.category;
+      reset();
+      clearErrors();
       navigate(`/dashboard/category/${params.id}`);
+      
     }
     handleDeleteProductData();
   };
