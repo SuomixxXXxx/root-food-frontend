@@ -161,7 +161,7 @@ export default function DashboardProductPage() {
       </div>
       <Modal open={open} onClose={handleCloseModal}>
         <Typography variant="h5" color="black" className="mb-4">
-          Изменение карточки товара
+          Добавление товара
         </Typography>
         <div className="flex flex-col items-center mb-6">
           <input
@@ -209,7 +209,7 @@ export default function DashboardProductPage() {
                   message: "Вес должен быть числом",
                 },
                 min: {
-                  value: 0,
+                  value: 1,
                   message: "Вес должен быть больше нуля",
                 },
               })}
@@ -222,7 +222,7 @@ export default function DashboardProductPage() {
             )}
 
             <Input
-              type="number"
+              type="text"
               name="price"
               value={product.price}
               label="Цена"
@@ -234,7 +234,7 @@ export default function DashboardProductPage() {
                   message: "Цена должна быть числом",
                 },
                 min: {
-                  value: 0,
+                  value: 1,
                   message: "Цена должна быть больше нуля",
                 },
               })}
