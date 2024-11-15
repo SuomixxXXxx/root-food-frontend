@@ -10,6 +10,7 @@ import uploadImage from "../assets/images/uploadImage.png";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { IMAGE_URL } from "../constants";
+import { useForm } from "react-hook-form";
 
 export default function DashboardProductPage() {
   const [isHasRight, setIsHasRight] = useState(false);
@@ -29,6 +30,21 @@ export default function DashboardProductPage() {
   const [image, setImage] = useState(null);
   const [view, setView] = useState(null);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid, touchedFields },
+  } = useForm({
+    mode: "onBlur", 
+    defaultValues: {
+      name: product.name,
+      weight: product.weight,
+      price: product.price,
+      category: product.category,
+    },
+  });
 
   const handleOpenCategories = () => {
     if (!categories || categories.length === 0) {
@@ -141,7 +157,7 @@ export default function DashboardProductPage() {
         <Typography variant="h5" color="black" className="mb-4">
           Изменение карточки товара
         </Typography>
-        <div className="flex justify-center items-center h-56 mb-4">
+        <div className="flex flex-col items-center mb-6">
           <input
             type="file"
             id="imageUpload"
@@ -156,73 +172,130 @@ export default function DashboardProductPage() {
             />
           </label>
         </div>
-        <div className="flex flex-col space-y-2">
-          <Input
-            type="text"
-            name="name"
-            value={product.name}
-            label="Название"
-            onChange={handleChange}
-          />
-          <Input
-            type="text"
-            name="weight"
-            value={product.weight}
-            label="Вес"
-            onChange={handleChange}
-          />
-          <Input
-            type="number"
-            name="price"
-            value={product.price}
-            label="Цена"
-            onChange={handleChange}
-          />
-          <div>
-            <Accordion
-              open={openCategories}
-              icon={
-                <ChevronDownIcon
-                  strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 transition-transform ${
-                    openCategories ? "rotate-180" : ""
-                  }`}
-                />
-              }
-            >
-              <AccordionHeader onClick={handleOpenCategories} className="p-3">
-                <Typography color="blue-gray" className="font-normal">
-                  {selectedCategoryName || "Категория"}
+
+        <form onSubmit={handleSubmit(handleSaveChanges)}>
+          <div className="flex flex-col space-y-2">
+            <Input
+              type="text"
+              name="name"
+              value={product.name}
+              label="Название"
+              error={Boolean(errors.name) && touchedFields.name}
+              {...register("name", { required: "Укажите название" })}
+              onChange={handleChange}
+            />
+            {errors.name && touchedFields.name && (
+              <Typography type="small" color="red" className="mt-1 block">
+                {errors.name.message}
+              </Typography>
+            )}
+
+            <Input
+              type="text"
+              name="weight"
+              value={product.weight}
+              label="Вес"
+              error={Boolean(errors.weight) && touchedFields.weight}
+              {...register("weight", {
+                required: "Укажите вес",
+                pattern: {
+                  value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                  message: "Вес должен быть числом",
+                },
+                min: {
+                  value: 0,
+                  message: "Вес должен быть больше нуля",
+                },
+              })}
+              onChange={handleChange}
+            />
+            {errors.weight && touchedFields.weight && (
+              <Typography type="small" color="red" className="mt-1 block">
+                {errors.weight.message}
+              </Typography>
+            )}
+
+            <Input
+              type="number"
+              name="price"
+              value={product.price}
+              label="Цена"
+              error={Boolean(errors.price) && touchedFields.price}
+              {...register("price", {
+                required: "Укажите цену",
+                pattern: {
+                  value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                  message: "Цена должна быть числом",
+                },
+                min: {
+                  value: 0,
+                  message: "Цена должна быть больше нуля",
+                },
+              })}
+              onChange={handleChange}
+            />
+            {errors.price && touchedFields.price && (
+              <Typography type="small" color="red" className="mt-1 block">
+                {errors.price.message}
+              </Typography>
+            )}
+
+            <div>
+              <Accordion
+                open={openCategories}
+                icon={
+                  <ChevronDownIcon
+                    strokeWidth={2.5}
+                    className={`mx-auto h-4 w-4 transition-transform ${openCategories ? "rotate-180" : ""}`}
+                  />
+                }
+              >
+                <AccordionHeader onClick={handleOpenCategories} className="p-3">
+                  <Typography
+                    color="blue-gray"
+                    className="font-normal"
+                    error={Boolean(errors.category?.message)}
+                  >
+                    {selectedCategoryName || "Категория"}
+                  </Typography>
+                </AccordionHeader>
+                {openCategories && (
+                  <AccordionBody className="py-1">
+                    <ul className="p-0">
+                      {categories.categories.items.data?.map((items) => (
+                        <li
+                          key={items.id}
+                          className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
+                          onClick={() => {
+                            handleCategorySelect(items.id, items.name);
+                            setValue("category", items.id);
+                          }}
+                        >
+                          <Typography className="text-base font-medium text-blue-gray-700">
+                            {items.name}
+                          </Typography>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionBody>
+                )}
+              </Accordion>
+              {errors.category && (
+                <Typography type="small" color="red" className="mt-1 block">
+                  {errors.category.message}
                 </Typography>
-              </AccordionHeader>
-              {openCategories && (
-                <AccordionBody className="py-1">
-                  <ul className="p-0">
-                    {categories.categories.items.data?.map((items) => (
-                      <li
-                        key={items.id}
-                        className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
-                        onClick={() => handleCategorySelect(items.id, items.name)}
-                      >
-                        <Typography className="text-base font-medium text-blue-gray-700">
-                          {items.name}
-                        </Typography>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionBody>
               )}
-            </Accordion>
+            </div>
           </div>
-        </div>
-        <div className="flex justify-between mt-6">
-          <Button color="green" onClick={handleSaveChanges}>
-            Сохранить
-          </Button>
-          <Button color="blue" onClick={handleCloseModal}>
-            Закрыть
-          </Button>
-        </div>
+          <div className="flex justify-between mt-6">
+            <Button color="green" disabled={!isValid} type="submit">
+              Сохранить
+            </Button>
+            <Button color="blue" onClick={handleCloseModal}>
+              Закрыть
+            </Button>
+          </div>
+        </form>
       </Modal>
     </div>
   );
