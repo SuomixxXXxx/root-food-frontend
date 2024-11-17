@@ -14,7 +14,7 @@ export default function Footer() {
               </Typography>
           </Link>
         </div>
-        <div className="flex flex-col pt-3 pb-3 ">
+        <div className="flex flex-col md:pt-3 md:pb-3 ">
           <Typography color="black" className="text-2xl">
             Помощь
           </Typography>
