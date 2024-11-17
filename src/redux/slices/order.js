@@ -47,13 +47,20 @@ export const connectWebSocket = () => (dispatch) => {
     console.log("WebSocket уже подключен.");
     return;
   }
-
+  const tokenus = localStorage.getItem("token");
+  let heador;
+  if (tokenus) {
+    heador = `Bearer ${localStorage.getItem("token")}`;
+  }
   stomp = new Client({
     brokerURL: `${WS_URL}/order`,
+    connectHeaders: {
+      Authorization: heador
+    },
     onConnect: () => {
       console.log("WebSocket подключен.");
-
-      stomp.subscribe("/ordersub/active-orders", (message) => {
+      // to only get that is supposed to be for you
+      stomp.subscribe("/user/ordersub/active-orders", (message) => {
         const orders = JSON.parse(message.body).body;
         console.log("Получены активные заказы через WebSocket:", orders);
         dispatch(setOrders(orders));
