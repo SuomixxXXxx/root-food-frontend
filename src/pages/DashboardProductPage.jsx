@@ -83,6 +83,7 @@ export default function DashboardProductPage() {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    console.log(file);
     setImage(file);
     if (file) {
       const reader = new FileReader();
@@ -91,6 +92,7 @@ export default function DashboardProductPage() {
       };
       reader.readAsDataURL(file);
     }
+    event.target.value = null;
   };
 
   const handleSaveChanges = async () => {
@@ -101,7 +103,9 @@ export default function DashboardProductPage() {
       "categoryDTO.id": product.category,
       file: image,
     };
-    
+    console.log(formData);
+
+
     const response = await dispatch(addProductData(formData)).unwrap();
     setOpen(false);
     if (response.status === 200) {

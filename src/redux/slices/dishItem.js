@@ -17,12 +17,11 @@ export const addProductData = createAsyncThunk(
   "/dishItems/create/addProductData",
   async (productData) => {
     try {
-      const response = await axios.post("dishItems/create", productData,{
+      const response = await axios.post("dishItems/create", productData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-      },
-      }
-    );
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response;
     } catch (error) {
       console.log(error);
@@ -34,13 +33,28 @@ export const uploadImagePost = createAsyncThunk(
   "/dishItems/upload-picture/uploadImage",
   async (formData) => {
     try {
-      const response = await axios.post("dishItems/upload-picture", formData,{
+      const response = await axios.post("dishItems/upload-picture", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-      },
-      }  
-      );
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const updateDishItem = createAsyncThunk(
+  "/dishItems/update",
+  async (formData) => {
+    try {
+      const response = await axios.patch("dishItems/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       return response;
     } catch (error) {
       console.log(error);
@@ -52,7 +66,9 @@ export const fetchDishItemsByName = createAsyncThunk(
   "/dishItems/fetchDishItemsByName",
   async (params) => {
     try {
-      const response = await axios.get(`dishItems/getByName?name=${params.name}`);
+      const response = await axios.get(
+        `dishItems/getByName?name=${params.name}`
+      );
       return response;
     } catch (error) {
       console.log(error);
@@ -62,15 +78,16 @@ export const fetchDishItemsByName = createAsyncThunk(
 export const fetchAutocompleteSuggestions = createAsyncThunk(
   "/dishItems/fetchAutocompleteSuggestions",
   async (params) => {
-      try {
-          const response = await axios.get(`dishItems/getByName?name=${params.name}`);
-          return response.data; 
-      } catch (error) {
-          console.error(error);  
-      }
+    try {
+      const response = await axios.get(
+        `dishItems/getByName?name=${params.name}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
   }
 );
-
 
 export const fetchDishItemsByCategory = createAsyncThunk(
   "dishItems/getByCategory?",
@@ -86,16 +103,14 @@ export const fetchDishItemsByCategory = createAsyncThunk(
   }
 );
 
-
 const initialState = {
   dishItems: {
     items: [],
     search: [],
-    autocompleteSuggestions:[],
+    autocompleteSuggestions: [],
     status: STATUS.PENDING,
     searchStatus: STATUS.PENDING,
-    autocompleteSuggestionsStatus: STATUS.PENDING
-
+    autocompleteSuggestionsStatus: STATUS.PENDING,
   },
   selectedItem: null,
   isNavigated: false,
@@ -106,14 +121,14 @@ const dishItemSlice = createSlice({
   initialState,
   reducers: {
     setSelectedItem(state, action) {
-      state.selectedItem = action.payload; 
+      state.selectedItem = action.payload;
     },
     clearSelectedItem(state) {
       state.selectedItem = null;
     },
     setNavigated(state, action) {
-      state.isNavigated = action.payload; 
-    }
+      state.isNavigated = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -164,9 +179,10 @@ const dishItemSlice = createSlice({
       .addCase(fetchAutocompleteSuggestions.rejected, (state) => {
         state.dishItems.autocompleteSuggestions = [];
         state.dishItems.autocompleteSuggestionsStatus = STATUS.REJECTED;
-      })
+      });
   },
 });
 
 export const dishItemReducer = dishItemSlice.reducer;
-export const { setSelectedItem, clearSelectedItem, setNavigated } = dishItemSlice.actions;
+export const { setSelectedItem, clearSelectedItem, setNavigated } =
+  dishItemSlice.actions;

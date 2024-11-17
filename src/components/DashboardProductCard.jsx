@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -7,7 +7,11 @@ import {
   Button,
 } from "@material-tailwind/react";
 import Modal from "./Modal"; 
-
+import { updateDishItem } from "../redux/slices/dishItem";
+import { useDispatch } from "react-redux";
+import aquariumLogo from "../assets/aqua.svg";
+import BakeCaregory from "../assets/images/BakeCategory.png"
+import bg from "../assets/images/food-background-images-3.jpg"
 export default function DashboardProductCard({ name, weight, price, isAdmin, imgURL }) {
   const [open, setOpen] = useState(false);
 
@@ -18,6 +22,50 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
   const handleCloseModal = () => {
     setOpen(false);
   };
+
+  const dispatch = useDispatch();
+
+
+
+
+  const createFileFromImage = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl); // Загружаем изображение
+      const blob = await response.blob(); // Преобразуем в Blob
+      const file = new File([blob], "food-background-images-3.jpg", {
+        type: blob.type, // Определяем тип MIME
+      });
+      return file; // Возвращаем объект File
+    } catch (error) {
+      console.error("Ошибка при создании файла из изображения:", error);
+    }
+  };
+  
+
+
+  const updateDish = async () => {
+    const formData = new FormData();
+    formData.append("id", 3);
+    formData.append("name", "veve");
+    formData.append("categoryDTO.id", 2);
+  
+    const file = await createFileFromImage(bg); 
+    if (file) {
+      formData.append("file", file);
+    } else {
+      console.error("Не удалось создать файл из изображения");
+      return;
+    }
+  
+    try {
+      console.log(formData);
+      const response = await dispatch(updateDishItem(formData));
+      console.log(response);
+    } catch (error) {
+      console.error("Ошибка при обновлении:", error);
+    }
+  };
+  
 
   return (
     <div>
@@ -31,6 +79,7 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
               src={imgURL}
               alt="product"
               className="object-contain h-full w-full"
+              onClick={updateDish}
             />
           </div>
         </CardHeader>
@@ -39,6 +88,7 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
             variant="h4"
             color="blue-gray"
             className="mb-2 text-lg md:text-xl"
+            // onClick={updateDish}
           >
             {name}
           </Typography>
