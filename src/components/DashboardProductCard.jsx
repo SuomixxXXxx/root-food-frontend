@@ -1,71 +1,111 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardHeader,
   CardBody,
   Typography,
   Button,
+  Input,
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
 } from "@material-tailwind/react";
-import Modal from "./Modal"; 
-import { updateDishItem } from "../redux/slices/dishItem";
-import { useDispatch } from "react-redux";
-import aquariumLogo from "../assets/aqua.svg";
-import BakeCaregory from "../assets/images/BakeCategory.png"
-import bg from "../assets/images/food-background-images-3.jpg"
-export default function DashboardProductCard({ name, weight, price, isAdmin, imgURL }) {
-  const [open, setOpen] = useState(false);
-
-  const handleOpenModal = () => {
-    setOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpen(false);
-  };
-
+import { updateDishItem, uploadImagePost } from "../redux/slices/dishItem";
+import Modal from "./Modal";
+import { fetchCategories } from "../redux/slices/categories";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
+export default function DashboardProductCard({
+  id,
+  name,
+  weight,
+  price,
+  imageUrl,
+  isAdmin,
+  categories,
+}) {
   const dispatch = useDispatch();
-
-
-
-
-  const createFileFromImage = async (imageUrl) => {
-    try {
-      const response = await fetch(imageUrl); // Загружаем изображение
-      const blob = await response.blob(); // Преобразуем в Blob
-      const file = new File([blob], "food-background-images-3.jpg", {
-        type: blob.type, // Определяем тип MIME
-      });
-      return file; // Возвращаем объект File
-    } catch (error) {
-      console.error("Ошибка при создании файла из изображения:", error);
-    }
-  };
+  const [open, setOpen] = useState(false);
+  const [nameProduct, setNameProduct] = useState(name || "");
+  const [weightProduct, setWeightProduct] = useState(weight || "");
+  const [priceProduct, setPriceProduct] = useState(price || "");
+  const [image, setImage] = useState("");
+  const [imageFile, setImageFile] = useState(null);
+  const category = useSelector((state) => state.categories);
+  // const cat = useSelector((state) => state.categories);
+  // const categoriesCat = cat.categories.items.data;
+  const [categoryProduct, setCategoryProduct] = useState("");
+  const [openCategoties, setOpenCategoties] = useState(false);
+  const [selectedCategoryName, setSelectedCategoryName] = useState("");
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
   
 
+  const handleOpenCategories = () => {
+    if (!category || category.length === 0) {
+      dispatch(fetchCategories());
+      console.log(category, "категории ");
+    }
+    setOpenCategoties((prev) => !prev);
+  };
+
+  const handleCategorySelect = (categoryId, categoryName) => {
+    console.log(categoryId, "bob");
+    setCategoryProduct(categoryId);
+    setSelectedCategoryName(categoryName);
+    console.log(categoryProduct);
+    setOpenCategoties(false);
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    setImageFile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // const createFileFromImage = async (imageUrl) => {
+  //   try {
+  //     const response = await fetch(imageUrl); // Загружаем изображение
+  //     const blob = await response.blob(); // Преобразуем в Blob
+  //     const file = new File([blob], "food-background-images-3.jpg", {
+  //       type: blob.type, // Определяем тип MIME
+  //     });
+  //     return file; // Возвращаем объект File
+  //   } catch (error) {
+  //     console.error("Ошибка при создании файла из изображения:", error);
+  //   }
+  // };
 
   const updateDish = async () => {
     const formData = new FormData();
-    formData.append("id", 3);
-    formData.append("name", "veve");
-    formData.append("categoryDTO.id", 2);
-  
-    const file = await createFileFromImage(bg); 
-    if (file) {
-      formData.append("file", file);
-    } else {
-      console.error("Не удалось создать файл из изображения");
-      return;
+    formData.append("id", id);
+    formData.append("name", nameProduct);
+    formData.append("price", priceProduct);
+    formData.append("weight", weightProduct);
+    formData.append("categoryDTO.id", categoryProduct);
+
+    if (imageFile) {
+      formData.append("file", imageFile);
+      console.log(imageFile) // Отправляем файл, если он обновился
     }
-  
+
     try {
       console.log(formData);
       const response = await dispatch(updateDishItem(formData));
       console.log(response);
+      if (response.payload) {
+        setImage(response.payload.imageUrl);  
+      }
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
     }
   };
-  
 
   return (
     <div>
@@ -76,7 +116,7 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
         >
           <div className="flex justify-center items-center h-full w-full overflow-hidden">
             <img
-              src={imgURL}
+              src={image || imageUrl}
               alt="product"
               className="object-contain h-full w-full"
               onClick={updateDish}
@@ -121,13 +161,13 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
               </div>
             ) : (
               <Button
-              color="green"
-              size="sm"
-              className="w-full"
-              onClick={handleOpenModal}
-            >
-              Изменить товар
-            </Button>
+                color="green"
+                size="sm"
+                className="w-full"
+                onClick={handleOpenModal}
+              >
+                Изменить товар
+              </Button>
             )}
           </div>
         </CardBody>
@@ -138,20 +178,86 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
           Изменение карточки товара
         </Typography>
         <div className="flex justify-center items-center h-56 mb-4">
-          <img
-            src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
-            alt="product"
-            className="object-contain h-full w-full"
+          <input
+            type="file"
+            id="imageUpload"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
           />
+          <label htmlFor="imageUpload">
+            <img
+              src={image || imageUrl}
+              alt="product"
+              className="object-contain h-48 w-48 cursor-pointer"
+            />
+          </label>
         </div>
-        <div className="flex flex-col space-y-2">
-          <Typography>Название: {name}</Typography>
-          <Typography>Вес: {weight} г</Typography>
-          <Typography>Цена: {price} ₽</Typography>
+        <div className="flex flex-col space-y-6">
+          <Input
+            type="text"
+            value={nameProduct}
+            onChange={(e) => setNameProduct(e.target.value)}
+            placeholder="Название"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+          />
+          <Input
+            type="number"
+            value={weightProduct}
+            onChange={(e) => setWeightProduct(e.target.value)}
+            placeholder="Вес"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+          />
+          <Input
+            type="number"
+            value={priceProduct}
+            onChange={(e) => setPriceProduct(e.target.value)}
+            placeholder="Цена"
+            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+          />
+          <div>
+            <Accordion
+              open={openCategoties}
+              icon={
+                <ChevronDownIcon
+                  strokeWidth={2.5}
+                  className={`mx-auto h-4 w-4 transition-transform ${
+                    openCategoties ? "rotate-180" : ""
+                  }`}
+                />
+              }
+            >
+              <AccordionHeader onClick={handleOpenCategories} className="p-3">
+                <Typography color="blue-gray" className="font-normal">
+                  {selectedCategoryName ? selectedCategoryName : categories}
+                </Typography>
+              </AccordionHeader>
+              {openCategoties && (
+                <AccordionBody className="py-1">
+                  <ul className="p-0">
+                    {category.categories.items.data?.map((items) => (
+                      <li
+                        key={items.id}
+                        className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
+                        onClick={() =>
+                          handleCategorySelect(items.id, items.name)
+                        }
+                      >
+                        <Typography className="text-base font-medium text-blue-gray-700">
+                          {items.name}
+                        </Typography>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionBody>
+              )}
+            </Accordion>
+          </div>
         </div>
         <div className="flex justify-between mt-6">
-          <Button color="green">Сохранить</Button>
-          <Button onClick={handleCloseModal} color="blue">
+          <Button color="green" onClick={updateDish}>
+            Сохранить
+          </Button>
+          <Button color="blue" onClick={handleCloseModal}>
             Закрыть
           </Button>
         </div>
@@ -159,4 +265,3 @@ export default function DashboardProductCard({ name, weight, price, isAdmin, img
     </div>
   );
 }
-
