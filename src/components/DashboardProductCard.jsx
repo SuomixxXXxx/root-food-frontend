@@ -11,7 +11,7 @@ import {
   AccordionBody,
   AccordionHeader,
 } from "@material-tailwind/react";
-import { updateDishItem, uploadImagePost } from "../redux/slices/dishItem";
+import { updateDishItem } from "../redux/slices/dishItem";
 import Modal from "./Modal";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -29,28 +29,25 @@ export default function DashboardProductCard({
   const [nameProduct, setNameProduct] = useState(name || "");
   const [weightProduct, setWeightProduct] = useState(weight || "");
   const [priceProduct, setPriceProduct] = useState(price || "");
-  const [image, setImage] = useState("");
+  const [imagePrew, setImagePrew] = useState(imageUrl || "");
   const [imageFile, setImageFile] = useState(null);
   const category = useSelector((state) => state.categories);
-  // const cat = useSelector((state) => state.categories);
-  // const categoriesCat = cat.categories.items.data;
   const [categoryProduct, setCategoryProduct] = useState("");
   const [openCategoties, setOpenCategoties] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
-  
 
   const handleOpenCategories = () => {
     if (!category || category.length === 0) {
       dispatch(fetchCategories());
-      console.log(category, "категории ");
+      console.log(category);
     }
     setOpenCategoties((prev) => !prev);
   };
 
   const handleCategorySelect = (categoryId, categoryName) => {
-    console.log(categoryId, "bob");
+    console.log(categoryId);
     setCategoryProduct(categoryId);
     setSelectedCategoryName(categoryName);
     console.log(categoryProduct);
@@ -63,24 +60,11 @@ export default function DashboardProductCard({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        setImagePrew(reader.result);
       };
       reader.readAsDataURL(file);
     }
   };
-
-  // const createFileFromImage = async (imageUrl) => {
-  //   try {
-  //     const response = await fetch(imageUrl); // Загружаем изображение
-  //     const blob = await response.blob(); // Преобразуем в Blob
-  //     const file = new File([blob], "food-background-images-3.jpg", {
-  //       type: blob.type, // Определяем тип MIME
-  //     });
-  //     return file; // Возвращаем объект File
-  //   } catch (error) {
-  //     console.error("Ошибка при создании файла из изображения:", error);
-  //   }
-  // };
 
   const updateDish = async () => {
     const formData = new FormData();
@@ -92,7 +76,7 @@ export default function DashboardProductCard({
 
     if (imageFile) {
       formData.append("file", imageFile);
-      console.log(imageFile) // Отправляем файл, если он обновился
+      console.log(imageFile);
     }
 
     try {
@@ -100,7 +84,14 @@ export default function DashboardProductCard({
       const response = await dispatch(updateDishItem(formData));
       console.log(response);
       if (response.payload) {
-        setImage(response.payload.imageUrl);  
+        setImagePrew(response.payload.imageUrl || imagePrew);
+        setNameProduct(response.payload.name || nameProduct);
+        setWeightProduct(response.payload.weight || weightProduct);
+        setPriceProduct(response.payload.price || priceProduct);
+        if (response.payload.categoryDTO) {
+          setCategoryProduct(response.payload.categoryDTO.id || categoryProduct);
+          setSelectedCategoryName(response.payload.categoryDTO.name || selectedCategoryName);
+        }
       }
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
@@ -116,7 +107,7 @@ export default function DashboardProductCard({
         >
           <div className="flex justify-center items-center h-full w-full overflow-hidden">
             <img
-              src={image || imageUrl}
+              src={imagePrew || imageUrl}
               alt="product"
               className="object-contain h-full w-full"
               onClick={updateDish}
@@ -128,7 +119,6 @@ export default function DashboardProductCard({
             variant="h4"
             color="blue-gray"
             className="mb-2 text-lg md:text-xl"
-            // onClick={updateDish}
           >
             {name}
           </Typography>
@@ -180,13 +170,13 @@ export default function DashboardProductCard({
         <div className="flex justify-center items-center h-56 mb-4">
           <input
             type="file"
-            id="imageUpload"
+            id={`imageUpload-${id}`}
             style={{ display: "none" }}
             onChange={handleImageChange}
           />
-          <label htmlFor="imageUpload">
+          <label htmlFor={`imageUpload-${id}`}>
             <img
-              src={image || imageUrl}
+              src={imagePrew || imageUrl}
               alt="product"
               className="object-contain h-48 w-48 cursor-pointer"
             />

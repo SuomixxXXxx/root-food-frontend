@@ -13,6 +13,54 @@ export const fetchDishItems = createAsyncThunk(
     }
   }
 );
+export const addProductData = createAsyncThunk(
+  "/dishItems/create/addProductData",
+  async (productData) => {
+    try {
+      const response = await axios.post("dishItems/create", productData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const uploadImagePost = createAsyncThunk(
+  "/dishItems/upload-picture/uploadImage",
+  async (formData) => {
+    try {
+      const response = await axios.post("dishItems/upload-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const updateDishItem = createAsyncThunk(
+  "/dishItems/update",
+  async (formData) => {
+    try {
+      const response = await axios.patch("dishItems/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const fetchDishItemsByName = createAsyncThunk(
   "/dishItems/fetchDishItemsByName",
@@ -54,57 +102,6 @@ export const fetchDishItemsByCategory = createAsyncThunk(
     }
   }
 );
-export const addProductData = createAsyncThunk(
-  "/dishItems/create/addProductData",
-  async (productData) => {
-    try {
-      const response = await axios.post("dishItems/create", productData,{
-        headers: {
-          'Content-Type': 'multipart/form-data',
-      },
-      }
-    );
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
-export const uploadImagePost = createAsyncThunk(
-  "/dishItems/upload-picture/uploadImage",
-  async (formData) => {
-    try {
-      const response = await axios.post("dishItems/upload-picture", formData,{
-        headers: {
-          'Content-Type': 'multipart/form-data',
-      },
-      }  
-      );
-      console.log(response);
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
-export const updateDishItem = createAsyncThunk(
-  "/dishItems/update",
-  async (formData) => {
-    try {
-      const response = await axios.patch("dishItems/update", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      return response;
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
-
 
 const initialState = {
   dishItems: {
@@ -115,8 +112,6 @@ const initialState = {
     searchStatus: STATUS.PENDING,
     autocompleteSuggestionsStatus: STATUS.PENDING,
   },
-  uploadStatus: STATUS.IDLE,
-  updateStatus: STATUS.IDLE,
   selectedItem: null,
   isNavigated: false,
 };
@@ -184,15 +179,6 @@ const dishItemSlice = createSlice({
       .addCase(fetchAutocompleteSuggestions.rejected, (state) => {
         state.dishItems.autocompleteSuggestions = [];
         state.dishItems.autocompleteSuggestionsStatus = STATUS.REJECTED;
-      })
-      .addCase(updateDishItem.pending, (state) => {
-        state.updateStatus = STATUS.PENDING;
-      })
-      .addCase(updateDishItem.fulfilled, (state) => {
-        state.updateStatus = STATUS.FULFILLED;
-      })
-      .addCase(updateDishItem.rejected, (state) => {
-        state.updateStatus = STATUS.REJECTED;
       });
   },
 });

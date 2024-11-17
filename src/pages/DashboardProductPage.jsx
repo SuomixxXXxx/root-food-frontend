@@ -167,7 +167,7 @@ export default function DashboardProductPage() {
               weight={product.weight}
               price={product.price}
               isAdmin={isHasRight}
-              imgURL={`${IMAGE_URL}/${product.id}.jpg`}
+              imageUrl={`${IMAGE_URL}/${product.id}.jpg`}
               categories={product.categoryDTO.name}
             />
           ))}
