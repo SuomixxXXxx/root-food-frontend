@@ -16,6 +16,9 @@
   .badge {
     @apply font-medium text-left text-sm md:text-base bg-gray-300 rounded-md px-1;
   }
+  .card-image {
+    @apply w-full h-36 md:h-44 object-cover;
+  }
 }
 
 html,

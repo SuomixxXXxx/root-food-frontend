@@ -8,13 +8,14 @@ import {
 } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/slices/cart";
-
+import imgPlaceholder from "../assets/images/imgPlaceholder.svg"
 export default function ProductCard({
   id,
   name,
   weight,
   price,
   totalQuantity,
+  imgURL
 }) {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
@@ -26,12 +27,14 @@ export default function ProductCard({
     <div className="ml-0 md:ml-4">
       <div className="card">
         <img
-          src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
-          alt="product-picture"
-          className="w-full h-full object-cover"
+          src={imgURL}
+          onError={(e) => {
+            e.target.src = imgPlaceholder;
+          }}
+          className="card-image"
         />
         <div className="flex-col px-3">
-          <Typography color="blue-gray" className="mb-1 text-base md:text-2xl">
+          <Typography className="mb-1 text-base md:text-2xl overflow-hidden whitespace-nowrap text-ellipsis">
             {name}
           </Typography>
           <Typography

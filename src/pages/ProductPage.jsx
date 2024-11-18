@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchDishItemsByCategory } from "../redux/slices/dishItem.js";
-import { STATUS } from "../constants.js";
+import { STATUS, IMAGE_URL } from "../constants.js";
 
 const products = [
   {
@@ -126,6 +126,7 @@ export default function ProductPage() {
                 weight={obj.weight}
                 price={obj.price}
                 totalQuantity={obj.quantity}
+                imgURL={`${IMAGE_URL}/${obj.id}.jpg`}
               />
             )
           )}
