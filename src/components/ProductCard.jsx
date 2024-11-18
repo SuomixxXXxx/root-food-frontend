@@ -9,7 +9,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, removeFromCart } from "../redux/slices/cart";
 
-export default function ProductCard({ id, name, weight, price }) {
+export default function ProductCard({
+  id,
+  name,
+  weight,
+  price,
+  totalQuantity,
+}) {
   const dispatch = useDispatch();
   const { items } = useSelector((state) => state.cart);
 
@@ -18,43 +24,24 @@ export default function ProductCard({ id, name, weight, price }) {
 
   return (
     <div className="ml-0 md:ml-4">
-      <Card className="flex h-auto w-40 md:h-96 md:w-80 bg-[#ffffff]">
-        <div className="flex justify-center items-center">
-          <CardHeader
-            floated={false}
-            className="flex h-18 md:h-44 md:w-fit justify-center items-center"
-          >
-            <img
-              src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
-              alt="product-picture"
-              className="h-18 w-full md:h-44 md:w-96"
-            />
-          </CardHeader>
-        </div>
-        <CardBody className="text-center">
-          <Typography
-            variant="h4"
-            color="blue-gray"
-            className="mb-2 text-base md:text-xl"
-          >
+      <div className="card">
+        <img
+          src="https://vavilongu.ru/storage/photo/resized/xy_1732x1732/e/fzeilpu3dhzj9zg_e6a5db71.jpg"
+          alt="product-picture"
+          className="w-full h-full object-cover"
+        />
+        <div className="flex-col px-3">
+          <Typography color="blue-gray" className="mb-1 text-base md:text-2xl">
             {name}
           </Typography>
           <Typography
-            color="blue-gray"
-            className="font-medium text-left mb-2 text-sm md:text-base"
+            className="font-medium text-left mb-1 text-sm md:text-base text-gray-500"
             textGradient
           >
-            Вес: {weight} г
+            {weight} г
           </Typography>
-          <Typography
-            color="blue-gray"
-            className="font-medium text-left text-sm md:text-base"
-            textGradient
-          >
-            Цена: {price} ₽
-          </Typography>
-
-          <div className="flex justify-center items-center w-auto mt-3">
+          <span className="badge">{price} ₽</span>
+          <div className="flex justify-center items-center w-auto mt-3 mb-1">
             {quantity > 0 ? (
               <Button
                 className="flex justify-between bg-base-blue items-center shadow-sm hover:shadow-light-blue gap-2 w-full normal-case text-base"
@@ -154,8 +141,15 @@ export default function ProductCard({ id, name, weight, price }) {
               </Button>
             )}
           </div>
-        </CardBody>
-      </Card>
+          <div className="flex justify-center items-center w-full mb-2">
+            {totalQuantity > 0 ? (
+              <span className="text-green-800">В наличии {totalQuantity} шт</span>
+            ) : (
+              <span className="text-red-800">Нет в наличии</span>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

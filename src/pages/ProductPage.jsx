@@ -125,6 +125,7 @@ export default function ProductPage() {
                 name={obj.name}
                 weight={obj.weight}
                 price={obj.price}
+                totalQuantity={obj.quantity}
               />
             )
           )}
