@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -15,6 +15,7 @@ import { updateDishItem } from "../redux/slices/dishItem";
 import Modal from "./Modal";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+
 export default function DashboardProductCard({
   id,
   name,
@@ -35,22 +36,21 @@ export default function DashboardProductCard({
   const [categoryProduct, setCategoryProduct] = useState("");
   const [openCategoties, setOpenCategoties] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
+  const [isUpdated, setIsUpdated] = useState(false); 
+
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
   const handleOpenCategories = () => {
     if (!category || category.length === 0) {
       dispatch(fetchCategories());
-      console.log(category);
     }
     setOpenCategoties((prev) => !prev);
   };
 
   const handleCategorySelect = (categoryId, categoryName) => {
-    console.log(categoryId);
     setCategoryProduct(categoryId);
     setSelectedCategoryName(categoryName);
-    console.log(categoryProduct);
     setOpenCategoties(false);
   };
 
@@ -80,30 +80,29 @@ export default function DashboardProductCard({
     }
 
     try {
-      console.log(formData);
       const response = await dispatch(updateDishItem(formData));
       console.log(response);
       if (response.payload) {
-        setImagePrew(response.payload.imageUrl || imagePrew);
-        setNameProduct(response.payload.name || nameProduct);
-        setWeightProduct(response.payload.weight || weightProduct);
-        setPriceProduct(response.payload.price || priceProduct);
-        if (response.payload.categoryDTO) {
-          setCategoryProduct(response.payload.categoryDTO.id || categoryProduct);
-          setSelectedCategoryName(response.payload.categoryDTO.name || selectedCategoryName);
-        }
+        setIsUpdated(true);
       }
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
     }
   };
 
+  useEffect(() => {
+    if (isUpdated) {
+      setOpen(false); 
+      window.location.reload(); 
+    }
+  }, [isUpdated]);
+
   return (
     <div>
       <Card className="flex flex-col h-auto w-60 md:w-80 bg-white shadow-lg p-4">
-        <CardHeader
-          floated={false}
-          className="flex justify-center items-center h-56 mb-4"
+        <CardHeader 
+        floated={false} 
+        className="flex justify-center items-center h-56 mb-4"
         >
           <div className="flex justify-center items-center h-full w-full overflow-hidden">
             <img
@@ -115,34 +114,34 @@ export default function DashboardProductCard({
           </div>
         </CardHeader>
         <CardBody className="text-center">
-          <Typography
-            variant="h4"
-            color="blue-gray"
-            className="mb-2 text-lg md:text-xl"
-          >
+          <Typography 
+          variant="h4" 
+          color="blue-gray"
+           className="mb-2 text-lg md:text-xl"
+           >
             {name}
           </Typography>
-          <Typography
-            color="blue-gray"
-            className="font-medium text-left mb-2 text-sm md:text-base"
+          <Typography 
+          color="blue-gray" 
+          className="font-medium text-left mb-2 text-sm md:text-base"
           >
             Вес: {weight} г
           </Typography>
-          <Typography
-            color="blue-gray"
-            className="font-medium text-left text-sm md:text-base mb-4"
+          <Typography 
+          color="blue-gray" 
+          className="font-medium text-left text-sm md:text-base mb-4"
           >
             Цена: {price} ₽
           </Typography>
           <div className="w-full flex flex-col items-center space-y-2">
             {isAdmin ? (
               <div className="flex flex-col items-center space-y-2">
-                <Button
-                  color="green"
-                  size="sm"
-                  className="w-full"
-                  onClick={handleOpenModal}
-                >
+                <Button 
+                color="green"
+                 size="sm" 
+                 className="w-full" 
+                 onClick={handleOpenModal}
+                 >
                   Изменить товар
                 </Button>
                 <Button color="red" size="sm" className="w-full">
@@ -150,11 +149,11 @@ export default function DashboardProductCard({
                 </Button>
               </div>
             ) : (
-              <Button
-                color="green"
-                size="sm"
-                className="w-full"
-                onClick={handleOpenModal}
+              <Button 
+              color="green" 
+              size="sm" 
+              className="w-full" 
+              onClick={handleOpenModal}
               >
                 Изменить товар
               </Button>
@@ -228,7 +227,7 @@ export default function DashboardProductCard({
                       <li
                         key={items.id}
                         className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
-                        onClick={() =>
+                        onClick={() => 
                           handleCategorySelect(items.id, items.name)
                         }
                       >
