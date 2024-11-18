@@ -94,8 +94,13 @@ export default function ProductCard({
                 )}
                 <span className="text-xs md:text-base">{quantity}</span>
                 <span
-                  className="group border-l-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400"
+                  className={`group border-r-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400 ${
+                    quantity === totalQuantity
+                      ? "opacity-50 cursor-not-allowed"
+                      : ""
+                  }`}
                   onClick={() =>
+                    quantity < totalQuantity &&
                     dispatch(addToCart({ id, name, quantity: 1, price }))
                   }
                 >
@@ -117,11 +122,14 @@ export default function ProductCard({
               </Button>
             ) : (
               <Button
-                className="flex justify-center items-center bg-base-blue shadow-sm hover:shadow-light-blue gap-2 w-full normal-case text-base"
+                className={`flex justify-center items-center bg-base-blue shadow-sm hover:shadow-light-blue gap-2 w-full normal-case text-base ${
+                  !totalQuantity? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 size="sm"
-                onClick={() =>
-                  dispatch(addToCart({ id, name, quantity: 1, price }))
-                }
+                onClick={() => {
+                  totalQuantity && dispatch(addToCart({ id, name, quantity: 1, price }));
+                }}
+                disabled={!totalQuantity}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +151,9 @@ export default function ProductCard({
           </div>
           <div className="flex justify-center items-center w-full mb-2">
             {totalQuantity > 0 ? (
-              <span className="text-green-800">В наличии {totalQuantity} шт</span>
+              <span className="text-green-800">
+                В наличии {totalQuantity} шт
+              </span>
             ) : (
               <span className="text-red-800">Нет в наличии</span>
             )}
