@@ -101,7 +101,7 @@ export default function ProductPage() {
 
   return (
     <div className=" flex flex-col bg-light-blue pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
-      <div className="hidden md:flex basis-1/4 mt-10  md:mt-28 md:ml-10">
+      <div className="hidden md:flex basis-1/4 mt-10 mb-5 md:mt-28 md:ml-10">
         <SidebarCategory />
       </div>
       <div className="mt-20 md:mt-28 mr-0 md:mr-10 ">
