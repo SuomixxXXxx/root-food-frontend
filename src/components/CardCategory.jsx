@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function CardCategory({ id, name, image }) {
   return (
     <Link to={`/category/${id}`}>
-      <Card className="w-full h-32 md:w-72 md:h-52 shadow-lg rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300 relative">
+      <div className="w-full h-32 md:w-64 md:h-48 shadow-none rounded-lg overflow-hidden hover:shadow-none transition-shadow duration-300 relative">
         <div className="relative h-full w-full">
           <img
             src={image}
@@ -14,7 +14,7 @@ export default function CardCategory({ id, name, image }) {
             <h5 className="text-white text-base md:text-2xl font-bold text-center">{name}</h5>
           </div>
         </div>
-      </Card>
+      </div>
     </Link>
   );
 }

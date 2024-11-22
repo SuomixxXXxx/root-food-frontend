@@ -61,7 +61,7 @@ export default function OrderBox() {
             <div className="flex pt-3 md:pt-0">
               <div className="flex flex-row gap-1 items-center mr-3 ">
                 <Button
-                  className="flex justify-between items-center bg-base-blue  shadow-sm hover:shadow-light-blue shadow-light-blue gap-2 w-32 normal-case text-base"
+                  className="flex justify-between items-center bg-base-blue hover:shadow-none shadow-none gap-2 w-32 normal-case text-base"
                   size="sm"
                 >
                   {item.quantity > 1 ? (

@@ -125,7 +125,7 @@ export default function ProductCard({
               </Button>
             ) : (
               <Button
-                className={`flex justify-center items-center bg-base-blue shadow-white shadow-none hover:shadow-white gap-2 w-full normal-case text-base ${
+                className={`flex justify-center items-center bg-base-blue hover:shadow-none shadow-none gap-2 w-full normal-case text-base ${
                   !totalQuantity? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 size="sm"
