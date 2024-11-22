@@ -24,7 +24,6 @@ export default function ProductCard({
   const quantity = existingItem ? existingItem.quantity : 0;
 
   return (
-    <div className="ml-0 md:ml-4">
       <div className="card">
         <img
           src={imgURL}
@@ -163,6 +162,5 @@ export default function ProductCard({
           </div>
         </div>
       </div>
-    </div>
   );
 }
