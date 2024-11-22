@@ -4,14 +4,11 @@ import { STATUS } from "../../constants.js";
 
 export const orderCreate = createAsyncThunk("/order/create", async (params) => {
   try {
-    const response = await authService.post(
-      `order/create`,
-      params
-    );
+    const response = await authService.post(`order/create`, params);
     console.log(response, "returned value");
     return response;
   } catch (error) {
-    alert(error.response.data.message)
+    alert(error.response.data.message);
     console.log(error);
   }
 });
@@ -35,10 +32,14 @@ const cartSlice = createSlice({
         existingItem.quantity += 1;
         existingItem.price += action.payload.price;
       } else {
-        state.items.push({ ...action.payload, unitPrice: action.payload.price });
+        state.items.push({
+          ...action.payload,
+          unitPrice: action.payload.price,
+        });
       }
       state.amount += 1;
       state.totalPrice += action.payload.price;
+      console.log(state.items.totalQuantity + "quan");
     },
     removeFromCart: (state, action) => {
       const existingItem = state.items.find(
@@ -60,7 +61,7 @@ const cartSlice = createSlice({
       state.items = [];
       state.amount = 0;
       state.totalPrice = 0;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

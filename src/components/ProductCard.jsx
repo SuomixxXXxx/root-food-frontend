@@ -47,7 +47,7 @@ export default function ProductCard({
           <div className="flex justify-center items-center w-auto mt-3 mb-1">
             {quantity > 0 ? (
               <Button
-                className="flex justify-between bg-base-blue items-center shadow-sm hover:shadow-light-blue gap-2 w-full normal-case text-base"
+                className="flex justify-between bg-base-blue items-center shadow-white shadow-none hover:shadow-white gap-2 w-full normal-case text-base"
                 size="sm"
               >
                 {quantity > 1 ? (
@@ -97,7 +97,7 @@ export default function ProductCard({
                 )}
                 <span className="text-xs md:text-base">{quantity}</span>
                 <span
-                  className={`group border-r-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400 ${
+                  className={`group border-l-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400 ${
                     quantity === totalQuantity
                       ? "opacity-50 cursor-not-allowed"
                       : ""
@@ -125,12 +125,12 @@ export default function ProductCard({
               </Button>
             ) : (
               <Button
-                className={`flex justify-center items-center bg-base-blue shadow-sm hover:shadow-light-blue gap-2 w-full normal-case text-base ${
+                className={`flex justify-center items-center bg-base-blue shadow-white shadow-none hover:shadow-white gap-2 w-full normal-case text-base ${
                   !totalQuantity? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 size="sm"
                 onClick={() => {
-                  totalQuantity && dispatch(addToCart({ id, name, quantity: 1, price }));
+                  totalQuantity && dispatch(addToCart({ id, name, quantity: 1, price, totalQuantity }));
                 }}
                 disabled={!totalQuantity}
               >
