@@ -57,7 +57,7 @@ export default function PaymentBox() {
   return (
     <div className="w-40 md:w-60">
       <div className="flex md:justify-center md:items-center">
-        <Typography variant="h3" color="black" className="mb-2">
+        <Typography color="black" className="mb-2 text-base md:text-2xl">
           Оплата
         </Typography>
       </div>
@@ -71,7 +71,7 @@ export default function PaymentBox() {
         Итого: <span className="text-green-800 text-2xl">{totalPrice} ₽</span>
       </Typography>
       <Button
-        className="w-full normal-case text-base bg-base-blue  shadow-light-blue shadow-sm hover:shadow-light-blue rounded-2xl"
+        className="w-full normal-case text-base bg-base-blue shadow-light-blue shadow-sm hover:shadow-light-blue rounded-2xl"
         onClick={handlePurchase}
       >
         Оплатить

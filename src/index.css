@@ -19,6 +19,9 @@
   .card-image {
     @apply w-full h-36 md:h-44 object-fill;
   }
+  .small-image {
+    @apply w-10 h-10 md:w-16 md:h-16 rounded-lg object-fill;
+  }
 }
 
 html,

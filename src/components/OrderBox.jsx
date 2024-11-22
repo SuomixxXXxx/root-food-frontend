@@ -1,38 +1,40 @@
-import {
-  Card,
-  CardBody,
-  Typography,
-  IconButton,
-  Button,
-} from "@material-tailwind/react";
+import { Typography, Button } from "@material-tailwind/react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromCart, addToCart } from "../redux/slices/cart";
+import { IMAGE_URL } from "../constants";
+import imgPlaceholder from "../assets/images/imgPlaceholder.svg";
 export default function OrderBox() {
   const dispatch = useDispatch();
   const { items, amount, totalPrice } = useSelector((state) => state.cart);
   console.log(items);
   console.log(amount + "kolvo", totalPrice + "price");
   return (
-    <div className="flex flex-col mt-10 w-80 h-80 md:w-128 md:h-60 ">
+    <div className="flex flex-col w-80 min-h-fit md:w-128">
       <Typography
-        variant="h5"
         color="black"
-        className="mb-2 text-center border-b border-gray-300 text-base md:text-xl"
+        className="mb-2 text-center border-gray-300 text-base md:text-2xl"
       >
-        Ваш заказ
+        Корзина
       </Typography>
-      <div className="text-left mt-4 h-60 overflow-y-auto md:h-40">
+      <div className="text-left mt-4 min-h-fit md:h-40">
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-row justify-between flex-wrap items-center mb-4 overflow-y-auto"
+            className="flex flex-row justify-between flex-wrap items-center pb-2 mb-4 overflow-y-auto border-b-2 border-dark-gray-blue"
           >
-            <div className="flex flex-row flex-wrap mr-0">
+            <img
+              src={`${IMAGE_URL}/${item.id}.jpg`}
+              onError={(e) => {
+                e.target.src = imgPlaceholder;
+              }}
+              className="small-image"
+            />
+            <div className="flex w-56 flex-row mr-0 break-words">
               <Typography color="black" className="text-base md:text-xl">
                 {item.name}
               </Typography>
             </div>
-            <div className="flex">
+            <div className="flex pt-5">
               <div className="flex flex-row gap-1 items-center mr-3 ">
                 <Button
                   className="flex justify-between items-center bg-base-blue  shadow-sm hover:shadow-light-blue gap-2 w-32 normal-case text-base"
