@@ -18,7 +18,7 @@ export default function OrderBox() {
       </Typography>
       <Typography
         color="black"
-        className="mb-2 text-base md:text-lg flex gap-2 items-center group hover:text-gray-400 cursor-pointer"
+        className="mb-2 text-base md:text-lg flex gap-2 items-center group hover:text-gray-400 cursor-pointer w-fit"
         onClick={() => dispatch(clearCart())}
       >
         Очистить корзину{" "}
