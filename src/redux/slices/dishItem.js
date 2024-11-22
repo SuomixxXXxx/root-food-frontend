@@ -96,8 +96,23 @@ export const fetchDishItemsByCategory = createAsyncThunk(
       const response = await axios.get(
         `dishItems/getByCategory?categoryId=${categoryId}`
       );
+      console.log(response.data);
       return response;
     } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const deleteDishItemById = createAsyncThunk(
+  "dishitems/deleteById",
+  async(dishItemId) => {
+    try{
+        const response = await axios.delete(
+          `dishItems/delete?id=${dishItemId}`
+        );
+        return response;
+    }catch(error){
       console.log(error);
     }
   }

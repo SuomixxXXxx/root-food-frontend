@@ -17,6 +17,7 @@ import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export default function DashboardProductCard({
+  productId,
   id,
   name,
   weight,
@@ -24,9 +25,11 @@ export default function DashboardProductCard({
   imageUrl,
   isAdmin,
   categories,
+  onDelete,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const [openDelete,setOpenDelete] = useState(false);
   const [nameProduct, setNameProduct] = useState(name || "");
   const [weightProduct, setWeightProduct] = useState(weight || "");
   const [priceProduct, setPriceProduct] = useState(price || "");
@@ -40,7 +43,13 @@ export default function DashboardProductCard({
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
+  const handleOpenModalDelete = () => setOpenDelete(true);
+  const handleCloseDelete = () => setOpenDelete(false);
+  const handleDelete = () => {
+    onDelete(productId);
+    setOpenDelete(false);
 
+  }
   const handleOpenCategories = () => {
     if (!category || category.length === 0) {
       dispatch(fetchCategories());
@@ -73,6 +82,7 @@ export default function DashboardProductCard({
     formData.append("price", priceProduct);
     formData.append("weight", weightProduct);
     formData.append("categoryDTO.id", categoryProduct);
+    console.log(formData);
 
     if (imageFile) {
       formData.append("file", imageFile);
@@ -144,9 +154,30 @@ export default function DashboardProductCard({
                  >
                   Изменить товар
                 </Button>
-                <Button color="red" size="sm" className="w-full">
-                  Удалить товар
-                </Button>
+                <div>
+                  <Button color="red" 
+                    size="sm"
+                    className="w-full" 
+                    onClick={handleOpenModalDelete}>
+                    Удалить товар
+                  </Button>
+                  <Modal open={openDelete} onClose={handleCloseDelete}>
+                    <div className="p-6">
+                      <Typography variant="h5" color="black">
+                        Вы действительно хотите удалить товар{" "}
+                        <span className="font-bold">{name}</span>?
+                      </Typography>
+                      <div className="flex justify-between mt-4">
+                        <Button onClick={handleDelete} color="red" variant="filled">
+                          Да, удалить
+                        </Button>
+                        <Button onClick={handleCloseDelete} color="blue" variant="filled">
+                          Отмена
+                        </Button>
+                      </div>
+                    </div>
+                  </Modal>
+                </div>
               </div>
             ) : (
               <Button 
