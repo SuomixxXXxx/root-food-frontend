@@ -1,9 +1,19 @@
 import { useState, useEffect } from "react";
 import DashboardProductCard from "../components/DashboardProductCard";
-import { Button, Typography, Input, Accordion, AccordionBody, AccordionHeader } from "@material-tailwind/react";
+import {
+  Button,
+  Typography,
+  Input,
+  Accordion,
+  AccordionBody,
+  AccordionHeader,
+} from "@material-tailwind/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDishItemsByCategory, addProductData } from "../redux/slices/dishItem";
+import {
+  fetchDishItemsByCategory,
+  addProductData,
+} from "../redux/slices/dishItem";
 import SideBarWorker from "../components/SideBarWorker";
 import Modal from "../components/Modal";
 import uploadImage from "../assets/images/uploadImage.png";
@@ -39,7 +49,7 @@ export default function DashboardProductPage() {
     clearErrors,
     formState: { errors, isValid, touchedFields },
   } = useForm({
-    mode: "all", 
+    mode: "all",
     defaultValues: {
       name: "",
       weight: "",
@@ -47,7 +57,6 @@ export default function DashboardProductPage() {
       category: "",
     },
   });
-
   const handleOpenCategories = () => {
     if (!categories || categories.length === 0) {
       dispatch(fetchCategories());
@@ -83,6 +92,7 @@ export default function DashboardProductPage() {
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
+    console.log(file);
     setImage(file);
     if (file) {
       const reader = new FileReader();
@@ -91,6 +101,7 @@ export default function DashboardProductPage() {
       };
       reader.readAsDataURL(file);
     }
+    event.target.value = null;
   };
 
   const handleSaveChanges = async () => {
@@ -101,7 +112,8 @@ export default function DashboardProductPage() {
       "categoryDTO.id": product.category,
       file: image,
     };
-    
+    console.log(formData);
+
     const response = await dispatch(addProductData(formData)).unwrap();
     setOpen(false);
     if (response.status === 200) {
@@ -109,7 +121,6 @@ export default function DashboardProductPage() {
       reset();
       clearErrors();
       navigate(`/dashboard/category/${params.id}`);
-      
     }
     handleDeleteProductData();
   };
@@ -127,7 +138,7 @@ export default function DashboardProductPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchDishItemsByCategory(params.id));
+  dispatch(fetchDishItemsByCategory(params.id));
     if (localStorage.getItem("role") === "admin") {
       setIsHasRight(true);
     }
@@ -149,12 +160,14 @@ export default function DashboardProductPage() {
         <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {categoryDishes.dishItems.items?.data?.map((product) => (
             <DashboardProductCard
+              id={product.id}
               key={product.id}
               name={product.name}
               weight={product.weight}
               price={product.price}
               isAdmin={isHasRight}
-              imgURL={`${IMAGE_URL}/${product.id}.jpg`}
+              imageUrl={`${IMAGE_URL}/${product.id}.jpg`}
+              categories={product.categoryDTO.name}
             />
           ))}
         </div>
@@ -252,7 +265,9 @@ export default function DashboardProductPage() {
                 icon={
                   <ChevronDownIcon
                     strokeWidth={2.5}
-                    className={`mx-auto h-4 w-4 transition-transform ${openCategories ? "rotate-180" : ""}`}
+                    className={`mx-auto h-4 w-4 transition-transform ${
+                      openCategories ? "rotate-180" : ""
+                    }`}
                   />
                 }
               >
