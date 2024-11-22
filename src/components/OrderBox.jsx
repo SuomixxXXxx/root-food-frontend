@@ -33,7 +33,7 @@ export default function OrderBox() {
               <Typography color="black" className="text-base md:text-xl">
                 {item.name}
               </Typography>
-            <Typography className="text-sm md:text-base text-gray-500">
+              <Typography className="text-sm md:text-base text-gray-500">
                 {item.unitPrice} ₽/шт
               </Typography>
             </div>
