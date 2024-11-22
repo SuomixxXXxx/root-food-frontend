@@ -21,7 +21,6 @@ import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { IMAGE_URL } from "../constants";
 import { useForm } from "react-hook-form";
-import { deleteDishItemById } from "../redux/slices/dishItem";
 
 export default function DashboardProductPage() {
   const [isHasRight, setIsHasRight] = useState(false);
@@ -58,14 +57,6 @@ export default function DashboardProductPage() {
       category: "",
     },
   });
-
-  const handleDeleteDishItem = async(id) =>{
-    const response =  await dispatch(deleteDishItemById(id)).unwrap();
-    if(response.status ==200){
-      dispatch(fetchDishItemsByCategory(params.id));
-    }
-  }
-
   const handleOpenCategories = () => {
     if (!categories || categories.length === 0) {
       dispatch(fetchCategories());
@@ -169,7 +160,7 @@ export default function DashboardProductPage() {
         <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {categoryDishes.dishItems.items?.data?.map((product) => (
             <DashboardProductCard
-              productId={product.id}
+              id={product.id}
               key={product.id}
               name={product.name}
               weight={product.weight}
@@ -177,7 +168,6 @@ export default function DashboardProductPage() {
               isAdmin={isHasRight}
               imageUrl={`${IMAGE_URL}/${product.id}.jpg`}
               categories={product.categoryDTO.name}
-              onDelete={(id) => handleDeleteDishItem(id)}
             />
           ))}
         </div>

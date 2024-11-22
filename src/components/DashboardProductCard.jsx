@@ -15,9 +15,10 @@ import { updateDishItem } from "../redux/slices/dishItem";
 import Modal from "./Modal";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
+import { deleteDishItemById } from "../redux/slices/dishItem";
+import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
 
 export default function DashboardProductCard({
-  productId,
   id,
   name,
   weight,
@@ -40,16 +41,20 @@ export default function DashboardProductCard({
   const [openCategoties, setOpenCategoties] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
   const [isUpdated, setIsUpdated] = useState(false); 
+  const [isDeleted, setIsDeleted] = useState(false);
 
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
   const handleOpenModalDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDelete = () => {
-    onDelete(productId);
+  const handleDeleteDishItem = async() =>{
+    const response =  await dispatch(deleteDishItemById(id)).unwrap();
     setOpenDelete(false);
-
+    if(response.status ==200){
+      setIsDeleted(true);
+    }
   }
+
   const handleOpenCategories = () => {
     if (!category || category.length === 0) {
       dispatch(fetchCategories());
@@ -105,7 +110,11 @@ export default function DashboardProductCard({
       setOpen(false); 
       window.location.reload(); 
     }
-  }, [isUpdated]);
+    if (isDeleted) {
+      window.location.reload();
+    }
+
+  }, [isUpdated,isDeleted]);
 
   return (
     <div>
@@ -168,7 +177,7 @@ export default function DashboardProductCard({
                         <span className="font-bold">{name}</span>?
                       </Typography>
                       <div className="flex justify-between mt-4">
-                        <Button onClick={handleDelete} color="red" variant="filled">
+                        <Button onClick={handleDeleteDishItem} color="red" variant="filled">
                           Да, удалить
                         </Button>
                         <Button onClick={handleCloseDelete} color="blue" variant="filled">
