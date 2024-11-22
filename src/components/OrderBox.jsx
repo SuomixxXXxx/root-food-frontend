@@ -16,7 +16,7 @@ export default function OrderBox() {
       >
         Корзина
       </Typography>
-      <div className="text-left mt-4 min-h-fit md:h-40">
+      <div className="text-left md:mt-4 min-h-fit md:h-40">
         {items.map((item, index) => (
           <div
             key={index}
