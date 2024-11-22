@@ -55,25 +55,27 @@ export default function PaymentBox() {
     }
   };
   return (
-    <div>
-      <Card className="w-80 md:w-96 h-60">
-        <CardBody className="pb-2">
-          <Typography variant="h5" color="black" className="mb-2">
-            Способ оплаты
-          </Typography>
-          <div className="flex flex-row">
-            <Typography color="black">Сбербанк</Typography>
-          </div>
-          <Typography variant="h5" color="black" className="mb-2">
-            Цена: {totalPrice} ₽
-          </Typography>
-          <div className="flex justify-center items-center h-full">
-            <Button color="blue" onClick={handlePurchase}>
-              Оплатить
-            </Button>
-          </div>
-        </CardBody>
-      </Card>
+    <div className="w-40 md:w-60">
+      <div className="flex md:justify-center md:items-center">
+        <Typography variant="h3" color="black" className="mb-2">
+          Оплата
+        </Typography>
+      </div>
+      <Typography variant="h5" color="black" className="mb-1">
+        Способ оплаты
+      </Typography>
+      <Typography color="black" className="mb-1">
+        Сбербанк
+      </Typography>
+      <Typography variant="h5" color="black" className="mb-5">
+        Итого: <span className="text-green-800 text-2xl">{totalPrice} ₽</span>
+      </Typography>
+      <Button
+        className="w-full normal-case text-base bg-base-blue  shadow-light-blue shadow-sm hover:shadow-light-blue rounded-2xl"
+        onClick={handlePurchase}
+      >
+        Оплатить
+      </Button>
       <Modal open={open} onClose={isAuth ? handleClose : () => setOpen(false)}>
         <Typography variant="h5" color="black">
           {orderMessage}
