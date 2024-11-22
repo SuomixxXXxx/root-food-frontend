@@ -97,7 +97,7 @@ export default function ProductCard({
                 )}
                 <span className="text-xs md:text-base">{quantity}</span>
                 <span
-                  className={`group border-r-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400 ${
+                  className={`group border-l-2 h-full text-gray-400 hover:text-white hover:border-white border-gray-400 ${
                     quantity === totalQuantity
                       ? "opacity-50 cursor-not-allowed"
                       : ""
@@ -130,7 +130,7 @@ export default function ProductCard({
                 }`}
                 size="sm"
                 onClick={() => {
-                  totalQuantity && dispatch(addToCart({ id, name, quantity: 1, price }));
+                  totalQuantity && dispatch(addToCart({ id, name, quantity: 1, price, totalQuantity }));
                 }}
                 disabled={!totalQuantity}
               >
