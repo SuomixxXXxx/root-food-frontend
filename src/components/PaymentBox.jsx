@@ -67,7 +67,7 @@ export default function PaymentBox() {
         </span>
       </Typography>
       <Button
-        className="w-full normal-case md:text-lg bg-base-blue shadow-light-blue shadow-sm hover:shadow-light-blue rounded-2xl"
+        className="w-full normal-case md:text-lg bg-base-blue hover:shadow-none shadow-none rounded-2xl"
         onClick={handlePurchase}
       >
         Оплатить

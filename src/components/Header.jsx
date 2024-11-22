@@ -188,7 +188,7 @@ export default function Header() {
           <Link className="hidden lg:flex" to="/category">
             <Button
               size="sm"
-              className="hidden lg:flex normal-case bg-base-blue shadow-white shadow-none hover:shadow-white rounded-2xl"
+              className="hidden lg:flex normal-case bg-base-blue hover:shadow-none shadow-none rounded-2xl"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -232,7 +232,7 @@ export default function Header() {
           <Button
             size="sm"
             onClick={handleSearch}
-            className="!absolute right-0 top-0 h-full rounded-r-md rounded-l-none border-l-0 shadow-white shadow-none hover:shadow-white bg-base-blue"
+            className="!absolute right-0 top-0 h-full rounded-r-md rounded-l-none border-l-0 hover:shadow-none shadow-none bg-base-blue"
             type="submit"
           >
             <svg

@@ -101,11 +101,11 @@ export default function ProductPage() {
 
   return (
     <div className=" flex flex-col bg-light-blue pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
-      <div className="hidden md:flex basis-1/4 mt-10  md:mt-28 md:ml-10">
+      <div className="hidden md:flex basis-1/4 mt-10 mb-5 md:mt-28 md:ml-10">
         <SidebarCategory />
       </div>
-      <div className="mt-20 md:mt-28 mr-0 md:mr-10 ">
-        <div className="grid grid-cols-2 place-items-center gap-4  md:grid-cols-3 3xl:grid-cols-4">
+      <div className="mt-20 md:mt-28 md:ml-16">
+        <div className="grid grid-cols-2 place-items-center gap-4 md:gap-6 md:grid-cols-3 3xl:grid-cols-4">
           {(isCategoryDishesLoading
             ? products
             : categoryDishes.dishItems.items.data

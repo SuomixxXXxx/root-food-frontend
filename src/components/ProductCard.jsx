@@ -24,7 +24,6 @@ export default function ProductCard({
   const quantity = existingItem ? existingItem.quantity : 0;
 
   return (
-    <div className="ml-0 md:ml-4">
       <div className="card">
         <img
           src={imgURL}
@@ -125,7 +124,7 @@ export default function ProductCard({
               </Button>
             ) : (
               <Button
-                className={`flex justify-center items-center bg-base-blue shadow-white shadow-none hover:shadow-white gap-2 w-full normal-case text-base ${
+                className={`flex justify-center items-center bg-base-blue hover:shadow-none shadow-none gap-2 w-full normal-case text-base ${
                   !totalQuantity? "opacity-50 cursor-not-allowed" : ""
                 }`}
                 size="sm"
@@ -163,6 +162,5 @@ export default function ProductCard({
           </div>
         </div>
       </div>
-    </div>
   );
 }
