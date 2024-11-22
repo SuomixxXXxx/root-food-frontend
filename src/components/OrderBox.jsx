@@ -9,10 +9,10 @@ export default function OrderBox() {
   console.log(items);
   console.log(amount + "kolvo", totalPrice + "price");
   return (
-    <div className="flex flex-col w-80 min-h-fit md:w-128">
+    <div className="flex flex-col w-80 min-h-fit md:w-10/12">
       <Typography
         color="black"
-        className="mb-2 text-center border-gray-300 text-base md:text-2xl"
+        className="mb-2 text-center border-gray-300 text-xl md:text-2xl"
       >
         Корзина
       </Typography>
@@ -20,7 +20,7 @@ export default function OrderBox() {
         {items.map((item, index) => (
           <div
             key={index}
-            className="flex flex-row justify-between flex-wrap items-center pb-2 mb-4 overflow-y-auto border-b-2 border-dark-gray-blue"
+            className="flex flex-row md:justify-between flex-wrap items-center pb-2 mb-4 overflow-y-auto border-b-2 border-dark-gray-blue"
           >
             <img
               src={`${IMAGE_URL}/${item.id}.jpg`}
@@ -29,15 +29,18 @@ export default function OrderBox() {
               }}
               className="small-image"
             />
-            <div className="flex w-56 flex-row mr-0 break-words">
+            <div className="flex flex-col w-56 pl-3 md:pl-0 mr-0 break-words">
               <Typography color="black" className="text-base md:text-xl">
                 {item.name}
               </Typography>
+            <Typography className="text-sm md:text-base text-gray-500">
+                {item.unitPrice} ₽/шт
+              </Typography>
             </div>
-            <div className="flex pt-5">
+            <div className="flex pt-3 md:pt-0">
               <div className="flex flex-row gap-1 items-center mr-3 ">
                 <Button
-                  className="flex justify-between items-center bg-base-blue  shadow-sm hover:shadow-light-blue gap-2 w-32 normal-case text-base"
+                  className="flex justify-between items-center bg-base-blue  shadow-sm hover:shadow-light-blue shadow-light-blue gap-2 w-32 normal-case text-base"
                   size="sm"
                 >
                   {item.quantity > 1 ? (
