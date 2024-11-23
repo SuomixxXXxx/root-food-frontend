@@ -43,7 +43,15 @@ export default function DashboardProductCard({
   const [isDeleted, setIsDeleted] = useState(false);
 
   const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const handleCloseModal = () => {
+    setOpen(false);
+    setNameProduct(name);
+    setWeightProduct(weight);
+    setPriceProduct(price);
+    setImagePreviewModal(imageUrl);
+    setCategoryProduct("");
+    setSelectedCategoryName("");
+  };
   const handleOpenModalDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
   const handleDeleteDishItem = async() =>{
