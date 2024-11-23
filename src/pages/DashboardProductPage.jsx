@@ -165,6 +165,7 @@ export default function DashboardProductPage() {
               name={product.name}
               weight={product.weight}
               price={product.price}
+              quantity={product.quantity}
               isAdmin={isHasRight}
               imageUrl={`${IMAGE_URL}/${product.id}.jpg`}
               categories={product.categoryDTO.name}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -16,45 +17,95 @@ import Modal from "./Modal";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { deleteDishItemById } from "../redux/slices/dishItem";
-import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
 
 export default function DashboardProductCard({
   id,
   name,
   weight,
   price,
+  quantity,
   imageUrl,
   isAdmin,
   categories,
-  onDelete,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const [openDelete,setOpenDelete] = useState(false);
-  const [nameProduct, setNameProduct] = useState(name || "");
-  const [weightProduct, setWeightProduct] = useState(weight || "");
-  const [priceProduct, setPriceProduct] = useState(price || "");
+  const [openDelete, setOpenDelete] = useState(false);
+  const [product, setProduct] = useState({
+    name: name || "",
+    weight: weight || "",
+    price: price || "",
+    quantity: quantity || "",
+  });
   const [imagePrew, setImagePrew] = useState(imageUrl || "");
+  const [imagePreviewModal, setImagePreviewModal] = useState(imageUrl || "");
   const [imageFile, setImageFile] = useState(null);
   const category = useSelector((state) => state.categories);
   const [categoryProduct, setCategoryProduct] = useState("");
   const [openCategoties, setOpenCategoties] = useState(false);
   const [selectedCategoryName, setSelectedCategoryName] = useState("");
-  const [isUpdated, setIsUpdated] = useState(false); 
+  const [isUpdated, setIsUpdated] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleOpenModal = () => setOpen(true);
-  const handleCloseModal = () => setOpen(false);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid, touchedFields },
+  } = useForm({
+    mode: "all",
+    defaultValues: {
+      name: name || "",
+      weight: weight || "",
+      price: price || "",
+      quantity: quantity || "",
+    },
+  });
+
+  const handleOpenModal = () => {
+    setOpen(true);
+
+    setProduct({
+      name,
+      weight,
+      price,
+      quantity,
+    });
+    setImagePreviewModal(imageUrl);
+    setCategoryProduct("");
+    setSelectedCategoryName("");
+  };
+
+  const handleCloseModal = () => {
+    setOpen(false);
+    setProduct({
+      name: "",
+      weight: "",
+      price: "",
+      quantity: "",
+    });
+    setImagePreviewModal(imageUrl);
+    setCategoryProduct("");
+    setSelectedCategoryName("");
+  };
+
   const handleOpenModalDelete = () => setOpenDelete(true);
   const handleCloseDelete = () => setOpenDelete(false);
-  const handleDeleteDishItem = async() =>{
-    const response =  await dispatch(deleteDishItemById(id)).unwrap();
+  const handleDeleteDishItem = async () => {
+    const response = await dispatch(deleteDishItemById(id)).unwrap();
     setOpenDelete(false);
-    if(response.status ==200){
+    if (response.status == 200) {
       setIsDeleted(true);
     }
-  }
-
+  };
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prevProduct) => ({
+      ...prevProduct,
+      [name]: value,
+    }));
+  };
   const handleOpenCategories = () => {
     if (!category || category.length === 0) {
       dispatch(fetchCategories());
@@ -74,7 +125,7 @@ export default function DashboardProductCard({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePrew(reader.result);
+        setImagePreviewModal(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -83,9 +134,10 @@ export default function DashboardProductCard({
   const updateDish = async () => {
     const formData = new FormData();
     formData.append("id", id);
-    formData.append("name", nameProduct);
-    formData.append("price", priceProduct);
-    formData.append("weight", weightProduct);
+    formData.append("name", product.name);
+    formData.append("price", product.price);
+    formData.append("weight", product.weight);
+    formData.append("quantity", product.quantity);
     formData.append("categoryDTO.id", categoryProduct);
     console.log(formData);
 
@@ -99,6 +151,7 @@ export default function DashboardProductCard({
       console.log(response);
       if (response.payload) {
         setIsUpdated(true);
+        setImagePrew(imagePreviewModal);
       }
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
@@ -107,21 +160,20 @@ export default function DashboardProductCard({
 
   useEffect(() => {
     if (isUpdated) {
-      setOpen(false); 
-      window.location.reload(); 
+      setOpen(false);
+      window.location.reload();
     }
     if (isDeleted) {
       window.location.reload();
     }
-
-  }, [isUpdated,isDeleted]);
+  }, [isUpdated, isDeleted]);
 
   return (
     <div>
       <Card className="flex flex-col h-auto w-60 md:w-80 bg-white shadow-lg p-4">
-        <CardHeader 
-        floated={false} 
-        className="flex justify-center items-center h-56 mb-4"
+        <CardHeader
+          floated={false}
+          className="flex justify-center items-center h-56 mb-4"
         >
           <div className="flex justify-center items-center h-full w-full overflow-hidden">
             <img
@@ -133,41 +185,51 @@ export default function DashboardProductCard({
           </div>
         </CardHeader>
         <CardBody className="text-center">
-          <Typography 
-          variant="h4" 
-          color="blue-gray"
-           className="mb-2 text-lg md:text-xl"
-           >
+          <Typography
+            variant="h4"
+            color="blue-gray"
+            className="mb-2 text-lg md:text-xl"
+          >
             {name}
           </Typography>
-          <Typography 
-          color="blue-gray" 
-          className="font-medium text-left mb-2 text-sm md:text-base"
-          >
-            Вес: {weight} г
-          </Typography>
-          <Typography 
-          color="blue-gray" 
-          className="font-medium text-left text-sm md:text-base mb-4"
-          >
-            Цена: {price} ₽
-          </Typography>
+          <div className="space-y-1 text-left">
+            <Typography
+              color="blue-gray"
+              className="font-medium text-left mb-2 text-sm md:text-base"
+            >
+              Вес: {weight} г
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="font-medium text-left mb-2 text-sm md:text-base"
+            >
+              Цена: {price} ₽
+            </Typography>
+            <Typography
+              color="blue-gray"
+              className="font-medium text-left mb-2 text-sm md:text-base"
+            >
+              Количество: {quantity}
+            </Typography>
+          </div>
           <div className="w-full flex flex-col items-center space-y-2">
             {isAdmin ? (
-              <div className="flex flex-col items-center space-y-2">
-                <Button 
-                color="green"
-                 size="sm" 
-                 className="w-full" 
-                 onClick={handleOpenModal}
-                 >
+              <div className="flex flex-col items-center space-y-2 mt-4">
+                <Button
+                  color="green"
+                  size="sm"
+                  className="w-40"
+                  onClick={handleOpenModal}
+                >
                   Изменить товар
                 </Button>
                 <div>
-                  <Button color="red" 
+                  <Button
+                    color="red"
                     size="sm"
-                    className="w-full" 
-                    onClick={handleOpenModalDelete}>
+                    className="w-40"
+                    onClick={handleOpenModalDelete}
+                  >
                     Удалить товар
                   </Button>
                   <Modal open={openDelete} onClose={handleCloseDelete}>
@@ -177,10 +239,18 @@ export default function DashboardProductCard({
                         <span className="font-bold">{name}</span>?
                       </Typography>
                       <div className="flex justify-between mt-4">
-                        <Button onClick={handleDeleteDishItem} color="red" variant="filled">
+                        <Button
+                          onClick={handleDeleteDishItem}
+                          color="red"
+                          variant="filled"
+                        >
                           Да, удалить
                         </Button>
-                        <Button onClick={handleCloseDelete} color="blue" variant="filled">
+                        <Button
+                          onClick={handleCloseDelete}
+                          color="blue"
+                          variant="filled"
+                        >
                           Отмена
                         </Button>
                       </div>
@@ -189,11 +259,11 @@ export default function DashboardProductCard({
                 </div>
               </div>
             ) : (
-              <Button 
-              color="green" 
-              size="sm" 
-              className="w-full" 
-              onClick={handleOpenModal}
+              <Button
+                color="green"
+                size="sm"
+                className="w-full"
+                onClick={handleOpenModal}
               >
                 Изменить товар
               </Button>
@@ -215,34 +285,110 @@ export default function DashboardProductCard({
           />
           <label htmlFor={`imageUpload-${id}`}>
             <img
-              src={imagePrew || imageUrl}
+              src={imagePreviewModal}
               alt="product"
               className="object-contain h-48 w-48 cursor-pointer"
             />
           </label>
         </div>
-        <div className="flex flex-col space-y-6">
+        <form onSubmit={handleSubmit(updateDish)}>
+        <div className="flex flex-col space-y-3">
           <Input
             type="text"
-            value={nameProduct}
-            onChange={(e) => setNameProduct(e.target.value)}
-            placeholder="Название"
-            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+            name="name"
+            value={product.name}
+            label="Название"
+            error={Boolean(errors.name) && touchedFields.name}
+              {...register("name", { required: "Укажите название" })}
+              onChange={handleChange}
           />
+              {errors.name && touchedFields.name && (
+              <Typography type="small" color="red" className="mt-0.5 block">
+                {errors.name.message}
+              </Typography>
+          )}
           <Input
-            type="number"
-            value={weightProduct}
-            onChange={(e) => setWeightProduct(e.target.value)}
-            placeholder="Вес"
-            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+            type="text"
+            name="weight"
+            value={product.weight}
+            label="Вес"
+            error={Boolean(errors.weight) && touchedFields.weight}
+            {...register("weight", {
+              required: "Укажите вес",
+              pattern: {
+                value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                message: "Вес должен быть числом",
+              },
+              min: {
+                value: 1,
+                message: "Вес должен быть больше нуля",
+              },
+            })}
+            onChange={handleChange}
+            
           />
+           {errors.weight && touchedFields.weight && (
+              <Typography type="small" color="red" className="mt-0.5 block">
+                {errors.weight.message}
+              </Typography>
+            )}
           <Input
-            type="number"
-            value={priceProduct}
-            onChange={(e) => setPriceProduct(e.target.value)}
-            placeholder="Цена"
-            className="border p-3 rounded-lg w-full focus:ring-2 focus:ring-blue-500"
+            {...register("price", {
+              required: "Цена обязательна",
+              validate: (value) => value > 0 || "Цена должна быть больше нуля",
+            })}
+            type="text"
+            name="price"
+            value={product.price}
+            label="Цена"
+            error={Boolean(errors.price) && touchedFields.price}
+            {...register("price", {
+              required: "Укажите цену",
+              pattern: {
+                value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                message: "Цена должна быть числом",
+              },
+              min: {
+                value: 1,
+                message: "Цена должна быть больше нуля",
+              },
+            })}
+            onChange={handleChange}
           />
+            {errors.price && touchedFields.price && (
+              <Typography type="small" color="red" className="mt-0.5 block">
+                {errors.price.message}
+              </Typography>
+          )}
+          <Input
+            {...register("quantity", {
+              required: "Количество обязательно",
+              validate: (value) =>
+                value > 0 || "Кол-во должно быть больше нуля",
+            })}
+            type="text"
+            name="quantity"
+            value={product.quantity}
+            label="Количество"
+            error={Boolean(errors.quantity) && touchedFields.quantity}
+            {...register("quantity", {
+              required: "Укажите кол-во",
+              pattern: {
+                value: /^[0-9]+(\.[0-9]{1,2})?$/,
+                message: "Кол-во должна быть числом",
+              },
+              min: {
+                value: 1,
+                message: "Кол-во должно быть больше нуля",
+              },
+            })}
+            onChange={handleChange}
+          />
+          {errors.quantity && touchedFields.quantity && (
+              <Typography type="small" color="red" className="mt-0.5 block">
+                {errors.quantity.message}
+              </Typography>
+          )}
           <div>
             <Accordion
               open={openCategoties}
@@ -267,9 +413,10 @@ export default function DashboardProductCard({
                       <li
                         key={items.id}
                         className="flex items-center pl-6 cursor-pointer hover:bg-blue-100 transition-all duration-200 rounded-lg"
-                        onClick={() => 
-                          handleCategorySelect(items.id, items.name)
-                        }
+                        onClick={() =>{
+                          handleCategorySelect(items.id, items.name);
+                          setValue("category", items.id);
+                        }}
                       >
                         <Typography className="text-base font-medium text-blue-gray-700">
                           {items.name}
@@ -283,13 +430,14 @@ export default function DashboardProductCard({
           </div>
         </div>
         <div className="flex justify-between mt-6">
-          <Button color="green" onClick={updateDish}>
+          <Button color="green" disabled={!isValid} type="submit">
             Сохранить
           </Button>
           <Button color="blue" onClick={handleCloseModal}>
             Закрыть
           </Button>
         </div>
+        </form>
       </Modal>
     </div>
   );
