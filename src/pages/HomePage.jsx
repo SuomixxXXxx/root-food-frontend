@@ -22,7 +22,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-light-blue min-h-fit px-3 md:px-5 pb-8">
-      <div className="flex justify-center pt-20 md:pt-40">
+      <div className="flex justify-center pt-20 md:pt-32">
         <img src={logo} alt="" className="logo-image" />
       </div>
       <div className="pt-8">
