@@ -21,7 +21,7 @@ export default function HomePage() {
   }, [dispatch]);
 
   return (
-    <div className="bg-light-blue min-h-fit px-3 md:px-5 pb-10">
+    <div className="bg-light-blue min-h-fit px-3 md:px-5 pb-8">
       <div className="flex justify-center pt-20 md:pt-40">
         <img src={logo} alt="" className="logo-image" />
       </div>
