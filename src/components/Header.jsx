@@ -180,7 +180,7 @@ export default function Header() {
         </i>
 
         <div className="flex gap-5 h-max items-center">
-          <Link to="/home">
+          <Link to="/">
             <div className="w-32 h-max">
               <img src={aquariumLogo} alt="My aquariumLogo" />
             </div>
@@ -478,7 +478,7 @@ export default function Header() {
       </Modal>
       <div className="lg:hidden fixed z-50 w-full h-16 max-w-lg -translate-x-1/2 bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
         <div className="grid h-full max-w-lg grid-cols-4 place-items-center mx-auto">
-          <Link to="/home">
+          <Link to="/">
             <div className="flex flex-col items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
