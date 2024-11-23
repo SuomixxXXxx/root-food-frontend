@@ -16,7 +16,6 @@ import Modal from "./Modal";
 import { fetchCategories } from "../redux/slices/categories";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { deleteDishItemById } from "../redux/slices/dishItem";
-import { fetchDishItemsByCategory } from "../redux/slices/dishItem";
 
 export default function DashboardProductCard({
   id,
@@ -26,7 +25,6 @@ export default function DashboardProductCard({
   imageUrl,
   isAdmin,
   categories,
-  onDelete,
 }) {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
@@ -35,6 +33,7 @@ export default function DashboardProductCard({
   const [weightProduct, setWeightProduct] = useState(weight || "");
   const [priceProduct, setPriceProduct] = useState(price || "");
   const [imagePrew, setImagePrew] = useState(imageUrl || "");
+  const [imagePreviewModal, setImagePreviewModal] = useState(imageUrl || "");
   const [imageFile, setImageFile] = useState(null);
   const category = useSelector((state) => state.categories);
   const [categoryProduct, setCategoryProduct] = useState("");
@@ -74,7 +73,7 @@ export default function DashboardProductCard({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePrew(reader.result);
+        setImagePreviewModal(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -99,6 +98,7 @@ export default function DashboardProductCard({
       console.log(response);
       if (response.payload) {
         setIsUpdated(true);
+        setImagePrew(imagePreviewModal)
       }
     } catch (error) {
       console.error("Ошибка при обновлении:", error);
@@ -215,7 +215,7 @@ export default function DashboardProductCard({
           />
           <label htmlFor={`imageUpload-${id}`}>
             <img
-              src={imagePrew || imageUrl}
+              src={imagePreviewModal}
               alt="product"
               className="object-contain h-48 w-48 cursor-pointer"
             />
