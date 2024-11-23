@@ -21,7 +21,7 @@ export default function HomePage() {
   }, [dispatch]);
 
   return (
-    <div className="bg-light-blue min-h-fit px-5 pb-10">
+    <div className="bg-light-blue min-h-fit px-3 md:px-5 pb-10">
       <div className="flex justify-center pt-20 md:pt-40">
         <img src={logo} alt="" className="logo-image" />
       </div>
@@ -63,7 +63,7 @@ export default function HomePage() {
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
           breakpoints={{
-            380: { slidesPerView: 2 },
+            380: { slidesPerView: 2, spaceBetween: 50},
             768: { slidesPerView: 4, spaceBetween: 20 },
             1500: { slidesPerView: 5, spaceBetween: 20 },
             1920: { slidesPerView: 6, spaceBetween: 20 },
