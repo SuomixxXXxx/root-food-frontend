@@ -23,7 +23,7 @@
     @apply w-10 h-10 md:w-16 md:h-16 rounded-lg object-fill;
   }
   .logo-image{
-    @apply w-12 h-12 md:w-fit md:h-96 object-fill;
+    @apply w-96 h-48 md:w-full md:h-96 object-fill;
   }
 }
 
