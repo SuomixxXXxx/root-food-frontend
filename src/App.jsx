@@ -16,6 +16,7 @@ import { fetchDishItems } from "./redux/slices/dishItem.js";
 import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import HomePage from "./pages/HomePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +27,7 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-
-        // { path: "", element: <LandingPage /> },
+      { path: "/", element: <HomePage /> },
       { path: "signup", element: <SignupPage /> },
       { path: "cart", element: <CartPage /> },
       { path: "login", element: <LoginPage /> },
