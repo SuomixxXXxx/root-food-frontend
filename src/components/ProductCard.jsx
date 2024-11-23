@@ -153,11 +153,11 @@ export default function ProductCard({
           </div>
           <div className="flex justify-center items-center w-full mb-2">
             {totalQuantity > 0 ? (
-              <span className="text-green-800">
+              <span className="text-green-800 text-sm md:text-base">
                 В наличии {totalQuantity} шт
               </span>
             ) : (
-              <span className="text-red-800">Нет в наличии</span>
+              <span className="text-red-800 text-sm md:text-base">Нет в наличии</span>
             )}
           </div>
         </div>
