@@ -129,7 +129,7 @@ export default function CategoryPage() {
           {(isCategoriesLoading
             ? categoriesMock
             : categories.categories.items.data
-          ).map((category, index) =>
+          )?.map((category, index) =>
             isCategoriesLoading ? (
               <CardCategory
               key={index}
