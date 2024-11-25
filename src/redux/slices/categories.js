@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios.js";
+import { STATUS } from "../../constants.js";
 
 export const fetchCategories = createAsyncThunk(
   "/categories/get/fetchCategories",
   async () => {
-    const response = await axios.get("categories/get");
+    const response = await axios.get("categories/get?active=false");
+    // console.log(response)
     return response;
   }
 );
@@ -12,7 +14,7 @@ export const fetchCategories = createAsyncThunk(
 const initialState = {
   categories: {
     items: [],
-    status: "loading",
+    status: STATUS.PENDING,
   },
 };
 
@@ -24,15 +26,15 @@ const categoriesSlice = createSlice({
     builder
       .addCase(fetchCategories.pending, (state) => {
         state.categories.items = [];
-        state.categories.status = "loading";
+        state.categories.status = STATUS.PENDING;
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.categories.items = action.payload;
-        state.categories.status = "loaded";
+        state.categories.status = STATUS.FULFILLED;
       })
       .addCase(fetchCategories.rejected, (state) => {
         state.categories.items = [];
-        state.categories.status = "failed";
+        state.categories.status = STATUS.REJECTED;
       });
   },
 });

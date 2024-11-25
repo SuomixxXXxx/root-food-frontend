@@ -1,16 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../axios.js";
+import { STATUS } from "../../constants.js";
 
 export const orderCreate = createAsyncThunk("/order/create", async (params) => {
   try {
-    const response = await authService.post(
-      `order/create`,
-      params
-    );
+    const response = await authService.post(`order/create`, params);
     console.log(response, "returned value");
     return response;
   } catch (error) {
-    alert(error.response.data.message)
+    alert(error.response.data.message);
     console.log(error);
   }
 });
@@ -19,6 +17,7 @@ const initialState = {
   items: [],
   amount: 0,
   totalPrice: 0,
+  status: STATUS.PENDING,
 };
 
 const cartSlice = createSlice({
@@ -33,10 +32,14 @@ const cartSlice = createSlice({
         existingItem.quantity += 1;
         existingItem.price += action.payload.price;
       } else {
-        state.items.push(action.payload);
+        state.items.push({
+          ...action.payload,
+          unitPrice: action.payload.price,
+        });
       }
       state.amount += 1;
       state.totalPrice += action.payload.price;
+      console.log(state.items.totalQuantity + "quan");
     },
     removeFromCart: (state, action) => {
       const existingItem = state.items.find(
@@ -44,7 +47,7 @@ const cartSlice = createSlice({
       );
       if (existingItem.quantity > 1) {
         existingItem.quantity -= 1;
-        existingItem.price -= action.payload.price / action.payload.quantity;
+        existingItem.price -= existingItem.unitPrice;
         console.log(existingItem.quantity);
       } else {
         state.items = state.items.filter(
@@ -52,24 +55,24 @@ const cartSlice = createSlice({
         );
       }
       state.amount -= 1;
-      state.totalPrice -= action.payload.price / action.payload.quantity;
+      state.totalPrice -= existingItem.unitPrice;
     },
     clearCart: (state) => {
       state.items = [];
       state.amount = 0;
       state.totalPrice = 0;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(orderCreate.pending, (state) => {
-        state.status = "loading";
+        state.status = STATUS.PENDING;
       })
       .addCase(orderCreate.fulfilled, (state) => {
-        state.status = "loaded";
+        state.status = STATUS.FULFILLED;
       })
       .addCase(orderCreate.rejected, (state) => {
-        state.status = "failed";
+        state.status = STATUS.REJECTED;
       });
   },
 });
