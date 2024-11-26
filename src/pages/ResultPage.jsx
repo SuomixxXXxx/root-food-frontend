@@ -26,6 +26,7 @@ export default function ResultPage() {
               name={selectedItem.name}
               weight={selectedItem.weight}
               price={selectedItem.price}
+              imgURL={`${IMAGE_URL}/${selectedItem.id}.jpg`}
             />
           </div>
         ) : products.dishItems.search?.data?.length > 0 ? (
