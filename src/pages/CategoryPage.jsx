@@ -120,7 +120,7 @@ export default function CategoryPage() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-light-blue pr-4 pl-4 pt-5 pb-6 md:flex-row min-h-fit md:pr-10 md:pl-10">
+    <div className="flex flex-col bg-light-blue pr-4 pl-4 pt-5 pb-6 md:flex-row min-h-screen md:pr-10 md:pl-10">
       <div className="hidden md:flex basis-1/4 mt-10 md:mt-28 md:ml-10">
         <SidebarCategory />
       </div>

@@ -28,7 +28,7 @@ export default function CartPage() {
       <div className="flex mt-20 md:mt-28 md:flex-1 justify-center md:order-2">
         <OrderBox />
       </div>
-      <div className="flex flex-1 md:mt-28 pl-16 md:order-1">
+      <div className="flex md:flex-1 md:mt-28 justify-start px-9 md:px-0 md:pl-16 md:order-1">
         <PaymentBox />
       </div>
     </div>
