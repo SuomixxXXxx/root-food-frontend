@@ -180,7 +180,6 @@ export default function DashboardProductCard({
               src={imagePrew || imageUrl}
               alt="product"
               className="object-contain h-full w-full"
-              onClick={updateDish}
             />
           </div>
         </CardHeader>
