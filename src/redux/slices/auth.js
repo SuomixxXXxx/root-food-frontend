@@ -2,29 +2,29 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "../../axios.js";
 import { STATUS } from "../../constants.js";
 
-export const login = createAsyncThunk("/api/v1/auth/login", async (params) => {
+export const login = createAsyncThunk("auth/login", async (params) => {
   const response = await authService.post(
-    `api/v1/auth/authenticate?login=${params.login}&password=${params.password}`
+    `auth/authenticate?login=${params.login}&password=${params.password}`
   );
   return response;
 });
 
 export const signup = createAsyncThunk(
-  "/api/v1/auth/register",
+  "auth/register",
   async (params) => {
     console.log("params", params.name);
     const response = await authService.post(
-      `/api/v1/auth/register`,
+      `auth/register`,
       params
     );
     return response;
   }
 );
 
-export const checkAuth = createAsyncThunk("/api/v1/auth/refresh", async () => {
+export const checkAuth = createAsyncThunk("auth/refresh", async () => {
   try {
     const response = await authService.post(
-      `/api/v1/auth/refresh?refreshToken=${localStorage.getItem(
+      `auth/refresh?refreshToken=${localStorage.getItem(
         "refreshToken"
       )}`
     );

@@ -1,33 +1,34 @@
-**Stack: JavaScript, React, Tailwind, Axios, Redux Toolkit, Redux Persist, React Router Dom, React Hook Form**
+**Stack: JavaScript, React, Tailwind, Axios, Stompjs, Redux Toolkit, Redux Persist, React Router Dom, React Hook Form**
+
+**Home Page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/homePage1.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/homePage2.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/homePage1(mobile).png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/homePage2(mobile).png)
 
 **Category Page**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/category.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/categoryPage.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/categoryPage(mobile).png)
 
-**Product Page**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/dishItem.png)
+**Product and Search Page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/productPage1.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/productPage2.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/productPage(mobile).png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/search.png)
 
-**You can add products in cart**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cartFun.png)
-
-**Cart Page, you can decrease and increase amount of products**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cart.png)
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/cartMinus.png)
-
-**Cart Page, if noAuth you can't order products**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/noAuth.png)
+**Cart Page**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/cartPage.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/cartPage(mobile).png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/Payment.png)
 
 **Login and Signup page**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/login.png)
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/signup.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/loginPage.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/signupPage.png)
 
-**After authorization you get token and refreshToken in localStorage, also you have your cart products in redux-persist storage**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/tokenAndPersistCar.png)
+**DashboardPage current orders (stompjs websocket)**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/DorderPage.png)
 
-**Also you can order products**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/successPayment.png)
+**Admins can add and edit dishes**
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/addComponent.png)
+![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/feature/apiUpdate/src/assets/readme/editComponent.png)
 
-**Empty cart after order**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/emptyCart.png)
-
-**Logout**
-![Image alt](https://github.com/SuomixxXXxx/root-food-frontend/blob/dev/src/assets/readme/logout.png)

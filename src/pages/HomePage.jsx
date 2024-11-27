@@ -41,7 +41,7 @@ export default function HomePage() {
             1920: { slidesPerView: 6, spaceBetween: 50 },
           }}
         >
-          {categories.categories.items.data?.map((obj, index) => (
+          {categories.categories.items?.data?.map((obj, index) => (
             <SwiperSlide key={index}>
               <CardCategory
                 key={index}
@@ -69,7 +69,7 @@ export default function HomePage() {
             1920: { slidesPerView: 6, spaceBetween: 20 },
           }}
         >
-          {popularDishes.dishItems.items.data?.map((obj, index) => (
+          {popularDishes.dishItems.items?.data?.map((obj, index) => (
             <SwiperSlide key={index} className="h-80 md:h-96">
               <ProductCard
                 id={obj.id}

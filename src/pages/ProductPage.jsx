@@ -109,7 +109,7 @@ export default function ProductPage() {
           {(isCategoryDishesLoading
             ? products
             : categoryDishes.dishItems.items.data
-          ).map((obj, index) =>
+          )?.map((obj, index) =>
             isCategoryDishesLoading ? (
               <ProductCard
                 key={index}

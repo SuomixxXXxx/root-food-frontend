@@ -26,11 +26,12 @@ export default function ResultPage() {
               name={selectedItem.name}
               weight={selectedItem.weight}
               price={selectedItem.price}
+              imgURL={`${IMAGE_URL}/${selectedItem.id}.jpg`}
             />
           </div>
-        ) : products.dishItems.search.data.length > 0 ? (
+        ) : products.dishItems.search?.data?.length > 0 ? (
           <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 3xl:grid-cols-4">
-            {products.dishItems.search.data?.map((obj, index) => (
+            {products.dishItems.search?.data?.map((obj, index) => (
               <ProductCard
                 key={index}
                 id={obj.id}
