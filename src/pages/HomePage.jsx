@@ -9,7 +9,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { fetchCategories } from "../redux/slices/categories.js";
 import { Typography } from "@material-tailwind/react";
 import CardCategory from "../components/CardCategory.jsx";
-import BakeCategory from "../assets/images/BakeCategory.png";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -47,7 +46,7 @@ export default function HomePage() {
                 key={index}
                 id = {obj.id}
                 name={obj.name}
-                image={BakeCategory}
+                imageUrl={`${IMAGE_URL}/${obj.id}.jpg`}
               />
             </SwiperSlide>
           ))}

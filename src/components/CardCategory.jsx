@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-export default function CardCategory({ id, name, image }) {
+export default function CardCategory({ id, name, imageUrl }) {
   return (
     <Link to={`/category/${id}`}>
       <div className="w-full h-32 md:w-64 md:h-48 shadow-none rounded-lg overflow-hidden hover:shadow-none transition-shadow duration-300 relative">
         <div className="relative h-full w-full">
           <img
-            src={image}
+            src={imageUrl}
             alt={name}
             className="object-cover h-full w-full"
           />

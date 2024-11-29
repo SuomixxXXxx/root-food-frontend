@@ -9,7 +9,7 @@ import SalatCategory from "../assets/images/SalatCategory.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { fetchCategories } from "../redux/slices/categories.js";
-import { STATUS } from "../constants.js";
+import { STATUS, IMAGE_URL } from "../constants.js";
 
 const categoriesMock = [
   {
@@ -141,7 +141,8 @@ export default function CategoryPage() {
                 key={index}
                 id = {category.id}
                 name={category.name}
-                image={BakeCategory}
+                imageUrl={`${IMAGE_URL}/${category.id}.jpg`}
+
               />
             )
           )}

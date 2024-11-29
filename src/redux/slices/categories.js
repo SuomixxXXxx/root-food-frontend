@@ -27,6 +27,22 @@ export const addCategoryData = createAsyncThunk(
   }
 );
 
+export const updateCategory = createAsyncThunk(
+  "/categories/update",
+  async (formData) => {
+    try {
+      const response = await axios.put("categories/update", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const uploadImagePost = createAsyncThunk(
   "/categories/upload-picture/uploadImage",
   async (formData) => {
