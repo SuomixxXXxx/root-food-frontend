@@ -1,4 +1,3 @@
-import { Card } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 export default function CardCategory({ id, name, image }) {
   return (

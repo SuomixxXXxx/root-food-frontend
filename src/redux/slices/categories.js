@@ -11,6 +11,39 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
+export const addCategoryData = createAsyncThunk(
+  "/categories/create/addCategoryData",
+  async (categoryData) => {
+    try {
+      const response = await axios.post("categories/create", categoryData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const uploadImagePost = createAsyncThunk(
+  "/categories/upload-picture/uploadImage",
+  async (formData) => {
+    try {
+      const response = await axios.post("categories/upload-picture", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   categories: {
     items: [],
