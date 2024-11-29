@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 export default function CardCategory({ id, name, imageUrl }) {
   return (
     <Link to={`/category/${id}`}>
@@ -9,7 +10,7 @@ export default function CardCategory({ id, name, imageUrl }) {
             alt={name}
             className="object-cover h-full w-full"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 md:bg-opacity-50 hover:opacity-100 transition-opacity duration-300 md:opacity-0">
+          <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
             <h5 className="text-white text-base md:text-2xl font-bold text-center">{name}</h5>
           </div>
         </div>
