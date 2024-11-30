@@ -166,7 +166,7 @@ export default function DashboardProductCard({
     if (isDeleted) {
       window.location.reload();
     }
-  }, [isUpdated, isDeleted]);
+  }, [isUpdated, isDeleted, open, openDelete]);
 
   return (
     <div>
@@ -181,6 +181,7 @@ export default function DashboardProductCard({
               alt="product"
               className="object-contain h-full w-full"
             />
+            {console.log("Image URL for selectedItem:", imagePrew)}
           </div>
         </CardHeader>
         <CardBody className="text-center">
