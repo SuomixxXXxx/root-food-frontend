@@ -17,6 +17,7 @@ import { checkAuth } from "./redux/slices/auth.js";
 import { fetchCategories } from "./redux/slices/categories.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import ResultWorkerPage from "./pages/ResultWorkerPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ const router = createBrowserRouter([
       { path: "/dashboard", element: <DashboardOrderPage /> },
       { path: "category/:id", element: <DashboardProductPage /> },
       { path: "orders", element: <DashboardOrderPage /> },
+      { path: "searchWorker", element: <ResultWorkerPage /> },
     ],
   },
 ]);

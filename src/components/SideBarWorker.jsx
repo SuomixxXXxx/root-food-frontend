@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import { fetchCategories } from "../redux/slices/categories";
 import Modal from "./Modal.jsx";
 import { logout } from "../redux/slices/auth.js";
+import SearchComponent from "./SearchComponent.jsx";
 
 export default function SideBarWorker() {
   const [open, setOpen] = useState(0);
@@ -45,7 +46,9 @@ export default function SideBarWorker() {
         <div className="mt-4">
           <img src={aquariumLogo} alt="My aquariumLogo" />
         </div>
-
+        <div>
+          <SearchComponent></SearchComponent>
+        </div>
         <Accordion
           open={open === 1}
           icon={
