@@ -44,7 +44,7 @@ export default function OrderBox() {
             className="flex flex-row md:justify-between flex-wrap items-center pb-2 mb-4 overflow-y-auto border-b-2 border-dark-gray-blue"
           >
             <img
-              src={`${IMAGE_URL}/${item.id}.jpg`}
+              src={`${IMAGE_URL}/dishes/${item.id}.jpg`}
               onError={(e) => {
                 e.target.src = imgPlaceholder;
               }}

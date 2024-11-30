@@ -141,7 +141,7 @@ export default function CategoryPage() {
                 key={index}
                 id = {category.id}
                 name={category.name}
-                imageUrl={`${IMAGE_URL}/${category.id}.jpg`}
+                imageUrl={`${IMAGE_URL}/categories/${category.id}.jpg`}
 
               />
             )

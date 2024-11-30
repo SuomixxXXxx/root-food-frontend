@@ -46,7 +46,7 @@ export default function HomePage() {
                 key={index}
                 id = {obj.id}
                 name={obj.name}
-                imageUrl={`${IMAGE_URL}/${obj.id}.jpg`}
+                imageUrl={`${IMAGE_URL}/categories/${obj.id}.jpg`}
               />
             </SwiperSlide>
           ))}
@@ -76,7 +76,7 @@ export default function HomePage() {
                 weight={obj.weight}
                 price={obj.price}
                 totalQuantity={obj.quantity}
-                imgURL={`${IMAGE_URL}/${obj.id}.jpg`}
+                imgURL={`${IMAGE_URL}/dishes/${obj.id}.jpg`}
               />
             </SwiperSlide>
           ))}

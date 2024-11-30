@@ -26,7 +26,7 @@ export default function ResultPage() {
               name={selectedItem.name}
               weight={selectedItem.weight}
               price={selectedItem.price}
-              imgURL={`${IMAGE_URL}/${selectedItem.id}.jpg`}
+              imgURL={`${IMAGE_URL}/dishes/${selectedItem.id}.jpg`}
             />
           </div>
         ) : products.dishItems.search?.data?.length > 0 ? (
@@ -38,7 +38,7 @@ export default function ResultPage() {
                 name={obj.name}
                 weight={obj.weight}
                 price={obj.price}
-                imgURL={`${IMAGE_URL}/${obj.id}.jpg`}
+                imgURL={`${IMAGE_URL}/dishes/${obj.id}.jpg`}
               />
             ))}
           </div>

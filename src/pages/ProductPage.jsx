@@ -126,7 +126,7 @@ export default function ProductPage() {
                 weight={obj.weight}
                 price={obj.price}
                 totalQuantity={obj.quantity}
-                imgURL={`${IMAGE_URL}/${obj.id}.jpg`}
+                imgURL={`${IMAGE_URL}/dishes/${obj.id}.jpg`}
               />
             )
           )}
