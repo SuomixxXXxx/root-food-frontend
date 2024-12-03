@@ -6,6 +6,7 @@ import { IMAGE_URL } from "../constants";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import { fetchDishItems } from "../redux/slices/dishItem";
 
 export default function ResultPage() {
   const [isHasRight, setIsHasRight] = useState(false);
@@ -15,14 +16,12 @@ export default function ResultPage() {
   const selectedItem = useSelector((state) => state.dishItems.selectedItem);
   const isProductsLoading = products.dishItems.searchStatus === STATUS.PENDING;
   const categories = useSelector((state) => state.categories);
-  
-
   useEffect(() => {
       if (localStorage.getItem("role") === "admin") {
         setIsHasRight(true);
       }
-      
-    }, [products]);
+      dispatch(fetchDishItems)
+    }, [products,dispatch]);
 
   return (
     <div className=" flex flex-col bg-light-blue pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
@@ -35,7 +34,6 @@ export default function ResultPage() {
         ) :selectedItem !== null?(
           
           <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 3xl:grid-cols-4">
-            {console.log("Image URL for selectedItem:", `${IMAGE_URL}/${selectedItem.id}.jpg`)}
             <DashboardProductCard
               key={selectedItem.id}
               id={selectedItem.id}

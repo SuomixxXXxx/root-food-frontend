@@ -161,7 +161,6 @@ export default function DashboardProductCard({
   useEffect(() => {
     if (isUpdated) {
       setOpen(false);
-      window.location.reload();
     }
     if (isDeleted) {
       window.location.reload();

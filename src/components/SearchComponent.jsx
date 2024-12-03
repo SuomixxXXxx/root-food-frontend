@@ -70,9 +70,9 @@ export default function SearchComponent() {
             dispatch(clearSelectedItem());
             dispatch(setNavigated(true));
             if(role=="admin" || role =="staff"){
-                navigate("/dashboard/searchWorker")
+                navigate(`/dashboard/searchWorker?q=${searchText}`)
             }else{
-                navigate("/search");
+                navigate(`/search?q=${searchText}`);
             }
             setSearchTextSuggestion("");
             setSearchData([]);
