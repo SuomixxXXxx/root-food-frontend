@@ -11,7 +11,8 @@ export default withMT({
         'light-blue': '#DDEFF4',
         'base-blue': '#0396BF',
         'dark-gray-blue': '#C0D8DF',
-        'dark-red': '#BF0306'
+        'dark-red': '#BF0306',
+        'dark-green': '#048313'
       },
     },
     screens:{

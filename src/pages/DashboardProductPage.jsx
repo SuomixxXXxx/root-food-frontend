@@ -138,7 +138,7 @@ export default function DashboardProductPage() {
   };
 
   useEffect(() => {
-  dispatch(fetchDishItemsByCategory(params.id));
+    dispatch(fetchDishItemsByCategory(params.id));
     if (localStorage.getItem("role") === "admin") {
       setIsHasRight(true);
     }
@@ -146,16 +146,22 @@ export default function DashboardProductPage() {
 
   return (
     <div className="flex flex-col bg-blue-gray-100 pb-5 pt-5 md:flex-row min-h-screen">
-      <div className="hidden md:flex basis-1/4 mt-14 md:ml-10">
-        <SideBarWorker />
-      </div>
-      {isHasRight && (
-        <div className="absolute right-4 top-4">
-          <Button color="yellow" onClick={handleOpenModal}>
-            Добавить блюдо
-          </Button>
+      <div className="hidden md:flex basis-1/4 mt-14 h-fit md:ml-10 flex-col">
+        <div>
+          <SideBarWorker />
+          {isHasRight && (
+            <div className="flex justify-center mt-4 w-[20rem] px-6">
+              <Button
+                className="flex justify-center items-center bg-dark-green hover:shadow-none shadow-none gap-2 w-full normal-case text-base mt-2"
+                size="sm"
+                onClick={handleOpenModal}
+              >
+                <span className="text-xs md:text-base">Добавить блюдо</span>
+              </Button>
+            </div>
+          )}
         </div>
-      )}
+      </div>
       <div>
         <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 mt-14 3xl:grid-cols-4">
           {categoryDishes.dishItems.items?.data?.map((product) => (
