@@ -18,7 +18,7 @@ export default function DashboardOrderPage() {
   console.log("Текущие заказы:", orders);
 
   return (
-    <div className="flex flex-col bg-blue-gray-100 pb-5 pt-5 md:flex-row min-h-screen">
+    <div className="flex flex-col bg-light-blue pb-5 pt-5 md:flex-row min-h-screen">
       <div className="hidden md:flex basis-1/4 mt-14 md:ml-10">
         <SideBarWorker />
       </div>
