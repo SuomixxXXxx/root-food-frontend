@@ -16,12 +16,12 @@ export default function DashboardOrderCard({ orderNumber, items }) {
   };
 
   return (
-    <Card className="flex flex-col w-80 h-80 shadow-md rounded-lg p-4">
-      <CardBody className="flex flex-col justify-between h-full">
+    <div className="card">
+      <div className="flex flex-col justify-between h-full px-4 pt-4">
         <Typography
           variant="h4"
           color="blue-gray"
-          className="mb-4 text-base md:text-xl"
+          className="mb-2 text-base md:text-xl items-center"
         >
           Заказ № {orderNumber}
         </Typography>
@@ -41,12 +41,16 @@ export default function DashboardOrderCard({ orderNumber, items }) {
             <li className="text-gray-500">Нет товаров в заказе</li>
           )}
         </ul>
-      </CardBody>
-      <CardFooter className="pt-4">
-        <Button fullWidth color="blue" size="sm" onClick={handleCompleteOrder}>
-          Готово
+      </div>
+      <div className="p-3">
+        <Button
+          className="flex justify-center items-center bg-base-blue hover:shadow-none shadow-none gap-2 w-full normal-case text-base mt-2"
+          size="sm"
+          onClick={handleCompleteOrder}
+        >
+          <span className="text-xs md:text-base">Готово</span>
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   );
 }
