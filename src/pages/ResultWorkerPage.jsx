@@ -17,22 +17,21 @@ export default function ResultPage() {
   const isProductsLoading = products.dishItems.searchStatus === STATUS.PENDING;
   const categories = useSelector((state) => state.categories);
   useEffect(() => {
-      if (localStorage.getItem("role") === "admin") {
-        setIsHasRight(true);
-      }
-      dispatch(fetchDishItems)
-    }, [products,dispatch]);
+    if (localStorage.getItem("role") === "admin") {
+      setIsHasRight(true);
+    }
+    dispatch(fetchDishItems);
+  }, [products, dispatch]);
 
   return (
-    <div className=" flex flex-col bg-light-blue pr-4 pl-4 pb-5 pt-5 md:flex-row min-h-screen md:pr-10 md:pl-10 ">
-      <div className="hidden md:flex basis-1/4 mt-10  md:mt-28 md:ml-10">
+    <div className="flex flex-col bg-light-blue pb-5 pt-5 md:flex-row min-h-screen">
+      <div className="hidden md:flex basis-1/4 mt-14 md:ml-10">
         <SideBarWorker />
       </div>
-      <div className="mt-20 md:mt-28 mr-0 md:mr-10">
+      <div className="mt-14">
         {isProductsLoading ? (
           ""
-        ) :selectedItem !== null?(
-          
+        ) : selectedItem !== null ? (
           <div className="grid grid-cols-2 place-items-center gap-4 md:grid-cols-3 3xl:grid-cols-4">
             <DashboardProductCard
               key={selectedItem.id}
@@ -63,11 +62,10 @@ export default function ResultPage() {
             ))}
           </div>
         ) : (
-          <div className="text-gray-600 text-lg mt-5 flex flex-col items-center">
+          <div className="text-gray-600 text-lg flex flex-col items-center">
             Ничего не найдено
           </div>
         )}
-
       </div>
     </div>
   );
