@@ -123,16 +123,21 @@ export default function SideBarWorker() {
         <Typography variant="h5" color="black">
           Вы действительно хотите выйти?
         </Typography>
-        <div className="flex justify-between mt-2">
-          <Button onClick={onClickLogout} color="blue" variant="contained">
+        <div className="flex justify-between mt-2 gap-32">
+          <Button
+            color="red"
+            size="sm"
+            className="flex justify-center items-center bg-dark-red hover:shadow-none shadow-none w-full normal-case text-base"
+            onClick={onClickLogout}
+          >
             Да
           </Button>
           <Button
+            className="flex justify-center bg-base-blue items-center shadow-white shadow-none hover:shadow-none w-full normal-case text-base"
+            size="sm"
             onClick={() => setOpenButton(false)}
-            color="red"
-            variant="contained"
           >
-            Нет
+            Отмена
           </Button>
         </div>
       </Modal>

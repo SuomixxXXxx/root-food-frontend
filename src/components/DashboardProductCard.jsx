@@ -186,39 +186,40 @@ export default function DashboardProductCard({
           {isAdmin ? (
             <div className="flex flex-col justify-center items-center w-auto mt-3 mb-1">
               <Button
-                className="flex justify-center bg-dark-green items-center shadow-white shadow-none hover:shadow-white gap-2 w-full normal-case text-base"
+                className="flex justify-center bg-dark-green items-center shadow-white shadow-none hover:shadow-none gap-2 w-full normal-case text-base"
                 size="sm"
                 onClick={handleOpenModal}
               >
                 Изменить товар
               </Button>
-                <Button
-                  color="red"
-                  size="sm"
-                  className="flex justify-center items-center bg-dark-red hover:shadow-none shadow-none gap-2 w-full normal-case text-base mt-2"
-                  onClick={handleOpenModalDelete}
-                >
-                  Удалить товар
-                </Button>
+              <Button
+                color="red"
+                size="sm"
+                className="flex justify-center items-center bg-dark-red hover:shadow-none shadow-none gap-2 w-full normal-case text-base mt-2"
+                onClick={handleOpenModalDelete}
+              >
+                Удалить товар
+              </Button>
               <div>
                 <Modal open={openDelete} onClose={handleCloseDelete}>
-                  <div className="p-6">
+                  <div className="m-6">
                     <Typography variant="h5" color="black">
                       Вы действительно хотите удалить товар{" "}
                       <span className="font-bold">{name}</span>?
                     </Typography>
-                    <div className="flex justify-between mt-4">
+                    <div className="flex justify-between mt-6 gap-5">
                       <Button
-                        onClick={handleDeleteDishItem}
                         color="red"
-                        variant="filled"
+                        size="sm"
+                        className="flex justify-center items-center bg-dark-red hover:shadow-none shadow-none w-fit normal-case text-base"
+                        onClick={handleDeleteDishItem}
                       >
-                        Да, удалить
+                        Удалить товар
                       </Button>
                       <Button
+                        className="flex justify-center bg-base-blue items-center shadow-white shadow-none hover:shadow-none w-fit normal-case text-base"
+                        size="sm"
                         onClick={handleCloseDelete}
-                        color="blue"
-                        variant="filled"
                       >
                         Отмена
                       </Button>
@@ -407,11 +408,20 @@ export default function DashboardProductCard({
               </Accordion>
             </div>
           </div>
-          <div className="flex justify-between mt-6">
-            <Button color="green" disabled={!isValid} type="submit">
+          <div className="flex justify-between mt-6 gap-5">
+            <Button
+              className="flex justify-center bg-dark-green items-center shadow-white shadow-none hover:shadow-none w-full normal-case text-base"
+              size="sm"
+              disabled={!isValid}
+              type="submit"
+            >
               Сохранить
             </Button>
-            <Button color="blue" onClick={handleCloseModal}>
+            <Button
+              className="flex justify-center bg-base-blue items-center shadow-white shadow-none hover:shadow-none w-full normal-case text-base"
+              size="sm"
+              onClick={handleCloseModal}
+            >
               Закрыть
             </Button>
           </div>
