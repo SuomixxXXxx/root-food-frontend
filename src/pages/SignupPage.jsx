@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { signup, selectIsAuth } from "../redux/slices/auth.js";
 import { Navigate } from "react-router-dom";
-import { decodeJwt } from 'jose';
+import { decodeJwt } from "jose";
 
 export default function SignupPage() {
   const {
@@ -43,7 +43,7 @@ export default function SignupPage() {
       const claims = decodeJwt(response.payload.data.token);
       if (claims.role[0].includes("user")) {
         role = "user";
-      };
+      }
       localStorage.setItem("role", role);
     }
     console.log(response);
@@ -56,8 +56,8 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="h-screen bg-blue-gray-100 flex justify-center items-center ">
-      <Card className="flex items-center flex-col w-80 mt-32 mb-5">
+    <div className="h-screen bg-light-blue flex justify-center items-center shadow-light-blue">
+      <Card className="flex items-center flex-col w-80 mt-32 mb-5 shadow-light-blue">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4">
             <img src={aquariumLogo} alt="My aquariumLogo" />
@@ -117,7 +117,12 @@ export default function SignupPage() {
             </div>
           </CardBody>
           <CardFooter className="pt-0 w-full">
-            <Button disabled={!isValid} type="submit" fullWidth color="blue">
+            <Button
+              className="flex justify-center w-full bg-base-blue items-center shadow-white shadow-none hover:shadow-none   normal-case text-base"
+              size="sm"
+              type="submit"
+              disabled={!isValid}
+            >
               Зарегистрироваться
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">

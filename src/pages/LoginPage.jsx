@@ -12,9 +12,8 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 import { login, selectIsAuth } from "../redux/slices/auth.js";
-import { decodeJwt } from 'jose';
+import { decodeJwt } from "jose";
 import { useNavigate } from "react-router-dom";
-
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -46,18 +45,21 @@ export default function LoginPage() {
 
       if (claims.role[0].includes("user")) {
         role = "user";
-      };
+      }
       if (claims.role[0].includes("admin")) {
         role = "admin";
-      };
+      }
       if (claims.role[0].includes("staff")) {
         role = "staff";
-      };
+      }
       localStorage.setItem("role", role);
-      localStorage.getItem("role") == "admin" ? navigate("/dashboard/orders") : "";
-      localStorage.getItem("role") == "staff" ? navigate("/dashboard/orders") : "";
+      localStorage.getItem("role") == "admin"
+        ? navigate("/dashboard/orders")
+        : "";
+      localStorage.getItem("role") == "staff"
+        ? navigate("/dashboard/orders")
+        : "";
     }
-
   };
   console.log(isAuth + " is authenticated");
 
@@ -65,8 +67,8 @@ export default function LoginPage() {
     return <Navigate to="/" />;
   }
   return (
-    <div className="h-screen bg-blue-gray-100 flex justify-center items-center ">
-      <Card className="flex items-center flex-col  w-80  ">
+    <div className="h-screen bg-light-blue flex justify-center items-center ">
+      <Card className="flex items-center flex-col w-80 shadow-light-blue">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4">
             <img src={aquariumLogo} alt="My aquariumLogo" />
@@ -99,8 +101,13 @@ export default function LoginPage() {
               </Typography>
             </div>
           </CardBody>
-          <CardFooter className="pt-0 w-full">
-            <Button disabled={!isValid} type="submit" fullWidth color="blue">
+          <CardFooter className="pt-0 w-full flex flex-col items-center">
+            <Button
+              className="flex justify-center w-full bg-base-blue items-center shadow-white shadow-none hover:shadow-none   normal-case text-base"
+              size="sm"
+              type="submit"
+              disabled={!isValid}
+            >
               Войти
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">
