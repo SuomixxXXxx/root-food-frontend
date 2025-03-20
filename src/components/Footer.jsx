@@ -9,22 +9,31 @@ export default function Footer() {
             Компания
           </Typography>
           <Link to="/">
-              <Typography color="black" className="text-base mt-1 hover:text-gray-600">
-                О нас
-              </Typography>
+            <Typography
+              color="black"
+              className="text-base mt-1 hover:text-gray-600"
+            >
+              О нас
+            </Typography>
           </Link>
         </div>
         <div className="flex flex-col md:pt-3 md:pb-3 ">
           <Typography color="black" className="text-2xl">
             Помощь
           </Typography>
-          <Link to="/">
-            <Typography color="black" className="text-base mt-1 hover:text-gray-600">
+          <Link to="/help">
+            <Typography
+              color="black"
+              className="text-base mt-1 hover:text-gray-600"
+            >
               Написать в поддержку
             </Typography>
           </Link>
           <Link to="/">
-            <Typography color="black" className="text-base mt-1 hover:text-gray-600">
+            <Typography
+              color="black"
+              className="text-base mt-1 hover:text-gray-600"
+            >
               Часто задаваемые вопросы
             </Typography>
           </Link>

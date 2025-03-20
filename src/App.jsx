@@ -18,6 +18,7 @@ import { fetchCategories } from "./redux/slices/categories.js";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ResultWorkerPage from "./pages/ResultWorkerPage.jsx";
+import HelpPage from "./pages/HelpPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: "category", element: <CategoryPage /> },
       { path: "category/:id", element: <ProductPage /> },
       { path: "search", element: <ResultPage /> },
+      { path: "help", element: <HelpPage /> },
       { path: "*", element: <div>404</div> },
     ],
   },
