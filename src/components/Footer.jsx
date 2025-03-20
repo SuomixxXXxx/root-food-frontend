@@ -8,7 +8,7 @@ export default function Footer() {
           <Typography color="black" className="text-2xl">
             Компания
           </Typography>
-          <Link to="/">
+          <Link to="/aboutUs">
             <Typography
               color="black"
               className="text-base mt-1 hover:text-gray-600"
@@ -29,7 +29,7 @@ export default function Footer() {
               Написать в поддержку
             </Typography>
           </Link>
-          <Link to="/">
+          <Link to="/faq">
             <Typography
               color="black"
               className="text-base mt-1 hover:text-gray-600"

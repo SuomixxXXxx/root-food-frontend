@@ -19,12 +19,14 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import ResultWorkerPage from "./pages/ResultWorkerPage.jsx";
 import HelpPage from "./pages/HelpPage.jsx";
+import AboutUsPage from "./pages/AboutUsPage.jsx";
+import FAQPage from "./pages/FAQPage.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute allowedRoles={['user', null]} redirectPath="/">
+      <ProtectedRoute allowedRoles={["user", null]} redirectPath="/">
         <LandingPage />
       </ProtectedRoute>
     ),
@@ -37,13 +39,15 @@ const router = createBrowserRouter([
       { path: "category/:id", element: <ProductPage /> },
       { path: "search", element: <ResultPage /> },
       { path: "help", element: <HelpPage /> },
+      { path: "aboutUs", element: <AboutUsPage /> },
+      { path: "faq", element: <FAQPage /> },
       { path: "*", element: <div>404</div> },
     ],
   },
   {
     path: "/dashboard",
     element: (
-      <ProtectedRoute allowedRoles={['admin', 'staff']} redirectPath="/">
+      <ProtectedRoute allowedRoles={["admin", "staff"]} redirectPath="/">
         <DashboardPage />
       </ProtectedRoute>
     ),

@@ -1,4 +1,3 @@
-import React from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Input, Typography, Button, Textarea } from "@material-tailwind/react";
@@ -39,7 +38,7 @@ export default function HelpPage() {
   };
 
   return (
-    <div className="h-screen bg-light-blue flex justify-center items-center shadow-light-blue">
+    <div className="h-screen bg-light-blue flex justify-center items-center">
       <div className="card w-96 mt-16">
         <form
           onSubmit={handleSubmit(onSubmit)}
